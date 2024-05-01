@@ -76,7 +76,9 @@ const nouns = [
     { eng: 'washing machine', rus: 'стиральная машина' },
     { eng: 'dishwasher', rus: 'посудомоечная машина' },
     { eng: 'toaster', rus: 'тостер' },
-    { eng: 'coffee machine', rus: 'кофемашина' }
+    { eng: 'coffee machine', rus: 'кофемашина' },
+    { eng: 'rest', rus: 'отдых' },
+    { eng: 'bath', rus: 'ванна' }
 ];
 
 

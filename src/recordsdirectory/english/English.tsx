@@ -8,6 +8,7 @@ import {Pronouns} from "./englishwords/Pronouns";
 import {Prepositions} from "./englishwords/Prepositions";
 import {Conjunctions} from "./englishwords/Conjunctions";
 import {Interjections} from "./englishwords/Interjections";
+import {Phrases} from "./englishwords/Phrases";
 
 export const English = () => {
     return (
@@ -34,6 +35,8 @@ export const English = () => {
                 {/*междометия*/}
                 <Interjections/>
             </>
+
+            <Phrases/>
         </>
     );
 };

@@ -18,7 +18,14 @@ const adjectives = [
     { eng: 'windy', rus: 'ветреный' },
     { eng: 'snowy', rus: 'снежный' },
     { eng: 'rainy', rus: 'дождливый' },
-    { eng: 'extra', rus: 'дополнительный' }
+    { eng: 'extra', rus: 'дополнительный' },
+    { eng: 'lazy', rus: 'ленивый' },
+    { eng: 'careful', rus: 'внимательный' },
+    { eng: 'helpful', rus: 'полезный' },
+    { eng: 'hard-working', rus: 'трудолюбивый' },
+    { eng: 'creative', rus: 'творческий' },
+    { eng: 'kind', rus: 'добрый' },
+    { eng: 'beautiful', rus: 'красивая' }
 ];
 
 
