@@ -99,10 +99,18 @@ export const OneTodolist: FC = () => {
         <NoteBlock>
             <Text>
                 <BookTitle>Todolist one</BookTitle>
+                <ParagraphTitle><Marker>CRUT</Marker> операции</ParagraphTitle>
+                <NoteUl>
+                    <NoteLi><Marker>Create</Marker> - создание</NoteLi>
+                    <NoteLi><Marker>Read</Marker> - чтение</NoteLi>
+                    <NoteLi><Marker>Update</Marker> - обновления</NoteLi>
+                    <NoteLi><Marker>Delete</Marker> - удаление</NoteLi>
+                </NoteUl>
                 <ParagraphTitle>Подготовка к занятию</ParagraphTitle>
                 <NoteUl>
                     <NoteLi><Marker>1</Marker> Создать проект -
-                        <Link target={"_blank"} href="https://create-react-app.dev/docs/adding-typescript/"> React</Link>
+                        <Link target={"_blank"}
+                              href="https://create-react-app.dev/docs/adding-typescript/"> React</Link>
                     </NoteLi>
                     <NoteLi><Marker>2</Marker> Установить <Marker>зависимости</Marker></NoteLi>
                     <NoteLi><Marker>3</Marker> Запустить приложение</NoteLi>
@@ -165,8 +173,8 @@ function App() {
                 <TextP>
                     Для отдельных component <Marker>всегда</Marker> ставим именованный export - <Marker>"export const
                     Component"</Marker>.
-                    Для погружения в детали о разницы export для компонента можно почитать тут - <Link
-                    href="https://code-style.it-incubator.io/react/import-export/export">style-guide</Link>
+                    Для погружения в детали о разницы export для компонента можно почитать тут - <Link target={"_blank"}
+                                                                                                       href="https://code-style.it-incubator.io/react/import-export/export">style-guide</Link>
                 </TextP>
                 <ParagraphTitle>Стрелочная или declaration functions</ParagraphTitle>
 
@@ -189,8 +197,9 @@ function Todolist() {...}
                 {/*стрелочная и обычная функция*/}
 
                 <ParagraphTitle>props</ParagraphTitle>
-                <TextP><Marker><Link
-                    href="https://react.dev/learn/passing-props-to-a-component">props</Link></Marker> это объект,
+                <TextP><Marker><Link target={"_blank"}
+                                     href="https://react.dev/learn/passing-props-to-a-component">props</Link></Marker> это
+                    объект,
                     свойствами proprs являются атрибуты которые мы передаем.</TextP>
                 <TextP>С помощью props начну передавать разные titles для <Marker>Todolist</Marker> так как сейчас у
                     них одно и то же
@@ -331,7 +340,7 @@ export const Todolist = (props: PropsType) => {
                 </HighlightedCodeBlock>
                 {/*Пример в котором много props*/}
 
-                <TextP>Деструктуризация:</TextP>
+                <TextP><Marker>Деструктуризация:</Marker></TextP>
 
                 {/*Деструктуризация - 1*/}
                 <HighlightedCodeBlock>
@@ -354,7 +363,7 @@ export const Todolist = (props: PropsType) => {
                 </HighlightedCodeBlock>
                 {/*Деструктуризация - 1*/}
 
-                <TextP>Чаще всего делают так:</TextP>
+                <TextP><Marker>Чаще всего делают так:</Marker></TextP>
 
                 {/*Деструктуризация - САМЫЙ ЧАСТЫЙ ВАРИАНТ*/}
                 <HighlightedCodeBlock>
@@ -375,6 +384,254 @@ export const Todolist = ({ title, subTitle, description, tasks }: PropsType) => 
                 </HighlightedCodeBlock>
                 {/*Деструктуризация - САМЫЙ ЧАСТЫЙ ВАРИАНТ*/}
 
+                <ParagraphTitle>Type or Interface?</ParagraphTitle>
+                <TextP>Основное отличие в том, что <Marker>type</Marker> нельзя повторно открыть для добавления новых
+                    свойств а <Marker>interface</Marker> всегда расширяем</TextP>
+                <TextP>Подробнее об этом</TextP>
+                <NoteUl>
+                    <NoteLi><Marker>1</Marker> <Link target={"_blank"}
+                                                     href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces">Differences
+                        Between Type Aliases and Interfaces</Link></NoteLi>
+                    <NoteLi><Marker>2</Marker> <Link target={"_blank"}
+                                                     href="https://stackoverflow.com/questions/37233735/interfaces-vs-types-in-typescript">Interfaces
+                        vs Types in TypeScript</Link></NoteLi>
+                </NoteUl>
+                <TextP>type на начальных этапах называем</TextP>
+                <NoteUl>
+                    <NoteLi><Marker>1</Marker> TodoPropsType</NoteLi>
+                    <NoteLi><Marker>2</Marker> UserPropsType</NoteLi>
+                </NoteUl>
+                <TextP>Далее будет понятнее почему или <Link target={"_blank"}
+                                                             href="https://code-style.it-incubator.io/react/naming#36-%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D1%82%D0%B8%D0%BF%D0%BE%D0%B2-type">style-guide</Link>,
+                    главное соблюсти конструкцию <Marker><Marker>N</Marker>ame</Marker> + <Marker><Marker>P</Marker>rops</Marker> + <Marker><Marker>T</Marker>ype</Marker></TextP>
+
+                <ParagraphTitle>Прокидываем Array с tasks в Todolist</ParagraphTitle>
+                <TextP>Сейчас у нашего Todolist как и с <Marker>title</Marker>, tasks
+                    написаны <Marker>хардкодом</Marker> в самой component, что бы сделать более гибкий вариант мы
+                    создадим 2 arrays в App.tsx и передадим array with tasks in this Todolist:</TextP>
+
+                {/*tasks начальные без изменений*/}
+                <HighlightedCodeBlock>
+                    {
+                        `
+<ul>
+    <li>
+        <input type="checkbox" checked={true} /> <span>HTML&CSS</span>
+    </li>
+    <li>
+        <input type="checkbox" checked={true} /> <span>JS</span>
+    </li>
+    <li>
+        <input type="checkbox" checked={false} /> <span>React</span>
+    </li>
+</ul>
+                        `
+                    }
+                </HighlightedCodeBlock>
+                {/*tasks начальные без изменений*/}
+
+                <TextP>Создаем 2 arrays и <Marker>сразу</Marker> прописываем types for arrays</TextP>
+
+                {/*App в которой теперь 2 arrays для tasks*/}
+                <HighlightedCodeBlock>
+                    {
+                        `               
+type TaskType = {
+  id: string
+  title: string
+  isDone: boolean
+}  
+
+
+                        
+function App() {
+  const tasks1 = [
+    { id: 1, title: 'HTML&CSS', isDone: true },
+    { id: 2, title: 'JS', isDone: true },
+    { id: 3, title: 'ReactJS', isDone: false }
+  ]
+ 
+  const tasks2 = [
+    { id: 1, title: 'Hello world', isDone: true },
+    { id: 2, title: 'I am Happy', isDone: false },
+    { id: 3, title: 'Yo', isDone: false }
+  ]
+ 
+  return (
+    <div className="App">
+      // прокидываем array в каждый Todolist - tasks={tasks1}
+      <Todolist title="What to learn" tasks={tasks1} />
+      <Todolist title="Songs" tasks={tasks2} />
+    </div>
+  )
+}
+                    `
+                    }
+                </HighlightedCodeBlock>
+                {/*App в которой теперь 2 arrays для tasks*/}
+
+                <TextP>Существует 2 способа типизации array:</TextP>
+
+                {/*2 способа типизации array*/}
+                <HighlightedCodeBlock>
+                    {
+                        `
+// First более предпочтительный
+type PropsType = {
+    tasks: TaskType[]
+    tasks: Array<TaskType>
+}
+                        `
+                    }
+                </HighlightedCodeBlock>
+                {/*2 способа типизации array*/}
+
+                <TextP>Прокидываем tasks in Todolist</TextP>
+                {/*tasks in Todolist*/}
+                <HighlightedCodeBlock>
+                    {
+                        `
+type PropsType = {
+  title: string
+  tasks: TaskType[]
+}
+ 
+export const Todolist = ({ title, tasks }: PropsType) => {
+  return (
+    <div>
+      <h3>{title}</h3>
+      
+        // Code ....
+  )
+}
+                        `
+                    }
+                </HighlightedCodeBlock>
+                {/*tasks in Todolist*/}
+
+                <TextP>Теперь нужно информацию из arrays <Marker>отображать в tasks</Marker>, для этого нужно обратиться
+                    к tasks с
+                    соответствующим <Marker>id[]</Marker> для передачи нужных свойств в <Marker>task</Marker></TextP>
+
+                {/*передаем свойства tasks[] в каждую task */}
+                <HighlightedCodeBlock>
+                    {
+                        `
+// до                       
+<ul>
+    <li>
+        <input type="checkbox" checked={true} /> <span>HTML&CSS</span>
+    </li>
+    <li>
+        <input type="checkbox" checked={true} /> <span>JS</span>
+    </li>
+    <li>
+        <input type="checkbox" checked={false} /> <span>React</span>
+    </li>
+</ul>
+
+
+// после
+<ul>
+    <li>
+      <input type="checkbox" checked={tasks[0].isDone} />
+      <span>{tasks[0].title}</span>
+    </li>
+    <li>
+      <input type="checkbox" checked={tasks[1].isDone} />
+      <span>{tasks[1].title}</span>
+    </li>
+    <li>
+      <input type="checkbox" checked={tasks[2].isDone} />
+      <span>{tasks[2].title}</span>
+    </li>
+</ul>
+                        `
+                    }
+                </HighlightedCodeBlock>
+                {/*передаем свойства tasks[] в каждую task */}
+
+                <TextP>Так-же можно сделать type <Marker>не обязательным</Marker>, для этого сразу после имени
+                    необязательного type нужно написать <Marker>'?'</Marker></TextP>
+
+                {/*необязательный type*/}
+                <HighlightedCodeBlock>
+                    {
+                        `
+type PropsType = {
+  title: string
+  tasks: TaskType[]
+  // делаем не обязательным
+  date?: string
+}
+ 
+export const Todolist = ({ title, tasks, date }: PropsType) => {
+  return (
+    <div>
+      <h3>{title}</h3>
+      
+        // Code ....
+        
+      <div>{date}</div>  
+  )
+}
+
+
+
+
+<div className="App">
+  // благодаря этому мы можем подписать дату только для одного Todolist
+  <Todolist title="What to learn" tasks={tasks1} date={'30.01.2024'}/>
+  <Todolist title="Songs" tasks={tasks2} />
+</div>
+                        `
+                    }
+                </HighlightedCodeBlock>
+                {/*необязательный type*/}
+
+                <ParagraphTitle>Method .map</ParagraphTitle>
+                <TextP>Для того что бы по <Marker>надобности</Marker> добавить еще одну task in array, при этом каждый раз не добавляя ее
+                    <Marker>вручную в самом Todolist</Marker>, нам нужно прогнать tasks через method <Marker>map</Marker></TextP>
+
+                {/*map*/}
+                <HighlightedCodeBlock>
+                    {
+                        `
+// до                        
+<ul>
+    <li>
+      <input type="checkbox" checked={tasks[0].isDone} />
+      <span>{tasks[0].title}</span>
+    </li>
+    <li>
+      <input type="checkbox" checked={tasks[1].isDone} />
+      <span>{tasks[1].title}</span>
+    </li>
+    <li>
+      <input type="checkbox" checked={tasks[2].isDone} />
+      <span>{tasks[2].title}</span>
+    </li>
+</ul>
+
+
+// после
+<ul>
+    {tasks.map(task => {
+      return (
+        <li>
+          <input type="checkbox" checked={task.isDone} />
+          <span>{task.title}</span>
+        </li>
+      )
+    })}
+</ul>
+                        `
+                    }
+                </HighlightedCodeBlock>
+                {/*map*/}
+
+                <TextP>Как результат, <Marker>автоматически</Marker> будет отрисовываться столько tasks сколько будет в array
+                    tasks</TextP>
 
             </Text>
         </NoteBlock>
@@ -384,7 +641,7 @@ export const Todolist = ({ title, subTitle, description, tasks }: PropsType) => 
 
 // ===========================================================================detals
 // <Marker></Marker>
-// <Link href="#"></Link>
+// <Link target={"_blank"} href="#"></Link>
 
 // <BookTitle></BookTitle>
 // <ParagraphTitle></ParagraphTitle>
@@ -404,7 +661,7 @@ export const Todolist = ({ title, subTitle, description, tasks }: PropsType) => 
 //     {
 //         `
 //
-//                     `
+//         `
 //     }
 // </HighlightedCodeBlock>
 
