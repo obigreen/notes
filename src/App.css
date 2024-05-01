@@ -1,0 +1,58 @@
+.javascript {
+    line-height: 1.2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 7px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 12px;
+}
+
+.javascript.hljs {
+    background-color: #1e1f22;
+    color: #bbbec3;
+}
+
+.hljs-keyword {
+    color: #ce8e6c;
+}
+
+.javascript .hljs-literal {
+    color: #ce8e6c;
+}
+
+
+.javascript .hljs-attr,
+.javascript .hljs-built_in {
+    color: #c77cba;
+}
+
+.javascript .hljs-link, .hljs-operator, .hljs-regexp, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-symbol, .hljs-template-variable, .hljs-variable {
+    color: #c77cba;
+}
+
+.javascript .hljs-title {
+    color: #56a8f5;
+    font-weight: 500;
+}
+
+.javascript .hljs-number {
+    color: #2babb8;
+}
+
+.javascript .hljs-string {
+    color: #6aaa73;
+}
+
+.hljs-function {
+    color: #bbbec3;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
