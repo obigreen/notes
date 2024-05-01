@@ -8,6 +8,10 @@
     background-color: #1e1f22;
     color: #bbbec3;
 }
+.hljs-name,
+.hljs-tag {
+    color: #d4b977;
+}
 
 .hljs-keyword {
     color: #ce8e6c;
