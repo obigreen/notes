@@ -15,14 +15,24 @@ const verbs = [
     { eng: 'spend', rus: 'тратить' },
     { eng: 'send', rus: 'отправлять' },
     { eng: 'see', rus: 'видеть' },
-    { eng: 'set', rus: 'устанавливать' },
+    { eng: 'set', rus: 'набор' },
     { eng: 'test (verb)', rus: 'тестировать' },
-    { eng: 'spell', rus: 'произносить, чары' },
+    { eng: 'spell', rus: 'произносить' },
     { eng: 'sleep', rus: 'спать' },
     { eng: 'meet', rus: 'встречаться, знакомиться' },
     { eng: 'mend', rus: 'чинить' },
     { eng: 'tell', rus: 'сказать' },
-    { eng: 'lend', rus: 'одолжить, занять' }
+    { eng: 'lend', rus: 'одолжить, занять' },
+    { eng: 'wash', rus: 'мыть' },
+    { eng: 'start', rus: 'начинать' },
+    { eng: 'drive', rus: 'водить, управлять' },
+    { eng: 'have', rus: 'иметь' },
+    { eng: 'read', rus: 'читать' },
+    { eng: 'study', rus: 'изучать' },
+    { eng: 'live', rus: 'жить' },
+    { eng: 'eat', rus: 'есть' },
+    { eng: 'do', rus: 'делать' },
+    { eng: 'make', rus: 'делать, создавать' }
 ];
 
 

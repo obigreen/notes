@@ -5,6 +5,8 @@ import {S} from '../English_Styles'
 
 const interjections = [
     { eng: 'oh', rus: 'о' },
+    { eng: 'ah', rus: 'ах' },
+    { eng: 'hey', rus: 'эй' },
     { eng: 'Bye!', rus: 'Пока!' },
     { eng: 'Bye-Bye!', rus: 'Пока-пока!' }
 ];

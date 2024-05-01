@@ -5,7 +5,10 @@ import {S} from '../English_Styles'
 
 const conjunctions = [
     { eng: 'so', rus: 'так' },
-    { eng: 'but', rus: 'но' }
+    { eng: 'but', rus: 'но' },
+    { eng: 'and', rus: 'и' },
+    { eng: 'or', rus: 'или' },
+    { eng: 'because', rus: 'потому что' }
 ];
 
 

@@ -12,7 +12,10 @@ const pronouns = [
     { eng: 'him', rus: 'его' },
     { eng: 'Us', rus: 'мы, нас, нам' },
     { eng: 'Them', rus: 'они, их, им' },
-    { eng: 'Me', rus: 'я, меня, мне' }
+    { eng: 'Me', rus: 'я, меня, мне' },
+    { eng: 'we', rus: 'мы' },
+    { eng: 'you', rus: 'ты, вы' },
+    { eng: 'they', rus: 'они' }
 ];
 
 

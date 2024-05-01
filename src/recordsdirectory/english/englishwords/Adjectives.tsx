@@ -9,7 +9,16 @@ const adjectives = [
     { eng: 'easy', rus: 'легкий' },
     { eng: 'empty', rus: 'пустой' },
     { eng: 'foreign', rus: 'иностранный' },
-    { eng: 'little', rus: 'маленький' }
+    { eng: 'little', rus: 'маленький' },
+    { eng: 'sunny', rus: 'солнечный' },
+    { eng: 'smart', rus: 'умный' },
+    { eng: 'clever', rus: 'сообразительный' },
+    { eng: 'soft', rus: 'мягкий' },
+    { eng: 'hungry', rus: 'голодный' },
+    { eng: 'windy', rus: 'ветреный' },
+    { eng: 'snowy', rus: 'снежный' },
+    { eng: 'rainy', rus: 'дождливый' },
+    { eng: 'extra', rus: 'дополнительный' }
 ];
 
 
