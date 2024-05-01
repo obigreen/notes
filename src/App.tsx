@@ -27,7 +27,7 @@ const App: React.FC = () => {
                     {/*<JsForChildren/>*/}
                     {/*<Methods/>*/}
                     {/*<SamuraiFast/>*/}
-                    <English/>
+                    {/*<English/>*/}
                 </Article>
 
             </Container>
