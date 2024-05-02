@@ -11,6 +11,7 @@ import {
     TextareaWrapper, TextP
 } from "../../RecordsDirectory_Style";
 import Copy from '../../../accets/img/samuraifastimg/copy.png'
+import OneApp from "./practice/onepractice/OneApp";
 
 //type for texteria
 type TextareaWithStorageProps = {
@@ -590,8 +591,10 @@ export const Todolist = ({ title, tasks, date }: PropsType) => {
                 {/*необязательный type*/}
 
                 <ParagraphTitle>Method .map</ParagraphTitle>
-                <TextP>Для того что бы по <Marker>надобности</Marker> добавить еще одну task in array, при этом каждый раз не добавляя ее
-                    <Marker>вручную в самом Todolist</Marker>, нам нужно прогнать tasks через method <Marker>map</Marker></TextP>
+                <TextP>Для того что бы по <Marker>надобности</Marker> добавить еще одну task in array, при этом каждый
+                    раз не добавляя ее
+                    <Marker>вручную в самом Todolist</Marker>, нам нужно прогнать tasks через
+                    method <Marker>map</Marker></TextP>
 
                 {/*map*/}
                 <HighlightedCodeBlock>
@@ -630,9 +633,202 @@ export const Todolist = ({ title, tasks, date }: PropsType) => {
                 </HighlightedCodeBlock>
                 {/*map*/}
 
-                <TextP>Как результат, <Marker>автоматически</Marker> будет отрисовываться столько tasks сколько будет в array
+                <TextP>Как результат, <Marker>автоматически</Marker> будет отрисовываться столько tasks сколько будет в
+                    array
                     tasks</TextP>
+                <ParagraphTitle>Key</ParagraphTitle>
+                <TextP>Использовав map и открыв рабочий проект, можно увидеть ошибку в console связанную с key, эта
+                    ошибка говорит о том что у каждого элемента array должен быть уникальный key</TextP>
+                <TextP><Marker>Что нужно использовать в качестве key:</Marker></TextP>
+                <NoteUl>
+                    <NoteLi><Marker>1</Marker> При реальной разработке в качестве key берутся id из базы данных, которые
+                        всегда уникальны</NoteLi>
+                    <NoteLi><Marker>2</Marker> Если вы работаете с локальными данными, то в качестве key в документации
+                        рекомендуют использовать <Link target={"_blank"}
+                                                       href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID">crypto.randomUUID()</Link> или
+                        установить дополнительный пакет <Link target={"_blank"}
+                                                              href="https://www.npmjs.com/package/uuid">uuid</Link></NoteLi>
+                </NoteUl>
+                <TextP><Marker>Что не нужно использовать в качестве key:</Marker></TextP>
+                <NoteUl>
+                    <NoteLi><Marker>1</Marker> <Marker>index</Marker> элемента массива.</NoteLi>
+                    <TextP>Если key не указан React будет использовать index по умолчанию, но за счет этого будет
+                        нарушаться порядок в случае удаления или добавления элемента, или будет переупорядочен</TextP>
+                    <NoteLi><Marker>2</Marker> <Marker>Math.random()</Marker></NoteLi>
+                    <TextP>В таком случае keys никогда не совпадут с рендерами, все component DOM будут отрисовываться
+                        заново, это не только медленно но и ведет к потере пользовательского ввода внутри элементов
+                        списка</TextP>
+                </NoteUl>
+                <TextP>Подробнее о key в <Link target={"_blank"}
+                                               href="https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key">документации
+                    React</Link></TextP>
+                <TextP>В нашем случае мы поставим <Marker>id in tasks</Marker> в качестве key и ошибка в console должна исчезнуть</TextP>
 
+                {/*добавляем id tasks в качестве key*/}
+                <HighlightedCodeBlock>
+                    {
+                        `
+<ul>
+    {tasks.map(task => {
+      return (
+        <li key={task.id}>
+          <input type="checkbox" checked={task.isDone} />
+          <span>{task.title}</span>
+        </li>
+      )
+    })}
+</ul>
+                        `
+                    }
+                </HighlightedCodeBlock>
+                {/*добавляем id tasks в качестве key*/}
+
+                <ParagraphTitle>React.Fragment</ParagraphTitle>
+                <TextP>React component обязан возвращать <Marker>один</Marker> родительский элемент, у меня возвращается div потому что на нем висит <Marker>className</Marker>, но довольно часто встречается ситуация при которой нужно просто обернуть components, можно использовать пустой div в таком случае, но <Marker>не рекомендуется</Marker> что-бы не создавать лишний узел в DOM, не критично но есть лучший вариант</TextP>
+                <TextP>Для этого есть 2 tags</TextP>
+                <TextP><Link target={"_blank"} href="https://react.dev/reference/react/Fragment#rendering-a-list-of-fragments">Документация</Link></TextP>
+
+                {/*2 тега обертки*/}
+                <HighlightedCodeBlock>
+                    {
+                        `
+<></>
+
+//or
+
+<Fragment></Fragment>  
+
+
+                    
+// пример 1                        
+function Component1() {
+  return (
+    <>
+      <Todolist />
+      <Todolist />
+      <Todolist />
+    </>
+  )
+}
+ 
+ 
+// пример 2  
+function Component2() {
+  return (
+    <Fragment>
+      <Todolist />
+      <Todolist />
+      <Todolist />
+    </Fragment>
+  )
+}
+                        `
+                    }
+                </HighlightedCodeBlock>
+                {/*2 тега обертки*/}
+
+                <TextP><Marker>Всегда</Marker> использовать пустой tag, <Marker>но</Marker> если понадобиться мапить array и соответственно передавать key, <Marker>используется Fragment</Marker></TextP>
+                <TextP><Link target={"_blank"} href="https://react.dev/reference/react/Fragment#rendering-a-list-of-fragments">Пример использования Fragment из документации</Link></TextP>
+                <ParagraphTitle>Тернарный оператор</ParagraphTitle>
+                <TextP>Если мы из array tasks2 удалим все objects, то будет просто пустота, нужно пометить что tasks нет или tasks еще не созданы и так далее</TextP>
+                <TextP>Используем для этого <Link target={"_blank"} href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Conditional_operator">условный (тернарный) оператор</Link></TextP>
+
+                {/*тернарный оператор*/}
+                <HighlightedCodeBlock>
+                    {
+                        `
+{tasks.length === 0 ? (
+<p>Тасок нет</p>
+) : (
+<ul>
+  {tasks.map(task => {
+    return (
+      <li key={task.id}>
+        <input type="checkbox" checked={task.isDone} />
+        <span>{task.title}</span>
+      </li>
+    )
+  })}
+</ul>
+)}
+
+
+function App() {
+  const tasks2 = []
+
+  return (
+    <div className="App">
+      <Todolist title="What to learn" tasks={tasks1} />
+      <Todolist title="Songs" tasks={tasks2} />
+    </div>
+  )
+}
+                        `
+                    }
+                </HighlightedCodeBlock>
+                {/*тернарный оператор*/}
+
+                <ParagraphTitle>Универсальный component</ParagraphTitle>
+                <TextP>Для начала сделаем универсальный component из button, для этого создаем новый component Button.tsx</TextP>
+
+                {/*Добавляем Button in Todolist*/}
+                <HighlightedCodeBlock>
+                    {
+                        `
+// OneButton.tsx
+type ButtonPropsType = {
+  title: string
+}
+ 
+export const Button = ({ title }: ButtonPropsType) => {
+  return <button>{title}</button>
+}
+
+
+
+// Todolist.tsx
+type PropsType = {
+  title: string
+  tasks: TaskType[]
+}
+
+export const Todolist = ({ title, tasks }: PropsType) => {
+  return (
+    <div>
+      <h3>{title}</h3>
+      <div>
+        <input />
+        <Button title={'+'} />
+      </div>
+      {tasks.length === 0 ? (
+        <p>Тасок нет</p>
+      ) : (
+        <ul>
+          {tasks.map(task => {
+            return (
+              <li key={task.id}>
+                <input type="checkbox" checked={task.isDone} />
+                <span>{task.title}</span>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+      <div>
+        <Button title={'All'} />
+        <Button title={'Active'} />
+        <Button title={'Completed'} />
+      </div>
+    </div>
+  )
+}
+                        `
+                    }
+                </HighlightedCodeBlock>
+                {/*Добавляем Button in Todolist*/}
+
+                <ParagraphTitle>Итог</ParagraphTitle>
+                <OneApp/>
             </Text>
         </NoteBlock>
     );
@@ -646,7 +842,7 @@ export const Todolist = ({ title, tasks, date }: PropsType) => {
 // <BookTitle></BookTitle>
 // <ParagraphTitle></ParagraphTitle>
 // <TextP></TextP>
-
+//
 // <NoteUl>
 //     <NoteLi></NoteLi>
 //     <NoteLi></NoteLi>
