@@ -37,6 +37,7 @@ export const CodeBlockWrapp = styled.div`
     width: 100%;
     position: relative;
     margin-bottom: 40px;
+    //display: none;
 `
 export const ButtonCopy = styled.button`
     position: absolute;
@@ -135,4 +136,9 @@ export const NoteLi = styled.li`
 &:not(:last-child) {
     margin-bottom: 15px;
 }
+`
+
+
+export const Section = styled.div`
+margin-bottom: 50px;
 `
