@@ -1,5 +1,5 @@
 import React from 'react'
-import {OneTodolist} from "./OneTodolist";
+import {KOneTodolist} from "./KOneTodolist";
 import "../practicestyle.css"
 
 export type TaskType = {
@@ -9,7 +9,7 @@ export type TaskType = {
 }
 
 
-function OneApp() {
+function KOneApp() {
 
     const tasks1 = [
         { id: 1, title: 'HTML&CSS', isDone: true },
@@ -18,10 +18,10 @@ function OneApp() {
     ]
 
     return (
-        <div className={"OneApp"}>
-            <OneTodolist title={"What to learn"} tasks={tasks1}/>
+        <div className={"KOneApp"}>
+            <KOneTodolist title={"What to learn"} tasks={tasks1}/>
         </div>
     )
 }
 
-export default OneApp;
+export default KOneApp;

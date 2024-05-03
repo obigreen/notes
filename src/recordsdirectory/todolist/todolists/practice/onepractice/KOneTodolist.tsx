@@ -1,6 +1,7 @@
 import React from 'react'
-import {OneButton} from "./OneButton";
-import {TaskType} from "./OneApp";
+import {KOneButton} from "./KOneButton";
+import {TaskType} from "./KOneApp";
+import '../practicestyle.css'
 
 
 
@@ -10,7 +11,7 @@ type PropsType = {
 }
 
 
-export const OneTodolist = ({title, tasks}: PropsType) => {
+export const KOneTodolist = ({title, tasks}: PropsType) => {
 
     return (
         <div className='todolist'>
@@ -30,9 +31,9 @@ export const OneTodolist = ({title, tasks}: PropsType) => {
             </ul>
 
             <div>
-                <OneButton title={'All'} />
-                <OneButton title={'Active'} />
-                <OneButton title={'Completed'} />
+                <KOneButton title={'All'} />
+                <KOneButton title={'Active'} />
+                <KOneButton title={'Completed'} />
             </div>
         </div>
     )
