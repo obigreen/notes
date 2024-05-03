@@ -1,6 +1,6 @@
 import React from 'react'
 import {OneTodolist} from "./OneTodolist";
-
+import "../practicestyle.css"
 
 export type TaskType = {
     id: number
