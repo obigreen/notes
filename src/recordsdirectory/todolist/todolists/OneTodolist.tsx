@@ -11,7 +11,7 @@ import {
     TextareaWrapper, TextP, BookTitle, Section
 } from "../../RecordsDirectory_Style";
 import Copy from '../../../accets/img/samuraifastimg/copy.png'
-import KOneApp from "./practice/onepractice/KOneApp";
+import KOneApp from "./practice/onepractice/sprint1week1/KOneApp";
 
 //type for texteria
 type TextareaWithStorageProps = {

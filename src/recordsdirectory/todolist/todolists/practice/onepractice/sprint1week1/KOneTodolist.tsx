@@ -1,7 +1,7 @@
 import React from 'react'
 import {KOneButton} from "./KOneButton";
 import {TaskType} from "./KOneApp";
-import '../practicestyle.css'
+import '../../practicestyle.css'
 
 
 

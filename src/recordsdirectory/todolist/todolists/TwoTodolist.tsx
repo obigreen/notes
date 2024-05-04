@@ -11,7 +11,7 @@ import {
     TextareaWrapper, TextP, BookTitle, Section
 } from "../../RecordsDirectory_Style";
 import Copy from '../../../accets/img/samuraifastimg/copy.png'
-import KOneApp from "./practice/onepractice/KOneApp";
+import KTwoApp from "./practice/onepractice/sprint2week2/KTwoApp";
 
 //type for texteria
 type TextareaWithStorageProps = {
@@ -100,51 +100,163 @@ export const TwoTodolist: FC = () => {
         <NoteBlock>
             <Text>
                 <BookTitle>Todolist. Sprint 1, week 2</BookTitle>
+
                 <Section>
                     <ParagraphTitle>1. Добавляем обработку события по клику</ParagraphTitle>
-                    <TextP>Мы добавляем кнопку с обработчиком клика в JSX коде. Каждая кнопка при нажатии будет
-                        активировать функцию
-                        удаления
-                        задачи.
-                    </TextP><HighlightedCodeBlock>{`<Button onClick={() => {}} title={"x"}/>`}</HighlightedCodeBlock></Section>
-                <Section>
-                    <ParagraphTitle>2. Создаем функцию removeTask в компоненте App</ParagraphTitle><TextP>Создаем
-                    функцию <Marker>removeTask</Marker>, которая будет принимать <Marker>taskId</Marker> и удалять
-                    задачу с этим
-                    идентификатором.</TextP><HighlightedCodeBlock>{`const removeTask = (taskId: number) => {// Функция будет реализована позже}`}</HighlightedCodeBlock><TextP>Затем,
-                    в компоненте <Marker>App</Marker> мы передаем эту функцию в <Marker>Todolist</Marker> как
-                    пропс:</TextP><HighlightedCodeBlock>{`<Todolist title={"What to learn"} tasks={tasks} removeTask={removeTask}/>`}</HighlightedCodeBlock><TextP>И
-                    используем эту функцию внутри каждой кнопки, передавая
-                    текущий <Marker>id</Marker> задачи:</TextP><HighlightedCodeBlock>{`<Button onClick={() => {removeTask(t.id)}} title={"x"}/>`}</HighlightedCodeBlock></Section>
-                <Section><ParagraphTitle>3. Выносим обработчик события</ParagraphTitle><TextP>Мы выносим обработчик для
-                    удаления задачи в отдельную функцию для лучшей читаемости.</TextP><HighlightedCodeBlock>{`{tasks.map(t => {const onClickRemoveTaskHandler = () => {removeTask(t.id);}
-plaintext
-return (
-  <li key={t.id}>
-    <input type='checkbox' checked={t.isDone}/>
-    <span>{t.title}</span>
-    <Button onClick={onClickRemoveTaskHandler} title={"x"}/>
-  </li>
-)
-})}`}</HighlightedCodeBlock>
+                    <TextP>
+                        Мы добавляем кнопку с обработчиком клика в JSX коде. Каждая кнопка при нажатии будет
+                        активировать функцию удаления задачи.
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    <Button onClick={() => {}} title={"x"}/>
+                            `
+                        }
+                    </HighlightedCodeBlock>
                 </Section>
-                <Section><ParagraphTitle>4. Определение имени параметров при типизации</ParagraphTitle><TextP>Имя
-                    параметров функций обратного вызова (callback) может быть любым. Пишите так, как вам кажется
-                    логичнее и
-                    понятнее.</TextP><HighlightedCodeBlock>{`type PropsType = {removeTask: (id: number) => void; // Например, использование 'id' вместо 'taskId' или 'value'.}`}</HighlightedCodeBlock></Section>
-                <Section><ParagraphTitle>5. Переименовываем переменную в let</ParagraphTitle><TextP>Объявляем переменную
-                    с задачами с использованием <Marker>let</Marker>, так как мы будем изменять её
-                    значение.</TextP><HighlightedCodeBlock>{`let tasks = [ /... список задач .../ ];`}</HighlightedCodeBlock></Section>
-                <Section><ParagraphTitle>6. Использование хука useState</ParagraphTitle><TextP>Мы используем
-                    хук <Marker>useState</Marker> для создания локального стейта и его обновления, что позволит
-                    перерисовать компонент с новыми данными после удаления
-                    задачи.</TextP><HighlightedCodeBlock>{`const [tasks, setTasks] = useState([ /... начальный список задач .../ ]);`}</HighlightedCodeBlock><TextP>Обновляем
-                    функцию <Marker>removeTask</Marker>, используя новый
-                    стейт:</TextP><HighlightedCodeBlock>{`const removeTask = (taskId: number) => {setTasks(tasks.filter(task => task.id !== taskId));}`}</HighlightedCodeBlock></Section>
-                <Section><ParagraphTitle>7. Рефакторинг компонента
-                    Button</ParagraphTitle><TextP>Стандартизируем <Marker>props</Marker> и поведение
-                    компонента <Marker>Button</Marker>.</TextP><HighlightedCodeBlock>{`type ButtonPropsType = {title: string;onClick: () => void;};
-export const Button = ({ title, onClick }: ButtonPropsType) => {return <button onClick={onClick}>{title}</button>;};`}</HighlightedCodeBlock>
+
+                <Section>
+                    <ParagraphTitle>2. Создаем функцию removeTask в компоненте App</ParagraphTitle>
+                    <TextP>
+                        Создаем функцию <Marker>removeTask</Marker>, которая будет принимать <Marker>taskId</Marker> и
+                        удалять задачу с этим идентификатором.
+                    </TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const removeTask = (taskId: number) => {// Функция будет реализована позже}
+                            `
+                        }
+                    </HighlightedCodeBlock>
+
+                    <TextP>Затем, в компоненте <Marker>App</Marker> мы передаем эту функцию
+                        в <Marker>Todolist</Marker> как пропс:
+                    </TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    <Todolist title={"What to learn"} tasks={tasks} removeTask={removeTask}/>
+                            `
+                        }
+                    </HighlightedCodeBlock>
+
+                    <TextP>И используем эту функцию внутри каждой кнопки, передавая текущий <Marker>id</Marker> задачи:</TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    <Button onClick={() => {removeTask(t.id)}} title={"x"}/>
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>3. Выносим обработчик события</ParagraphTitle>
+                    <TextP>Мы выносим обработчик для удаления задачи в отдельную функцию для лучшей читаемости.</TextP>
+                    {/*plaintext*/}
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    {tasks.map(t => {const onClickRemoveTaskHandler = () => {removeTask(t.id);}
+    
+    return (
+      <li key={t.id}>
+        <input type='checkbox' checked={t.isDone}/>
+        <span>{t.title}</span>
+        <Button onClick={onClickRemoveTaskHandler} title={"x"}/>
+      </li>
+    )
+    })}
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>4. Определение имени параметров при типизации</ParagraphTitle>
+                    <TextP>
+                        Имя параметров функций обратного вызова (callback) может быть любым. Пишите так, как вам кажется
+                        логичнее и понятнее.
+                    </TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    type PropsType = {removeTask: (id: number) => void; // Например, использование 'id' вместо 'taskId' или 'value'.}
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+
+                <Section>
+                    <ParagraphTitle>5. Переименовываем переменную в let</ParagraphTitle>
+                    <TextP>
+                        Объявляем переменную с задачами с использованием <Marker>let</Marker>, так как мы будем изменять
+                        её значение.
+                    </TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    let tasks = [ /... список задач .../ ];
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>6. Использование хука useState</ParagraphTitle>
+                    <TextP>
+                        Мы используем хук <Marker>useState</Marker> для создания локального стейта и его обновления, что
+                        позволит перерисовать компонент с новыми данными после удаления задачи.
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const [tasks, setTasks] = useState([ /... начальный список задач .../ ]);
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                    <TextP>
+                        Обновляем функцию <Marker>removeTask</Marker>, используя новый
+                        стейт:
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const removeTask = (taskId: number) => {setTasks(tasks.filter(task => task.id !== taskId));}
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>7. Рефакторинг компонента Button</ParagraphTitle>
+                    <TextP>Стандартизируем <Marker>props</Marker> и поведение
+                        компонента <Marker>Button</Marker>.</TextP>
+
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    type ButtonPropsType = {
+        title: string;
+        onClick: () => void;};
+    
+    export const Button = ({ title, onClick }: ButtonPropsType) => {
+        return <button onClick={onClick}>{title}</button>;};
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <KTwoApp/>
                 </Section>
             </Text>
         </NoteBlock>
