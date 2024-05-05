@@ -119,8 +119,8 @@ export const TwoTodolist: FC = () => {
                 <Section>
                     <ParagraphTitle>2. Создаем функцию removeTask в компоненте App</ParagraphTitle>
                     <TextP>
-                        Создаем функцию <Marker>removeTask</Marker>, которая будет принимать <Marker>taskId</Marker> и
-                        удалять задачу с этим идентификатором.
+                        Создаем function <Marker>removeTask</Marker>, которая будет принимать <Marker>taskId</Marker> и
+                        удалять task с этим id.
                     </TextP>
 
                     <HighlightedCodeBlock>
@@ -131,8 +131,8 @@ export const TwoTodolist: FC = () => {
                         }
                     </HighlightedCodeBlock>
 
-                    <TextP>Затем, в компоненте <Marker>App</Marker> мы передаем эту функцию
-                        в <Marker>Todolist</Marker> как пропс:
+                    <TextP>Затем, в component <Marker>App</Marker> мы передаем эту функцию
+                        в <Marker>Todolist</Marker> как props:
                     </TextP>
 
                     <HighlightedCodeBlock>
@@ -143,7 +143,7 @@ export const TwoTodolist: FC = () => {
                         }
                     </HighlightedCodeBlock>
 
-                    <TextP>И используем эту функцию внутри каждой кнопки, передавая текущий <Marker>id</Marker> задачи:</TextP>
+                    <TextP>И используем эту function внутри каждой кнопки, передавая текущий <Marker>id</Marker> task:</TextP>
 
                     <HighlightedCodeBlock>
                         {
@@ -156,7 +156,7 @@ export const TwoTodolist: FC = () => {
 
                 <Section>
                     <ParagraphTitle>3. Выносим обработчик события</ParagraphTitle>
-                    <TextP>Мы выносим обработчик для удаления задачи в отдельную функцию для лучшей читаемости.</TextP>
+                    <TextP>Мы выносим обработчик для удаления task в отдельную finction для лучшей читаемости.</TextP>
                     {/*plaintext*/}
                     <HighlightedCodeBlock>
                         {
@@ -196,7 +196,7 @@ export const TwoTodolist: FC = () => {
                 <Section>
                     <ParagraphTitle>5. Переименовываем переменную в let</ParagraphTitle>
                     <TextP>
-                        Объявляем переменную с задачами с использованием <Marker>let</Marker>, так как мы будем изменять
+                        Объявляем переменную с tasks с использованием <Marker>let</Marker>, так как мы будем изменять
                         её значение.
                     </TextP>
 
@@ -212,8 +212,8 @@ export const TwoTodolist: FC = () => {
                 <Section>
                     <ParagraphTitle>6. Использование хука useState</ParagraphTitle>
                     <TextP>
-                        Мы используем хук <Marker>useState</Marker> для создания локального стейта и его обновления, что
-                        позволит перерисовать компонент с новыми данными после удаления задачи.
+                        Мы используем хук <Marker>useState</Marker> для создания локального state и его обновления, что
+                        позволит перерисовать component с новыми данными после удаления task.
                     </TextP>
                     <HighlightedCodeBlock>
                         {
@@ -224,7 +224,7 @@ export const TwoTodolist: FC = () => {
                     </HighlightedCodeBlock>
                     <TextP>
                         Обновляем функцию <Marker>removeTask</Marker>, используя новый
-                        стейт:
+                        state:
                     </TextP>
                     <HighlightedCodeBlock>
                         {
@@ -255,9 +255,135 @@ export const TwoTodolist: FC = () => {
                     </HighlightedCodeBlock>
                 </Section>
 
+
+                <Section>
+                    <ParagraphTitle>8. Создание state для фильтрации tasks</ParagraphTitle>
+                    <TextP>Начнем с определения state filter с использованием хука useState. Этот state будет хранить текущий выбранный фильтр.</TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    export type FilterValuesType = 'All' | 'Active' | 'Completed';
+    const [filter, setFilter] = useState<FilterValuesType>('All');
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+
+                <Section>
+                    <ParagraphTitle>9. Определение списка tasks для отображения</ParagraphTitle>
+                    <TextP>Сначала мы сохраняем все текущие tasks в переменную taskForTodolist.</TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    let taskForTodolist = tasks;
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>10. Фильтрация tasks</ParagraphTitle>
+                    <TextP>Мы реализуем логику для отображения tasks в зависимости от выбранного фильтра</TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    if (filter === 'Active') {
+        taskForTodolist = tasks.filter(task => !task.isDone);
+    }
+    
+    if (filter === 'Completed') {
+        taskForTodolist = tasks.filter(task => task.isDone);
+    }
+                `
+                        }
+                    </HighlightedCodeBlock>
+                    <TextP>Здесь .filter(task =&gt; !task.isDone) возвращает tasks, которые еще не выполнены (активные), а .filter(task =&gt; task.isDone) возвращает tasks, которые выполнены.</TextP>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>11. Создание function для смены фильтра</ParagraphTitle>
+                    <TextP>Funtion changeFilter реализуем так, чтобы она принимала новый фильтр и устанавливала его в state</TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const changeFilter = (filter: FilterValuesType) => {
+        setFilter(filter);
+    };
+                `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>12. Внедрение фильтра в JSX</ParagraphTitle>
+                    <TextP>Модифицируем component App, чтобы он передавал props tasks, removeTask и changeFilter в Todolist.</TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    return (
+        <div className='App'>
+            <Todolist
+                title="What to learn"
+                tasks={taskForTodolist}
+                removeTask={removeTask}
+                changeFilter={changeFilter}
+            />
+        </div>
+    );
+                `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>13. Типизация пропсов в Todolist</ParagraphTitle>
+                    <TextP>Убедимся, что компонент Todolist принимает function changeFilter в качестве props</TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    export type PropsType = {
+        title: string
+        tasks: TaskType[]
+        removeTask: (taskId: number) => void
+        changeFilter: (filter: FilterValuesType) => void
+    };
+                `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>14. Добавление обработчиков для кнопок фильтрации</ParagraphTitle>
+                    <TextP>Добавляем обработчики кликов onClick для изменения фильтра</TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    <div>
+        <Button title="All" onClick={() => {changeFilter('All')}}/>
+        <Button title="Active" onClick={() => {changeFilter('Active')}}/>
+        <Button title="Completed" onClick={() => {changeFilter('Completed')}}/>
+    </div>
+                `
+                        }
+                    </HighlightedCodeBlock>
+                    <TextP>Эти кнопки позволяют пользователю выбирать, какие задачи отображать в списке.</TextP>
+                </Section>
+
                 <Section>
                     <KTwoApp/>
                 </Section>
+
+                <TextP>
+
+                </TextP>
             </Text>
         </NoteBlock>
     );
@@ -267,7 +393,7 @@ export const TwoTodolist: FC = () => {
 // ===========================================================================detals
 // <Marker></Marker>
 // <Link target={"_blank"} href="#"></Link>
-
+//
 // <BookTitle></BookTitle>
 // <ParagraphTitle></ParagraphTitle>
 // <TextP></TextP>
@@ -277,11 +403,11 @@ export const TwoTodolist: FC = () => {
 //     <NoteLi></NoteLi>
 //     <NoteLi></NoteLi>
 // </NoteUl>
-
+//
 // <TextareaWrapper>
 //     <TextareaWithStorage id=" " />
 // </TextareaWrapper>
-
+//
 // <HighlightedCodeBlock>
 //     {
 //         `
@@ -295,3 +421,38 @@ export const TwoTodolist: FC = () => {
 //     <iframe src="https://www.youtube.com/embed/84wKkCVqEnk"
 //             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
 // </VideoContainer>
+
+
+
+
+// <TextP>
+//     <Text>Аналогия из жизни.</Text>
+//     <Text>Ребенок идет на улицу. Родитель говорит, что если на улице что-нибудь случиться (например поранишь коленку), вот тебе телефон, звони. Т.е. ребенок в случае раны сам не сможет обработать рану, это сможет сделать родитель. Соответсвенно ребенок звонит по телефону и родитель по итогу решает проблему.</Text>
+//     <Text>У нас точно такая же ситуация. Todolist не может сам удалить таску, ему нужно сообщить (позвонить) родителю App и сказать, что удали таску и родитель по итогу решит проблему.</Text>
+//     <NoteUl>
+//         <NoteLi>Родитель - родительский компонент App</NoteLi>
+//         <NoteLi>Ребенок - дочерний компонент Todolist</NoteLi>
+//         <NoteLi>Телефон - функция обратного вызова <Link target={"_blank"} href="#">(callback)</Link></NoteLi>
+//     </NoteUl>
+// </TextP>
+//
+//
+// <TextP>
+//     Нюансы:
+//     имя аргументов при типизации callback функции может быть абсолютно любым и ни на что не влияет. Пишем как кажется логичнее / понятнее / удобнее
+//     src/Todolist.tsx
+//     <HighlightedCodeBlock>
+//         {
+//             `
+//     type PropsType = {
+//     // можно назвать taskId
+//     removeTask: (taskId: number) => void
+//     // а можно просто id
+//     removeTask: (id: number) => void
+//     // а можно просто value
+//     removeTask: (value: number) => void
+//     }
+//                             `
+//         }
+//     </HighlightedCodeBlock>
+// </TextP>

@@ -259,9 +259,9 @@ export const OneTodolist: FC = () => {
 //         <NoteLi><Marker>Update</Marker> - обновления</NoteLi>
 //         <NoteLi><Marker>Delete</Marker> - удаление</NoteLi>
 //     </NoteUl>
-
-
-
+//
+//
+//
 //     <ParagraphTitle>Подготовка к занятию</ParagraphTitle>
 //     <NoteUl>
 //         <NoteLi><Marker>1</Marker> Создать проект -
@@ -271,7 +271,7 @@ export const OneTodolist: FC = () => {
 //         <NoteLi><Marker>2</Marker> Установить <Marker>зависимости</Marker></NoteLi>
 //         <NoteLi><Marker>3</Marker> Запустить приложение</NoteLi>
 //     </NoteUl>
-
+//
 //     <ParagraphTitle>Именованный и default <Marker>export</Marker></ParagraphTitle>
 //     <TextP>
 //         Для отдельных component <Marker>всегда</Marker> ставим именованный export - <Marker>"export const
@@ -279,7 +279,7 @@ export const OneTodolist: FC = () => {
 //         Для погружения в детали о разницы export для компонента можно почитать тут - <Link target={"_blank"}
 //                                                                                            href="https://code-style.it-incubator.io/react/import-export/export">style-guide</Link>
 //     </TextP>
-
+//
 //     <ParagraphTitle>Стрелочная или declaration functions</ParagraphTitle>
 //
 //     {/*Стрелочная и обычная функция*/}
@@ -299,11 +299,11 @@ export const OneTodolist: FC = () => {
 //         }
 //     </HighlightedCodeBlock>
 //     {/*стрелочная и обычная функция*/}
-
+//
 //     <ParagraphTitle>props</ParagraphTitle>
 //     <TextP><Marker><Link target={"_blank"}
 //                          href="https://react.dev/learn/passing-props-to-a-component">props</Link></Marker>
-
+//
 //     <ParagraphTitle>Деструктурирующие присваивание - <Marker>Деструктуризация</Marker></ParagraphTitle>
 //     <TextP>Как правило, в компонент приходит много свойств, это приводит к тому что в разметке
 //         будет <Marker>много props</Marker></TextP>
@@ -378,7 +378,7 @@ export const OneTodolist: FC = () => {
 //         }
 //     </HighlightedCodeBlock>
 //     {/*Деструктуризация - САМЫЙ ЧАСТЫЙ ВАРИАНТ*/}
-
+//
 //     <ParagraphTitle>Type or Interface?</ParagraphTitle>
 //     <TextP>Основное отличие в том, что <Marker>type</Marker> нельзя повторно открыть для добавления новых
 //         свойств а <Marker>interface</Marker> всегда расширяем</TextP>
@@ -399,7 +399,7 @@ export const OneTodolist: FC = () => {
 //     <TextP>Далее будет понятнее почему или <Link target={"_blank"}
 //                                                  href="https://code-style.it-incubator.io/react/naming#36-%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D1%82%D0%B8%D0%BF%D0%BE%D0%B2-type">style-guide</Link>,
 //         главное соблюсти конструкцию <Marker><Marker>N</Marker>ame</Marker> + <Marker><Marker>P</Marker>rops</Marker> + <Marker><Marker>T</Marker>ype</Marker></TextP>
-
+//
 //     <TextP>Так-же можно сделать type <Marker>не обязательным</Marker>, для этого сразу после имени
 //         необязательного type нужно написать <Marker>'?'</Marker></TextP>
 //
@@ -438,7 +438,7 @@ export const OneTodolist: FC = () => {
 //     </HighlightedCodeBlock>
 //     {/*необязательный type*/}
 //
-
+//
 //     <ParagraphTitle>Key</ParagraphTitle>
 //     <TextP>Использовав map и открыв рабочий проект, можно увидеть ошибку в console связанную с key, эта
 //         ошибка говорит о том что у каждого элемента array должен быть уникальный key</TextP>
@@ -465,7 +465,7 @@ export const OneTodolist: FC = () => {
 //     <TextP>Подробнее о key в <Link target={"_blank"}
 //                                    href="https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key">документации
 //         React</Link></TextP>
-
+//
 //     <ParagraphTitle>React.Fragment</ParagraphTitle>
 //     <TextP>React component обязан возвращать <Marker>один</Marker> родительский элемент, у меня возвращается div потому что на нем висит <Marker>className</Marker>, но довольно часто встречается ситуация при которой нужно просто обернуть components, можно использовать пустой div в таком случае, но <Marker>не рекомендуется</Marker> что-бы не создавать лишний узел в DOM, не критично но есть лучший вариант</TextP>
 //     <TextP>Для этого есть 2 tags</TextP>
@@ -515,7 +515,7 @@ export const OneTodolist: FC = () => {
 //     <ParagraphTitle>Тернарный оператор</ParagraphTitle>
 //     <TextP>Если мы из array tasks2 удалим все objects, то будет просто пустота, нужно пометить что tasks нет или tasks еще не созданы и так далее</TextP>
 //     <TextP>Используем для этого <Link target={"_blank"} href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Conditional_operator">условный (тернарный) оператор</Link></TextP>
-
+//
 //     {/*тернарный оператор*/}
 //     <HighlightedCodeBlock>
 //         {
