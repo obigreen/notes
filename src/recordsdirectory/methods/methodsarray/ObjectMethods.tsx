@@ -183,7 +183,7 @@ export const ObjectMethods: React.FC<MethodProps> = ({objectItems = []}) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Method Objeks</NotesTitle>
+            <NotesTitle>Method Objekts</NotesTitle>
             <Text>
                 <S.List>
                     {objectItems.map((item, index) => (
