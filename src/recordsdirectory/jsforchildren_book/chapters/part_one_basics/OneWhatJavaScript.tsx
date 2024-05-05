@@ -101,8 +101,6 @@ const TextareaWithStorage = ({id}: TextareaWithStorageProps) => {
 };
 
 export const OneWhatJavaScript: FC = () => {
-
-
     return (
         <NoteBlock>
             <Text>
