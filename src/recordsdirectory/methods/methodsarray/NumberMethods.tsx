@@ -71,7 +71,7 @@ export const NumberMethods: React.FC<MethodProps> = ({numberItems = []}) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Method Array</NotesTitle>
+            <NotesTitle>Method Number</NotesTitle>
             <Text>
                 <S.List>
                     {numberItems.map((item, index) => (

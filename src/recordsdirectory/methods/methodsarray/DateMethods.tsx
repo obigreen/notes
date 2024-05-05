@@ -220,7 +220,7 @@ export const DataMethods: React.FC<MethodProps> = ({dateItems = []}) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Method Array</NotesTitle>
+            <NotesTitle>Method Date</NotesTitle>
             <Text>
                 <S.List>
                     {dateItems.map((item, index) => (
