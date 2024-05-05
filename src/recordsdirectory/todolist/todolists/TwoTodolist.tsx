@@ -11,8 +11,6 @@ import {
     TextareaWrapper, TextP, BookTitle, Section
 } from "../../RecordsDirectory_Style";
 import Copy from '../../../accets/img/samuraifastimg/copy.png'
-import KTwoApp from "./practice/onepractice/sprint2week2/KTwoApp";
-
 //type for texteria
 type TextareaWithStorageProps = {
     id: string;
@@ -143,7 +141,8 @@ export const TwoTodolist: FC = () => {
                         }
                     </HighlightedCodeBlock>
 
-                    <TextP>И используем эту function внутри каждой кнопки, передавая текущий <Marker>id</Marker> task:</TextP>
+                    <TextP>И используем эту function внутри каждой кнопки, передавая
+                        текущий <Marker>id</Marker> task:</TextP>
 
                     <HighlightedCodeBlock>
                         {
@@ -258,7 +257,8 @@ export const TwoTodolist: FC = () => {
 
                 <Section>
                     <ParagraphTitle>8. Создание state для фильтрации tasks</ParagraphTitle>
-                    <TextP>Начнем с определения state filter с использованием хука useState. Этот state будет хранить текущий выбранный фильтр.</TextP>
+                    <TextP>Начнем с определения state filter с использованием хука useState. Этот state будет хранить
+                        текущий выбранный фильтр.</TextP>
 
                     <HighlightedCodeBlock>
                         {
@@ -301,12 +301,14 @@ export const TwoTodolist: FC = () => {
                 `
                         }
                     </HighlightedCodeBlock>
-                    <TextP>Здесь .filter(task =&gt; !task.isDone) возвращает tasks, которые еще не выполнены (активные), а .filter(task =&gt; task.isDone) возвращает tasks, которые выполнены.</TextP>
+                    <TextP>Здесь .filter(task =&gt; !task.isDone) возвращает tasks, которые еще не выполнены (активные),
+                        а .filter(task =&gt; task.isDone) возвращает tasks, которые выполнены.</TextP>
                 </Section>
 
                 <Section>
                     <ParagraphTitle>11. Создание function для смены фильтра</ParagraphTitle>
-                    <TextP>Funtion changeFilter реализуем так, чтобы она принимала новый фильтр и устанавливала его в state</TextP>
+                    <TextP>Funtion changeFilter реализуем так, чтобы она принимала новый фильтр и устанавливала его в
+                        state</TextP>
 
                     <HighlightedCodeBlock>
                         {
@@ -321,7 +323,8 @@ export const TwoTodolist: FC = () => {
 
                 <Section>
                     <ParagraphTitle>12. Внедрение фильтра в JSX</ParagraphTitle>
-                    <TextP>Модифицируем component App, чтобы он передавал props tasks, removeTask и changeFilter в Todolist.</TextP>
+                    <TextP>Модифицируем component App, чтобы он передавал props tasks, removeTask и changeFilter в
+                        Todolist.</TextP>
 
                     <HighlightedCodeBlock>
                         {
@@ -376,14 +379,6 @@ export const TwoTodolist: FC = () => {
                     </HighlightedCodeBlock>
                     <TextP>Эти кнопки позволяют пользователю выбирать, какие задачи отображать в списке.</TextP>
                 </Section>
-
-                <Section>
-                    <KTwoApp/>
-                </Section>
-
-                <TextP>
-
-                </TextP>
             </Text>
         </NoteBlock>
     );
@@ -421,8 +416,6 @@ export const TwoTodolist: FC = () => {
 //     <iframe src="https://www.youtube.com/embed/84wKkCVqEnk"
 //             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
 // </VideoContainer>
-
-
 
 
 // <TextP>
