@@ -23,11 +23,11 @@ const App: React.FC = () => {
                 <Article>
                     <WrappUse/>
 
-                    <Todolist/>
-                    {/*<JsForChildren/>*/}
+                    {/*<Todolist/>*/}
+                    <JsForChildren/>
                     {/*<Methods/>*/}
                     {/*<SamuraiFast/>*/}
-                    {/*<English/>*/}
+                    <English/>
                 </Article>
 
             </Container>
