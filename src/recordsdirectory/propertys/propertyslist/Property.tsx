@@ -5,8 +5,8 @@ import {NoteBlock, NotesTitle, Text} from '../../RecordsDirectory_Style';
 
 import {S} from '../Property_Styles'
 
-type MethodProps = {
-    arrayItems?: Array<{
+type PropertysProps = {
+    propertyItems?: Array<{
         highlight: string;
         content: string;
         code: string;
@@ -256,7 +256,7 @@ export const propertys = [
 ];
 
 
-export const ArrayMethods: React.FC<MethodProps> = ({arrayItems = []}) => {
+export const Property: React.FC<PropertysProps> = ({propertyItems = []}) => {
     const [selectedCode, setSelectedCode] = useState<string | null>(null);
     const codeRef = useRef<HTMLElement>(null);
 
@@ -268,7 +268,7 @@ export const ArrayMethods: React.FC<MethodProps> = ({arrayItems = []}) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Method Array</NotesTitle>
+            <NotesTitle>Propertys</NotesTitle>
             <Text>
                 <S.List>
                     {propertys.map((item, index) => (
