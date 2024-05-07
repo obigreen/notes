@@ -8,6 +8,7 @@ import {JsForChildren} from "./recordsdirectory/jsforchildren_book/JSForChildren
 import {Methods} from "./recordsdirectory/methods/Methots";
 import {SamuraiFast} from "./recordsdirectory/samuraifast/SamuraiFast";
 import {Todolist} from "./recordsdirectory/todolist/Todolist";
+import {Propertys} from "./recordsdirectory/propertys/Propertys";
 
 
 const App: React.FC = () => {
@@ -25,6 +26,7 @@ const App: React.FC = () => {
 
                     {/*<Todolist/>*/}
                     {/*<JsForChildren/>*/}
+                    <Propertys/>
                     <Methods/>
                     {/*<SamuraiFast/>*/}
                     {/*<English/>*/}

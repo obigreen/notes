@@ -1,10 +1,10 @@
 import React from 'react';
 import {TypeTitle} from "../RecordsDirectory_Style";
-import {arrayItems, ArrayMethods} from "./methodsarray/ArrayMethods";
-import {stringItems, SrtingMethods} from "./methodsarray/StringMethods";
-import {objectItems, ObjectMethods} from "./methodsarray/ObjectMethods";
-import {numberItems, NumberMethods} from "./methodsarray/NumberMethods";
-import {dateItems, DataMethods} from "./methodsarray/DateMethods";
+import {arrayItems, ArrayMethods} from "./methodslist/ArrayMethods";
+import {stringItems, SrtingMethods} from "./methodslist/StringMethods";
+import {objectItems, ObjectMethods} from "./methodslist/ObjectMethods";
+import {numberItems, NumberMethods} from "./methodslist/NumberMethods";
+import {dateItems, DataMethods} from "./methodslist/DateMethods";
 
 export const Methods = () => {
     return (
