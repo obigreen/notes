@@ -25,12 +25,16 @@ interface HighlightedCodeBlockProps {
 // ---------------------------------------------------------------------------------------
 // code block + copy button
 const HighlightedCodeBlock: FC<HighlightedCodeBlockProps> = ({children}) => {
+
+
     const codeRef = useRef<HTMLElement>(null);
     useEffect(() => {
         if (codeRef.current) {
             hljs.highlightBlock(codeRef.current);
         }
     }, [])
+
+
     const handleCopyClick = async () => {
         if (codeRef.current) {
             const range = document.createRange();
@@ -54,6 +58,7 @@ const HighlightedCodeBlock: FC<HighlightedCodeBlockProps> = ({children}) => {
             }
         }
     }
+
     return (
         <CodeBlockWrapp>
       <pre>
@@ -67,6 +72,8 @@ const HighlightedCodeBlock: FC<HighlightedCodeBlockProps> = ({children}) => {
         </CodeBlockWrapp>
     );
 };
+
+
 
 //save texteria
 const useTextareaStorage = (id: string): [string, (value: string) => void] => {

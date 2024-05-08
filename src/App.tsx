@@ -24,9 +24,9 @@ const App: React.FC = () => {
                 <Article>
                     <WrappUse/>
 
-                    {/*<Todolist/>*/}
+                    <Todolist/>
                     {/*<JsForChildren/>*/}
-                    <Propertys/>
+                    {/*<Propertys/>*/}
                     <Methods/>
                     {/*<SamuraiFast/>*/}
                     {/*<English/>*/}
