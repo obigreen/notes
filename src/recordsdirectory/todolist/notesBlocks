@@ -1,0 +1,41 @@
+detals:
+
+
+<Marker></Marker>
+<Link target={"_blank"} href="#"></Link>
+
+<BookTitle></BookTitle>
+<ParagraphTitle></ParagraphTitle>
+<TextP></TextP>
+
+<NoteUl>
+    <NoteLi></NoteLi>
+    <NoteLi></NoteLi>
+    <NoteLi></NoteLi>
+</NoteUl>
+
+<TextareaWrapper>
+    <TextareaWithStorage id=" " />
+</TextareaWrapper>
+
+<HighlightedCodeBlock>
+    {
+        `
+
+        `
+    }
+</HighlightedCodeBlock>
+
+
+<VideoContainer>
+    <iframe src="https://www.youtube.com/embed/84wKkCVqEnk"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
+</VideoContainer>
+
+
+<ImgWrapp>
+    <Img src={картинка} alt={alt} onClick={toggleModal}/>
+    <Modal isOpen={modalIsOpen} onRequestClose={toggleModal} style={modalStyles}>
+        <Img src={картинка} alt={alt} style={{width: '100%', height: '100%'}}/>
+    </Modal>
+</ImgWrapp>

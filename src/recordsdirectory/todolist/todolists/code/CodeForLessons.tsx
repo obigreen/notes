@@ -1,16 +1,16 @@
-import React, {useEffect, useRef, FC, ChangeEvent, useState} from 'react';
+import React, {useEffect, useRef, ChangeEvent, useState} from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/default.css';
 import {
     BookTitle,
     ButtonCopy,
     CodeBlockWrapp, Link, Marker,
-    NoteBlock, NoteLi, NoteUl, ParagraphTitle,
+    NoteBlock, NoteLi, NoteUl, ParagraphTitle, Section,
     Text,
     Textarea,
     TextareaWrapper, TextP
 } from "../../../RecordsDirectory_Style";
-import Copy from '../../../../accets/img/samuraifastimg/copy.png'
+import Copy from '../../../../accets/img/all/copy.png'
 
 //type for texteria
 type TextareaWithStorageProps = {
@@ -24,7 +24,7 @@ interface HighlightedCodeBlockProps {
 
 // ---------------------------------------------------------------------------------------
 // code block + copy button
-const HighlightedCodeBlock: FC<HighlightedCodeBlockProps> = ({children}) => {
+const HighlightedCodeBlock = ({children}: HighlightedCodeBlockProps) => {
     const codeRef = useRef<HTMLElement>(null);
     useEffect(() => {
         if (codeRef.current) {
@@ -67,7 +67,6 @@ const HighlightedCodeBlock: FC<HighlightedCodeBlockProps> = ({children}) => {
         </CodeBlockWrapp>
     );
 };
-
 //save texteria
 const useTextareaStorage = (id: string): [string, (value: string) => void] => {
     const localStorageKey = `textareaContent_${id}`;
@@ -94,52 +93,58 @@ const TextareaWithStorage = ({id}: TextareaWithStorageProps) => {
 // ---------------------------------------------------------------------------------------
 
 
-export const CodeForLessons: FC = () => {
+export const CodeForLessons = () => {
     return (
         <NoteBlock>
             <Text>
-                <ParagraphTitle>Method .map через цикл</ParagraphTitle>
-                <HighlightedCodeBlock>
-                    {
+                <Section>
+                    <BookTitle>Разность написания method .map</BookTitle>
+                    <ParagraphTitle>Через цикл</ParagraphTitle>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const taskslist: Array<JSX.Element> = []
+    for (let i = 0; i < props.tasks.length; i++) {
+        taskslist.push(
+            <li><input type='checkbox' checked={props.tasks[i].isDone}/>
+                <span>{props.tasks[i].title}</span>
+                <button onClick={() => {
+                    props.removeTasak(props.tasks[i].id)
+                }}>x
+                </button>
+            </li>
+        )
+    }
                         `
-const taskslist: Array<JSX.Element> = []
-for (let i = 0; i < props.tasks.length; i++) {
-    taskslist.push(
-        <li><input type='checkbox' checked={props.tasks[i].isDone}/>
-            <span>{props.tasks[i].title}</span>
-            <button onClick={() => {
-                props.removeTasak(props.tasks[i].id)
-            }}>x
-            </button>
-        </li>
-    )
-}
-                        `
-                    }
-                </HighlightedCodeBlock>
+                        }
+                    </HighlightedCodeBlock>
 
-                <ParagraphTitle>Method .map через const</ParagraphTitle>
-                <HighlightedCodeBlock>
-                    {
+                    <ParagraphTitle>Через const</ParagraphTitle>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const taskslist: Array<JSX.Element> = props.tasks.map(t => {
+    
+        return (
+            <li>
+                <input type='checkbox' checked={t.isDone}/>
+                <span>{t.title}</span>
+                <button>x</button>
+            </li>
+        )
+    })
+    
+    // так отрисовываем
+    <ul>
+         {taskslist}
+    </ul>
                         `
-const taskslist: Array<JSX.Element> = props.tasks.map(t => {
-
-    return (
-        <li>
-            <input type='checkbox' checked={t.isDone}/>
-            <span>{t.title}</span>
-            <button>x</button>
-        </li>
-    )
-})
-
-// так отрисовываем
-<ul>
-     {taskslist}
-</ul>
-                        `
-                    }
-                </HighlightedCodeBlock>
+                        }
+                    </HighlightedCodeBlock>
+                    <TextP>
+                        <Link target={"_blank"} href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/map">Documentation</Link>
+                    </TextP>
+                </Section>
 
                 <TextareaWrapper>
                     <TextareaWithStorage id="123"></TextareaWithStorage>
@@ -148,6 +153,8 @@ const taskslist: Array<JSX.Element> = props.tasks.map(t => {
         </NoteBlock>
     );
 };
+
+
 // ATTENTION!!!!!!!!!!!! с 2ым туду разобрать прошлые комменты
 
 // // удаление tasks
@@ -202,42 +209,5 @@ const taskslist: Array<JSX.Element> = props.tasks.map(t => {
 // //     tasksForTodolist = tasks.filter(t => t.isDone);
 // // }
 
-
-
-
-
-
-
-// ===========================================================================detals
-// <Marker></Marker>
-// <Link target={"_blank"} href="#"></Link>
-
-// <BookTitle></BookTitle>
-// <ParagraphTitle></ParagraphTitle>
-// <TextP></TextP>
-//
-// <NoteUl>
-//     <NoteLi></NoteLi>
-//     <NoteLi></NoteLi>
-//     <NoteLi></NoteLi>
-// </NoteUl>
-
-// <TextareaWrapper>
-//     <TextareaWithStorage id=" " />
-// </TextareaWrapper>
-
-// <HighlightedCodeBlock>
-//     {
-//         `
-//
-//         `
-//     }
-// </HighlightedCodeBlock>
-
-
-// <VideoContainer>
-//     <iframe src="https://www.youtube.com/embed/84wKkCVqEnk"
-//             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
-// </VideoContainer>
 
 

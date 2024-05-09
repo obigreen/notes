@@ -10,7 +10,7 @@ import {
     Textarea,
     TextareaWrapper, TextP, BookTitle, Section
 } from "../../RecordsDirectory_Style";
-import Copy from '../../../accets/img/samuraifastimg/copy.png'
+import Copy from '../../../accets/img/all/copy.png'
 //type for texteria
 type TextareaWithStorageProps = {
     id: string;
@@ -384,68 +384,3 @@ export const TwoTodolist: FC = () => {
     );
 };
 
-
-// ===========================================================================detals
-// <Marker></Marker>
-// <Link target={"_blank"} href="#"></Link>
-//
-// <BookTitle></BookTitle>
-// <ParagraphTitle></ParagraphTitle>
-// <TextP></TextP>
-//
-// <NoteUl>
-//     <NoteLi></NoteLi>
-//     <NoteLi></NoteLi>
-//     <NoteLi></NoteLi>
-// </NoteUl>
-//
-// <TextareaWrapper>
-//     <TextareaWithStorage id=" " />
-// </TextareaWrapper>
-//
-// <HighlightedCodeBlock>
-//     {
-//         `
-//
-//         `
-//     }
-// </HighlightedCodeBlock>
-
-
-// <VideoContainer>
-//     <iframe src="https://www.youtube.com/embed/84wKkCVqEnk"
-//             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
-// </VideoContainer>
-
-
-// <TextP>
-//     <Text>Аналогия из жизни.</Text>
-//     <Text>Ребенок идет на улицу. Родитель говорит, что если на улице что-нибудь случиться (например поранишь коленку), вот тебе телефон, звони. Т.е. ребенок в случае раны сам не сможет обработать рану, это сможет сделать родитель. Соответсвенно ребенок звонит по телефону и родитель по итогу решает проблему.</Text>
-//     <Text>У нас точно такая же ситуация. Todolist не может сам удалить таску, ему нужно сообщить (позвонить) родителю App и сказать, что удали таску и родитель по итогу решит проблему.</Text>
-//     <NoteUl>
-//         <NoteLi>Родитель - родительский компонент App</NoteLi>
-//         <NoteLi>Ребенок - дочерний компонент Todolist</NoteLi>
-//         <NoteLi>Телефон - функция обратного вызова <Link target={"_blank"} href="#">(callback)</Link></NoteLi>
-//     </NoteUl>
-// </TextP>
-//
-//
-// <TextP>
-//     Нюансы:
-//     имя аргументов при типизации callback функции может быть абсолютно любым и ни на что не влияет. Пишем как кажется логичнее / понятнее / удобнее
-//     src/Todolist.tsx
-//     <HighlightedCodeBlock>
-//         {
-//             `
-//     type PropsType = {
-//     // можно назвать taskId
-//     removeTask: (taskId: number) => void
-//     // а можно просто id
-//     removeTask: (id: number) => void
-//     // а можно просто value
-//     removeTask: (value: number) => void
-//     }
-//                             `
-//         }
-//     </HighlightedCodeBlock>
-// </TextP>

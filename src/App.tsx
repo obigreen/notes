@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from 'react-modal';
 import './App.css';
 import styled from "styled-components";
 import {MrEye} from "./components/mreye/MrEye";
@@ -27,7 +28,7 @@ const App: React.FC = () => {
                     <Todolist/>
                     {/*<JsForChildren/>*/}
                     {/*<Propertys/>*/}
-                    <Methods/>
+                    {/*<Methods/>*/}
                     {/*<SamuraiFast/>*/}
                     {/*<English/>*/}
                 </Article>

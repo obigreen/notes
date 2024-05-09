@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 
-
-
+// notes
 export const NoteBlock = styled.section`
     width: 100%;
     margin: 0 auto 70px auto;
@@ -32,6 +31,50 @@ export const TypeTitle = styled.h2`
     margin-bottom: 50px;
 `
 
+export const Link = styled.a`
+
+`
+export const BookTitle = styled.h3`
+    margin-bottom: 60px;
+    font-style: normal;
+    font-size: 30px;
+    font-weight: 700;
+`
+export const ParagraphTitle = styled.h4`
+    margin-bottom: 40px;
+    font-style: normal;
+    font-size: 24px;
+`
+export const TextP = styled.p`
+    margin-bottom: 15px;
+    font-weight: 200;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1.2;
+
+`
+export const Marker = styled.span`
+    //создать маркеру стили и передавать из через пропсы, жирность там, выделение и всякое 
+    font-weight: 700;
+`
+
+export const NoteUl = styled.ul`
+    margin-bottom: 20px;
+    padding-left: 30px;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+`
+export const NoteLi = styled.li`
+    &:not(:last-child) {
+        margin-bottom: 15px;
+    }
+`
+export const Section = styled.div`
+    margin-bottom: 50px;
+`
+
+
 //Copy code bitton
 export const CodeBlockWrapp = styled.div`
     width: 100%;
@@ -53,33 +96,8 @@ export const ButtonCopy = styled.button`
     }
 `
 
-export const Link = styled.a`
 
-`
-// Articles
-export const BookTitle = styled.h3`
-  margin-bottom: 60px;
-    font-style: normal;
-    font-size: 30px;
-    font-weight: 700;
-`
-export const ParagraphTitle = styled.h4`
-    margin-bottom: 40px;
-    font-style: normal;
-    font-size: 24px;
-`
-export const TextP = styled.p`
- margin-bottom: 15px;
-    font-weight: 200;
-    font-style: normal;
-    font-size: 20px;
-    line-height: 1.2;
-`
-export const Marker = styled.span`
-    //создать маркеру стили и передавать из через пропсы, жирность там, выделение и всякое 
- font-weight: 700;
-`
-
+// texteria
 export const TextareaWrapper = styled.div`
     width: 100%;
     display: flex;
@@ -96,9 +114,11 @@ export const Textarea = styled.textarea`
     font-weight: 300;
     font-size: 20px;
     outline: none;
+
     &:focus {
         border-color: #6a9fb5
     }
+
     overflow-y: auto;
 `
 
@@ -125,20 +145,13 @@ export const VideoContainer = styled.div`
     }
 `
 
-export const NoteUl = styled.ul`
-margin-bottom: 20px;
-    padding-left: 30px;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 20px;
-`
-export const NoteLi = styled.li`
-&:not(:last-child) {
-    margin-bottom: 15px;
-}
+// img
+export const ImgWrapp = styled.div`
+    max-width: 100%;
+    width: 100%;
+    cursor: pointer;
 `
 
-
-export const Section = styled.div`
-margin-bottom: 50px;
+export const Img = styled.img`
+    width: 100%;
 `

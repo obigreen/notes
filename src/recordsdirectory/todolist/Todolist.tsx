@@ -3,17 +3,17 @@ import {OneTodolist} from "./todolists/OneTodolist";
 import {TypeTitle} from "../RecordsDirectory_Style";
 import {CodeForLessons} from "./todolists/code/CodeForLessons";
 import {TwoTodolist} from "./todolists/TwoTodolist";
-import {GeneralInfo} from "./todolists/GeneralInfo";
+import {Theory} from "./todolists/Theory";
 
 export const Todolist = () => {
     return (
         <>
             <TypeTitle>Todolists</TypeTitle>
-            <OneTodolist/>
-            <TwoTodolist/>
+            {/*<OneTodolist/>*/}
+            {/*<TwoTodolist/>*/}
 
-            {/*<CodeForLessons/>*/}
-            {/*<GeneralInfo/>*/}
+            <CodeForLessons/>
+            <Theory src={"string"} alt={"string"}/>
         </>
     );
 };

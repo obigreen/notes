@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from "react";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/default.css';
 import {S} from "../SamuraiFast_Styles";
-import Copy from "../../../accets/img/samuraifastimg/copy.png";
+import Copy from "../../../accets/img/all/copy.png";
 import {ButtonCopy, CodeBlockWrapp, NoteBlock, NotesTitle, VideoContainer} from "../../RecordsDirectory_Style";
 
 type NoteProps = {

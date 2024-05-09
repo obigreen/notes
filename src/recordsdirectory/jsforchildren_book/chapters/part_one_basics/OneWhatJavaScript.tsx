@@ -2,7 +2,7 @@ import React, {useEffect, useRef, FC, ChangeEvent, useState} from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/default.css';
 
-import Copy from '../../../../accets/img/samuraifastimg/copy.png'
+import Copy from '../../../../accets/img/all/copy.png'
 import {
     BookTitle,
     ButtonCopy,
@@ -109,38 +109,3 @@ export const OneWhatJavaScript: FC = () => {
         </NoteBlock>
     );
 };
-
-
-// ===========================================================================detals
-
-// <NoteUl>
-//     <NoteLi></NoteLi>
-//     <NoteLi></NoteLi>
-//     <NoteLi></NoteLi>
-// </NoteUl>
-
-// <BookTitle></BookTitle>
-// <ParagraphTitle></ParagraphTitle>
-// <TextP></TextP>
-
-// <Marker></Marker>
-// <Link href="#"></Link>
-
-
-// <TextareaWrapper>
-//     <TextareaWithStorage id=" " />
-// </TextareaWrapper>
-
-// <HighlightedCodeBlock>
-//     {
-//         `
-
-//                     `
-//     }
-// </HighlightedCodeBlock>
-
-
-// <VideoContainer>
-//     <iframe src="https://www.youtube.com/embed/84wKkCVqEnk"
-//             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
-// </VideoContainer>

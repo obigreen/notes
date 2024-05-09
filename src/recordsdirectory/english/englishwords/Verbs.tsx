@@ -32,7 +32,8 @@ const verbs = [
     { eng: 'live', rus: 'жить' },
     { eng: 'eat', rus: 'есть' },
     { eng: 'do', rus: 'делать' },
-    { eng: 'make', rus: 'делать, создавать' }
+    { eng: 'make', rus: 'делать, создавать' },
+    { eng: 'choose', rus: 'выбирать' },
 ];
 
 
