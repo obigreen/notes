@@ -299,7 +299,7 @@ export const TwoTodolist = () => {
 
 
                 <Section>
-                    <ParagraphTitle>9. Определение списка tasks для отображения</ParagraphTitle>
+                    <ParagraphTitle>10. Определение списка tasks для отображения</ParagraphTitle>
                     <TextP>Сначала мы сохраняем все текущие tasks в переменную taskForTodolist.</TextP>
 
                     <HighlightedCodeBlock>
@@ -312,7 +312,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>10. Фильтрация tasks</ParagraphTitle>
+                    <ParagraphTitle>11. Фильтрация tasks</ParagraphTitle>
                     <TextP>Мы реализуем логику для отображения tasks в зависимости от выбранного фильтра</TextP>
 
                     <HighlightedCodeBlock>
@@ -333,7 +333,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>11. Создание function для смены фильтра</ParagraphTitle>
+                    <ParagraphTitle>12. Создание function для смены фильтра</ParagraphTitle>
                     <TextP>Funtion changeFilter реализуем так, чтобы она принимала новый фильтр и устанавливала его в
                         state</TextP>
 
@@ -349,7 +349,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>12. Внедрение фильтра в JSX</ParagraphTitle>
+                    <ParagraphTitle>13. Внедрение фильтра в JSX</ParagraphTitle>
                     <TextP>Модифицируем component App, чтобы он передавал props tasks, removeTask и changeFilter в
                         Todolist.</TextP>
 
@@ -372,7 +372,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>13. Типизация пропсов в Todolist</ParagraphTitle>
+                    <ParagraphTitle>14. Типизация пропсов в Todolist</ParagraphTitle>
                     <TextP>Убедимся, что component Todolist принимает function changeFilter в качестве props</TextP>
 
                     <HighlightedCodeBlock>
@@ -390,7 +390,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>14. Добавление обработчиков для кнопок фильтрации</ParagraphTitle>
+                    <ParagraphTitle>15. Добавление обработчиков для кнопок фильтрации</ParagraphTitle>
                     <TextP>Добавляем обработчики кликов onClick для изменения фильтра</TextP>
 
                     <HighlightedCodeBlock>

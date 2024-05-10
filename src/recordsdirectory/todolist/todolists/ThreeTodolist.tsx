@@ -143,30 +143,6 @@ export const ThreeTodolist = () => {
                     </HighlightedCodeBlock>
                 </Section>
 
-                <Section>
-                    <ParagraphTitle>3. Создание function <Marker>addTask</Marker> для добавления task</ParagraphTitle>
-
-                    <TextP>
-                        Определяем function <Marker>addTask</Marker>, которая принимает название task и добавляет её в
-                        список с уникальным <Marker>id</Marker> и стандартным статусом <Marker>false</Marker> для не
-                        выполненных задач.
-                    </TextP>
-                    <HighlightedCodeBlock>
-                        {
-                            `
-    const addTask = (title: string) => {
-        const newTask = {
-            id: v1(), 
-            title: title, 
-            isDone: false
-        };
-        
-        setTasks(prevTasks => [...prevTasks, newTask]);
-    }
-            `
-                        }
-                    </HighlightedCodeBlock>
-                </Section>
 
                 <Section>
                     <ParagraphTitle>3. Создание функции <Marker>addTask</Marker> для добавления задачи</ParagraphTitle>
