@@ -97,8 +97,9 @@ export const CodeForLessons = () => {
     return (
         <NoteBlock>
             <Text>
+                {/*map*/}
                 <Section>
-                    <BookTitle>Разность написания method .map</BookTitle>
+                    <BookTitle>Варианты написания method .map</BookTitle>
                     <ParagraphTitle>Через цикл</ParagraphTitle>
                     <HighlightedCodeBlock>
                         {
@@ -141,73 +142,98 @@ export const CodeForLessons = () => {
                         `
                         }
                     </HighlightedCodeBlock>
+
+                    <ParagraphTitle>Внутри разметки</ParagraphTitle>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    <ul>
+        {tasks.map(t => {
+                return (
+                    <li key={t.id}>
+                        <input type='checkbox' checked={t.isDone}/>
+                        <span>{t.title}</span>
+                        <button>x</button>
+                    </li>
+                )
+            }
+        )}
+    </ul>
+                            `
+                        }
+                    </HighlightedCodeBlock>
+
+
                     <TextP>
-                        <Link target={"_blank"} href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/map">Documentation</Link>
+                        <Link target={"_blank"}
+                              href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/map">Documentation
+                            map</Link>
                     </TextP>
                 </Section>
+                {/*removetask*/}
+                <Section>
+                    <ParagraphTitle>Варианты удаления task</ParagraphTitle>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    function removeTasak(taskId: number) {
+        // через filter
+        let resutlTasks = tasks.filter(t => t.id !== taskId) // к примеру если
+        // id не равно(!==) выбранному для удаления id то вернет true
+        // если равен то false
+        setTasks(resutlTasks)
+    
+        // через цикл
+        const newState = []
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].id !== taskId) {
+                newState.push(tasks[i])
+            }
+        }
+        setTasks(newState)
+    }
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+                {/*filter*/}
+                <Section>
+                    <ParagraphTitle>Варианты фильтрации task</ParagraphTitle>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+// используемый                           
+const tasksForTodolist = getTasksForTodolist(tasks, filter);
+function changeFilter(value: FilterValuesType) {
+    setFilter(value);
+}
+let tasksForTodolist = tasks;
+if (filter === "Completed") {
+    tasksForTodolist = tasks.filter(t => t.isDone);
+}
 
-                <TextareaWrapper>
-                    <TextareaWithStorage id="123"></TextareaWithStorage>
-                </TextareaWrapper>
+if (filter === "Active") {
+    tasksForTodolist = tasks.filter(t => t.isDone);
+}
+
+
+// еще вариант
+const getTasksForTodolist = (allTasks: Array<TaskType>, nextFilterValue: FilterValuesType) => {
+    switch (nextFilterValue) {
+        case "Active":
+            //!t.isDone упрощена от t.isDone === false, если сокращать, обязательно отследить что бы у false стояло !-не, а то у меня 2 кнопки отрабатывали Completed так как я просто сократил t.isDone оба =)
+            return allTasks.filter(t => !t.isDone);
+        case "Completed":
+            return allTasks.filter(t => t.isDone);
+        default:
+            return allTasks;
+    }
+}
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
             </Text>
         </NoteBlock>
     );
 };
-
-
-// ATTENTION!!!!!!!!!!!! с 2ым туду разобрать прошлые комменты
-
-// // удаление tasks
-// function removeTasak(taskId: number) {
-//     // через filter
-//     let resutlTasks = tasks.filter(t => t.id !== taskId) // к примеру если
-//     // id не равно(!==) выбранному для удаления id то вернет true
-//     // если равен то false
-//     setTasks(resutlTasks)
-//
-//     // через цикл
-//     // const newState = []
-//     // for (let i = 0; i < tasks.length; i++) {
-//     //     if (tasks[i].id !== taskId) {
-//     //         newState.push(tasks[i])
-//     //     }
-//     // }
-//     // setTasks(newState)
-// }
-
-// // фильтрация списков по кнопкам
-// // local state
-// const [filter, setFilter] = useState<FilterValuesType>("All")
-//
-// const changeFilter = (nextFilter: FilterValuesType) => {
-//     setFilter(nextFilter)
-// }
-// // UI
-// const getTasksForTodolist = (allTasks: Array<TaskType>, nextFilterValue: FilterValuesType) => {
-//     switch (nextFilterValue) {
-//         case "Active":
-//             //!t.isDone упрощена от t.isDone === false, если сокращать, обязательно отследить что бы у false стояло !-не, а то у меня 2 кнопки отрабатывали Completed так как я просто сократил t.isDone оба =)
-//             return allTasks.filter(t => !t.isDone);
-//         case "Completed":
-//             return allTasks.filter(t => t.isDone);
-//         default:
-//             return allTasks;
-//     }
-// }
-// const tasksForTodolist = getTasksForTodolist(tasks, filter);
-//
-//
-// // function changeFilter(value: FilterValuesType) {
-// //     setFilter(value);
-// // }
-// // let tasksForTodolist = tasks;
-// // if (filter === "Completed") {
-// //     tasksForTodolist = tasks.filter(t => t.isDone);
-// // }
-// //
-// // if (filter === "Active") {
-// //     tasksForTodolist = tasks.filter(t => t.isDone);
-// // }
-
-
-

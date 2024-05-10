@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, FC, ChangeEvent, useState} from 'react';
+import React, {useEffect, useRef, ChangeEvent, useState} from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/default.css';
 import Modal from 'react-modal';
@@ -27,7 +27,7 @@ interface HighlightedCodeBlockProps {
 
 // ---------------------------------------------------------------------------------------
 // code block + copy button
-const HighlightedCodeBlock: FC<HighlightedCodeBlockProps> = ({children}) => {
+const HighlightedCodeBlock = ({children}: HighlightedCodeBlockProps) => {
     const codeRef = useRef<HTMLElement>(null);
     useEffect(() => {
         if (codeRef.current) {
