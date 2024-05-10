@@ -105,15 +105,15 @@ export const OneTodolist: FC = () => {
             <Text>
                 <BookTitle>Todolist. Sprint 1, week 1</BookTitle>
                 <Section>
-                    <ParagraphTitle>1. Создание компонента Todolist</ParagraphTitle>
-                    <TextP>Выносим компонент Todolist в отдельный файл <Marker>Todolist.tsx</Marker></TextP>
+                    <ParagraphTitle>1. Создание component Todolist</ParagraphTitle>
+                    <TextP>Выносим component Todolist в отдельный файл <Marker>Todolist.tsx</Marker></TextP>
                 </Section>
 
                 <Section>
                     <ParagraphTitle>2. Передача через props</ParagraphTitle>
-                    <TextP>Передаём заголовок в компонент Todolist через <Marker>props</Marker>. Передача данных
-                        осуществляется при использовании компонента.</TextP>
-                    <TextP><Marker>В компоненте App:</Marker></TextP>
+                    <TextP>Передаём заголовок в component Todolist через <Marker>props</Marker>. Передача данных
+                        осуществляется при использовании component.</TextP>
+                    <TextP><Marker>В component App:</Marker></TextP>
                     <HighlightedCodeBlock>
                         {
                             `
@@ -130,9 +130,9 @@ export const OneTodolist: FC = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>3. Массив задач</ParagraphTitle>
-                    <TextP>Объявляем массив с задачами и типизируем его для использования в компоненте Todolist.</TextP>
-                    <TextP><Marker>В компоненте App:</Marker></TextP>
+                    <ParagraphTitle>3. Array tasks</ParagraphTitle>
+                    <TextP>Объявляем array с tasks и type его для использования в component Todolist.</TextP>
+                    <TextP><Marker>В component App:</Marker></TextP>
                     <HighlightedCodeBlock>
                         {
                             `
@@ -151,10 +151,10 @@ export const OneTodolist: FC = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>4. Передача задач в Todolist</ParagraphTitle>
-                    <TextP>Передаем массив задач в компонент Todolist и обновляем тип PropsType для соответствия
-                        пропсам.</TextP>
-                    <TextP><Marker>В компоненте Todolist:</Marker></TextP>
+                    <ParagraphTitle>4. Передача task в Todolist</ParagraphTitle>
+                    <TextP>Передаем array tasks в component Todolist и обновляем тип PropsType для соответствия
+                        props.</TextP>
+                    <TextP><Marker>В component Todolist:</Marker></TextP>
                     <HighlightedCodeBlock>
                         {
                             `
@@ -169,9 +169,9 @@ export const OneTodolist: FC = () => {
 
                 <Section>
                     <ParagraphTitle>5. Использование map и условный рендеринг</ParagraphTitle>
-                    <TextP>Используем метод массива <Marker>map</Marker> для отображения списка задач и тернарный
-                        оператор для условного рендеринга пустого сообщения.</TextP>
-                    <TextP><Marker>В компоненте Todolist:</Marker></TextP>
+                    <TextP>Используем method array <Marker>.map</Marker> для отображения списка tasks и <Marker>тернарный
+                        оператор</Marker> для условного рендеринга пустого сообщения.</TextP>
+                    <TextP><Marker>В component Todolist:</Marker></TextP>
                     <HighlightedCodeBlock>
                         {
                             `
@@ -196,8 +196,8 @@ export const OneTodolist: FC = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>6. Выносим кнопку в отдельный компонент</ParagraphTitle>
-                    <TextP>Создаем компонент <Marker>Button</Marker> для повторного использования по всему
+                    <ParagraphTitle>6. Выносим кнопку в отдельный component</ParagraphTitle>
+                    <TextP>Создаем component <Marker>Button</Marker> для повторного использования по всему
                         приложению.</TextP>
                     <TextP><Marker>В отдельном файле Button.tsx:</Marker></TextP>
                     <HighlightedCodeBlock>

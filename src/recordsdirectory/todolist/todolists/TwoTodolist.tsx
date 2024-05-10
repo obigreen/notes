@@ -11,19 +11,20 @@ import {
     TextareaWrapper, TextP, BookTitle, Section
 } from "../../RecordsDirectory_Style";
 import Copy from '../../../accets/img/all/copy.png'
+import {Todolist} from "../Todolist";
 //type for texteria
 type TextareaWithStorageProps = {
     id: string;
 };
 
 //type for code
-interface HighlightedCodeBlockProps {
+type HighlightedCodeBlockProps = {
     children: string;
 }
 
 // ---------------------------------------------------------------------------------------
 // code block + copy button
-const HighlightedCodeBlock: FC<HighlightedCodeBlockProps> = ({children}) => {
+const HighlightedCodeBlock = ({children}: HighlightedCodeBlockProps) => {
     const codeRef = useRef<HTMLElement>(null);
     useEffect(() => {
         if (codeRef.current) {
@@ -93,7 +94,7 @@ const TextareaWithStorage = ({id}: TextareaWithStorageProps) => {
 // ---------------------------------------------------------------------------------------
 
 
-export const TwoTodolist: FC = () => {
+export const TwoTodolist = () => {
     return (
         <NoteBlock>
             <Text>
@@ -103,7 +104,7 @@ export const TwoTodolist: FC = () => {
                     <ParagraphTitle>1. Добавляем обработку события по клику</ParagraphTitle>
                     <TextP>
                         Мы добавляем кнопку с обработчиком клика в JSX коде. Каждая кнопка при нажатии будет
-                        активировать функцию удаления задачи.
+                        активировать function удаления задачи.
                     </TextP>
                     <HighlightedCodeBlock>
                         {
@@ -115,21 +116,21 @@ export const TwoTodolist: FC = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>2. Создаем функцию removeTask в компоненте App</ParagraphTitle>
+                    <ParagraphTitle>2. Создаем function removeTask в component App</ParagraphTitle>
                     <TextP>
-                        Создаем function <Marker>removeTask</Marker>, которая будет принимать <Marker>taskId</Marker> и
+                        Создаем function <Marker>removeTask</Marker>, которая будет принимать аргумент <Marker>taskId</Marker> и
                         удалять task с этим id.
                     </TextP>
 
                     <HighlightedCodeBlock>
                         {
                             `
-    const removeTask = (taskId: number) => {// Функция будет реализована позже}
+    const removeTask = (taskId: number) => {// function будет реализована позже}
                             `
                         }
                     </HighlightedCodeBlock>
 
-                    <TextP>Затем, в component <Marker>App</Marker> мы передаем эту функцию
+                    <TextP>Затем, в component <Marker>App</Marker> мы передаем эту function
                         в <Marker>Todolist</Marker> как props:
                     </TextP>
 
@@ -176,9 +177,9 @@ export const TwoTodolist: FC = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>4. Определение имени параметров при типизации</ParagraphTitle>
+                    <ParagraphTitle>4. Определение имени параметров при type</ParagraphTitle>
                     <TextP>
-                        Имя параметров функций обратного вызова (callback) может быть любым. Пишите так, как вам кажется
+                        Имя параметров function обратного вызова <Marker>callback</Marker> может быть любым. Пишите так, как вам кажется
                         логичнее и понятнее.
                     </TextP>
 
@@ -222,7 +223,7 @@ export const TwoTodolist: FC = () => {
                         }
                     </HighlightedCodeBlock>
                     <TextP>
-                        Обновляем функцию <Marker>removeTask</Marker>, используя новый
+                        Обновляем function <Marker>removeTask</Marker>, используя новый
                         state:
                     </TextP>
                     <HighlightedCodeBlock>
@@ -235,9 +236,9 @@ export const TwoTodolist: FC = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>7. Рефакторинг компонента Button</ParagraphTitle>
+                    <ParagraphTitle>7. Рефакторинг component Button</ParagraphTitle>
                     <TextP>Стандартизируем <Marker>props</Marker> и поведение
-                        компонента <Marker>Button</Marker>.</TextP>
+                        component <Marker>Button</Marker>.</TextP>
 
 
                     <HighlightedCodeBlock>
@@ -265,6 +266,32 @@ export const TwoTodolist: FC = () => {
                             `
     export type FilterValuesType = 'All' | 'Active' | 'Completed';
     const [filter, setFilter] = useState<FilterValuesType>('All');
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>9. Так же быстренько выносим Title в переменную, это все data</ParagraphTitle>
+                    <TextP>Начнем с определения state filter с использованием хука useState. Этот state будет хранить
+                        текущий выбранный фильтр.</TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    //data - данные которые гипотетически приходят с backend
+    const todolistTitle = "What to learn";
+    
+    const [tasks, setTasks] = useState([......... array with tasks
+    
+    
+    
+     // так теперь приходит title
+    return (
+        <div className={'App'}>
+            <Todolist title={todolistTitle} //... еще подключения
+        </div>
+    )
                             `
                         }
                     </HighlightedCodeBlock>
@@ -346,7 +373,7 @@ export const TwoTodolist: FC = () => {
 
                 <Section>
                     <ParagraphTitle>13. Типизация пропсов в Todolist</ParagraphTitle>
-                    <TextP>Убедимся, что компонент Todolist принимает function changeFilter в качестве props</TextP>
+                    <TextP>Убедимся, что component Todolist принимает function changeFilter в качестве props</TextP>
 
                     <HighlightedCodeBlock>
                         {
