@@ -181,7 +181,8 @@ const addTask = (title: string) => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>4. Добавление function <Marker>addTask</Marker> в component <Marker>Todolist</Marker></ParagraphTitle>
+                    <ParagraphTitle>4. Добавление function <Marker>addTask</Marker> в
+                        component <Marker>Todolist</Marker></ParagraphTitle>
 
                     <TextP>Fuction <Marker>addTask</Marker> передается в compnent <Marker>Todolist</Marker> для
                         обработки действий пользователя по добавлению новых task.</TextP>
@@ -224,8 +225,9 @@ const addTask = (title: string) => {
                         component <Marker>Todolist</Marker></ParagraphTitle>
 
 
-                    <TextP>Реализация обработчика событий для кнопки, вызывающей function
-                        <Marker>callback</Marker> <Marker>addTask</Marker>, для внесения новой task в список.</TextP>
+                    <TextP>
+                        Реализация обработчика событий для кнопки, вызывающей function <Marker>callback</Marker>
+                        <Marker> addTask</Marker>, для внесения новой task в список.</TextP>
                     <HighlightedCodeBlock>
                         {
                             `
@@ -237,6 +239,7 @@ const addTask = (title: string) => {
                         }
                     </HighlightedCodeBlock>
                 </Section>
+
 
             </Text>
         </NoteBlock>

@@ -133,6 +133,7 @@ export const Theory = ({src, alt}: ImgPropsType) => {
         <NoteBlock>
             <Text>
                 <Section>
+                    <BookTitle>Theory</BookTitle>
                     <ParagraphTitle>Аналогия для Понимания <Marker>Callback</Marker> Функций</ParagraphTitle>
                     <TextP>
                         Как ребенок, который идет на улицу и имеет возможность позвонить родителю при необходимости, так

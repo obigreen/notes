@@ -9,34 +9,37 @@ import {Prepositions} from "./englishwords/Prepositions";
 import {Conjunctions} from "./englishwords/Conjunctions";
 import {Interjections} from "./englishwords/Interjections";
 import {Phrases} from "./englishwords/Phrases";
+import {TheoryEng} from "./TheoryEng";
 
 export const English = () => {
     return (
         <>
             <TypeTitle>English</TypeTitle>
 
-            {/*глаголы*/}
-            <Verbs/>
-            {/*существительные*/}
-            <Nouns/>
-            {/*прилагательные*/}
-            <Ajectives/>
+            {/*/!*глаголы*!/*/}
+            {/*<Verbs/>*/}
+            {/*/!*существительные*!/*/}
+            {/*<Nouns/>*/}
+            {/*/!*прилагательные*!/*/}
+            {/*<Ajectives/>*/}
 
 
-            {/*Времянка*/}
-            <>
-                <Questions/>
-                {/*местоимения*/}
-                <Pronouns/>
-                {/*предлоги*/}
-                <Prepositions/>
-                {/*союзы*/}
-                <Conjunctions/>
-                {/*междометия*/}
-                <Interjections/>
-            </>
+            {/*/!*Времянка*!/*/}
+            {/*<>*/}
+            {/*    <Questions/>*/}
+            {/*    /!*местоимения*!/*/}
+            {/*    <Pronouns/>*/}
+            {/*    /!*предлоги*!/*/}
+            {/*    <Prepositions/>*/}
+            {/*    /!*союзы*!/*/}
+            {/*    <Conjunctions/>*/}
+            {/*    /!*междометия*!/*/}
+            {/*    <Interjections/>*/}
+            {/*</>*/}
 
-            <Phrases/>
+            {/*<Phrases/>*/}
+
+            <TheoryEng/>
         </>
     );
 };

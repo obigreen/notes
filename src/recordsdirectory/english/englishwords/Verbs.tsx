@@ -6,7 +6,6 @@ import {S} from '../English_Styles'
 const verbs = [
     { eng: 'listen', rus: 'слушать' },
     { eng: 'open', rus: 'открыть, раскрытый' },
-    { eng: 'visit', rus: 'визит, посещение' },
     { eng: 'visit', rus: 'посещать' },
     { eng: 'learn', rus: 'учить' },
     { eng: 'write', rus: 'писать' },
@@ -17,11 +16,11 @@ const verbs = [
     { eng: 'see', rus: 'видеть' },
     { eng: 'set', rus: 'набор' },
     { eng: 'test (verb)', rus: 'тестировать' },
-    { eng: 'spell', rus: 'произносить' },
+    { eng: 'spell', rus: 'произносить(по буквам)' },
     { eng: 'sleep', rus: 'спать' },
     { eng: 'meet', rus: 'встречаться, знакомиться' },
     { eng: 'mend', rus: 'чинить' },
-    { eng: 'tell', rus: 'сказать' },
+    { eng: 'tell', rus: 'сказать(рассказывать, сообщать)' },
     { eng: 'lend', rus: 'одолжить, занять' },
     { eng: 'wash', rus: 'мыть' },
     { eng: 'start', rus: 'начинать' },
@@ -31,19 +30,14 @@ const verbs = [
     { eng: 'study', rus: 'изучать' },
     { eng: 'live', rus: 'жить' },
     { eng: 'eat', rus: 'есть' },
-    { eng: 'do', rus: 'делать' },
-    { eng: 'make', rus: 'делать, создавать' },
+    { eng: 'do', rus: 'делать(обычные дела, задачи)' },
+    { eng: 'make', rus: 'делать, создавать(что то новое)' },
     { eng: 'choose', rus: 'выбирать' },
-//
     { eng: 'rest', rus: 'отдыхать' },
     { eng: 'train', rus: 'тренироваться' },
-    { eng: 'speak', rus: 'говорить' },
-    { eng: 'goes', rus: 'ходит' },
-    { eng: 'works', rus: 'работает' },
-    { eng: 'sleeps', rus: 'спит' },
-    { eng: 'takes', rus: 'принимает' },
-    { eng: 'have', rus: 'иметь' },
-    { eng: 'made', rus: 'сделал' }
+    { eng: 'speak', rus: 'говорить(обычный разговор)' },
+    { eng: 'go', rus: 'идти' },
+    { eng: 'take', rus: 'брать' },
 ];
 
 

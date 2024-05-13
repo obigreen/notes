@@ -172,7 +172,7 @@ export const CodeForLessons = () => {
                 </Section>
                 {/*removetask*/}
                 <Section>
-                    <ParagraphTitle>Варианты удаления task</ParagraphTitle>
+                    <BookTitle>Варианты удаления task</BookTitle>
                     <HighlightedCodeBlock>
                         {
                             `
@@ -198,7 +198,7 @@ export const CodeForLessons = () => {
                 </Section>
                 {/*filter*/}
                 <Section>
-                    <ParagraphTitle>Варианты фильтрации task</ParagraphTitle>
+                    <BookTitle>Варианты фильтрации task</BookTitle>
                     <HighlightedCodeBlock>
                         {
                             `
@@ -229,6 +229,36 @@ const getTasksForTodolist = (allTasks: Array<TaskType>, nextFilterValue: FilterV
             return allTasks;
     }
 }
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <BookTitle>Добавление task</BookTitle>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const addTask = (title: string) => {
+        const newTask: TaskType = {
+            id: v1(),
+            title: title,
+            isDone: false
+        }
+        
+        // вроде как порядок ...tasks, newTask определяет, будет ли добавляться в конце списка или в начале
+        // #1
+        const nextTasksState = [...tasks, newTask]
+        setTasks(nextTasksState)
+        
+        // short version
+        // #2
+        setTasks([...tasks, newTask])
+
+        // супииииркоротко
+        // #3
+        setTasks([{id: v1(), title, isDone: false}, ...tasks])
+    }
                             `
                         }
                     </HighlightedCodeBlock>

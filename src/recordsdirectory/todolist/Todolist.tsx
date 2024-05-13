@@ -10,8 +10,8 @@ export const Todolist = () => {
     return (
         <>
             <TypeTitle>Todolists</TypeTitle>
-            <OneTodolist/>
-            <TwoTodolist/>
+            {/*<OneTodolist/>*/}
+            {/*<TwoTodolist/>*/}
             <ThreeTodolist/>
 
             {/*<CodeForLessons/>*/}
