@@ -6,7 +6,7 @@ import {MrEye} from "./components/mreye/MrEye";
 import {English} from "./recordsdirectory/english/English";
 import {WrappUse} from "./components/use/WrappUse";
 import {JsForChildren} from "./recordsdirectory/jsforchildren_book/JSForChildren";
-import {Methods} from "./recordsdirectory/methods/Methots";
+import {MethotsAndHooks} from "./recordsdirectory/methods_hooks/MethotsAndHooks";
 import {SamuraiFast} from "./recordsdirectory/samuraifast/SamuraiFast";
 import {Todolist} from "./recordsdirectory/todolist/Todolist";
 import {Propertys} from "./recordsdirectory/propertys/Propertys";
@@ -25,12 +25,12 @@ const App: React.FC = () => {
                 <Article>
                     <WrappUse/>
 
-                    {/*<Todolist/>*/}
+                    <Todolist/>
                     {/*<JsForChildren/>*/}
                     {/*<Propertys/>*/}
-                    {/*<Methods/>*/}
+                    <MethotsAndHooks/>
                     {/*<SamuraiFast/>*/}
-                    <English/>
+                    {/*<English/>*/}
                 </Article>
 
             </Container>
