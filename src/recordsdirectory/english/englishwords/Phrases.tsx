@@ -24,7 +24,22 @@ const phrases = [
     { eng: 'from ... to ...', rus: 'с ... до ... (обозначает некое пространство от-до, с-до и.т.д.)' },
     { eng: "It's half past eight.", rus: 'Сейчас половина девятого.' },
     { eng: "It's ten to three.", rus: 'Сейчас без десяти три.' },
-    { eng: "It's ten to one.", rus: 'Сейчас без десяти один.' }
+    { eng: "It's ten to one.", rus: 'Сейчас без десяти один.' },
+//
+    { eng: "that's all", rus: "вот и все" },
+    { eng: "What time do you have breakfast at ...?", rus: "Во сколько ты завтракаешь ...?" },
+    { eng: "What time do you get dressed?", rus: "Во сколько ты одеваешься?" },
+    { eng: "When do you start work?", rus: "Когда ты начинаешь работать?" },
+    { eng: "When do you have a shower?", rus: "Когда ты принимаешь душ?" },
+    { eng: "It is late", rus: "уже поздно" },
+    { eng: "It's half past eight", rus: "Сейчас половина девятого" },
+    { eng: "It's ten to three", rus: "Сейчас без десяти три" },
+    { eng: "It's ten to one", rus: "Сейчас без десяти один" },
+    { eng: "What do you on holidays?", rus: "Что ты делаешь в праздники?" },
+    { eng: "I like working out", rus: "Мне нравится заниматься спортом" },
+    { eng: "a little bit", rus: "немного" },
+    { eng: "I speak", rus: "Я говорю" },
+    { eng: "he doesn't have a bath", rus: "У него нет ванны" }
 ];
 
 export const Phrases = () => {

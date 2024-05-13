@@ -78,7 +78,16 @@ const nouns = [
     { eng: 'toaster', rus: 'тостер' },
     { eng: 'coffee machine', rus: 'кофемашина' },
     { eng: 'rest', rus: 'отдых' },
-    { eng: 'bath', rus: 'ванна' }
+    { eng: 'bath', rus: 'ванна' },
+//
+    { eng: 'sister', rus: 'сестра' },
+    { eng: 'afternoon', rus: 'после полудня' },
+    { eng: 'bath', rus: 'ванна' },
+    { eng: 'lesson notes', rus: 'заметки по уроку' },
+    { eng: 'vacation', rus: 'отпуск' },
+    { eng: 'holidays', rus: 'праздники' },
+    { eng: 'nationality', rus: 'национальность' },
+    { eng: 'vegetables', rus: 'овощи' }
 ];
 
 

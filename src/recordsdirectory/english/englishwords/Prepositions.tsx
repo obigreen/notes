@@ -15,7 +15,8 @@ const prepositions = [
     { eng: 'of', rus: 'из, от' },
     { eng: 'to', rus: 'к' },
     { eng: 'also', rus: 'также' },
-    { eng: 'on', rus: 'на' }
+    { eng: 'on', rus: 'на' },
+    { eng: 'from ... to ...', rus: 'с ... до ...' }
 ];
 
 

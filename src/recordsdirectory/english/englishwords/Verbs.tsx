@@ -34,6 +34,16 @@ const verbs = [
     { eng: 'do', rus: 'делать' },
     { eng: 'make', rus: 'делать, создавать' },
     { eng: 'choose', rus: 'выбирать' },
+//
+    { eng: 'rest', rus: 'отдыхать' },
+    { eng: 'train', rus: 'тренироваться' },
+    { eng: 'speak', rus: 'говорить' },
+    { eng: 'goes', rus: 'ходит' },
+    { eng: 'works', rus: 'работает' },
+    { eng: 'sleeps', rus: 'спит' },
+    { eng: 'takes', rus: 'принимает' },
+    { eng: 'have', rus: 'иметь' },
+    { eng: 'made', rus: 'сделал' }
 ];
 
 
