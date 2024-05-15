@@ -35,6 +35,36 @@ export const propertys = [
     },
 
     {
+        highlight: ".current",
+        content: "Свойство 'current' часто встречается в контексте React, особенно в связке с useRef Hook. Оно содержит текущее значение ссылки на элемент DOM или компонент, к которому привязан ref.",
+        code: `
+    // Пример использования свойства 'current' с useRef в React
+    import React, { useRef, useEffect } from 'react';
+    
+    function MyComponent() {
+      // Создаем ref объект с начальным значением null
+      const myElementRef = useRef(null);
+    
+      useEffect(() => {
+        // 'current' содержит текущее значение привязанного элемента
+        if (myElementRef.current) {
+          console.log(myElementRef.current); // доступ к DOM-элементу
+        }
+      }, []); // Пустой массив зависимостей, чтобы effect запустился один раз после монтирования компонента
+    
+      // Привязываем ref к элементу DOM
+      return <div ref={myElementRef}>Привет, мир!</div>;
+    }
+    
+    export default MyComponent;
+    
+    // В этом примере компонент MyComponent использует useRef для создания ссылки на div элемент.
+    // Свойство 'current' этой ссылки будет указывать на соответствующий DOM-элемент после монтирования компонента.
+    // Использование useEffect с пустым массивом зависимостей гарантирует, что доступ к элементу через 'current' произойдет после монтирования компонента.
+    `
+    },
+
+    {
         highlight: ".prototype",
         content: "Позволяет добавлять новые свойства и методы к конструкторам объектов.",
         code: `
@@ -256,7 +286,7 @@ export const propertys = [
 ];
 
 
-export const Property: React.FC<PropertysProps> = ({propertyItems = []}) => {
+export const Property = ({propertyItems = []}: PropertysProps) => {
     const [selectedCode, setSelectedCode] = useState<string | null>(null);
     const codeRef = useRef<HTMLElement>(null);
 

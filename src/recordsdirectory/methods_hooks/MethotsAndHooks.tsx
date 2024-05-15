@@ -13,10 +13,10 @@ export const MethotsAndHooks = () => {
             <TypeTitle>Methods</TypeTitle>
             <ArrayMethods arrayItems={arrayItems}/>
             <SrtingMethods stringItems={stringItems}/>
-            <ObjectMethods objectItems={objectItems}/>
-            <NumberMethods numberItems={numberItems}/>
-            <DataMethods dateItems={dateItems}/>
-            <Hooks hooksItems={hooksItems}/>
+            {/*<ObjectMethods objectItems={objectItems}/>*/}
+            {/*<NumberMethods numberItems={numberItems}/>*/}
+            {/*<DataMethods dateItems={dateItems}/>*/}
+            {/*<Hooks hooksItems={hooksItems}/>*/}
         </>
     );
 };

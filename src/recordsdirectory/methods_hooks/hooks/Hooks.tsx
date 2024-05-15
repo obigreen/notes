@@ -44,7 +44,7 @@ export const hooksItems = [
 ];
 
 
-export const Hooks: React.FC<MethodProps> = ({hooksItems = []}) => {
+export const Hooks = ({hooksItems = []}: MethodProps) => {
     const [selectedCode, setSelectedCode] = useState<string | null>(null);
     const codeRef = useRef<HTMLElement>(null);
 
@@ -56,7 +56,7 @@ export const Hooks: React.FC<MethodProps> = ({hooksItems = []}) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Method Array</NotesTitle>
+            <NotesTitle>Hooks</NotesTitle>
             <Text>
                 <S.List>
                     {hooksItems.map((item, index) => (
