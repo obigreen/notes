@@ -5,9 +5,8 @@ import {stringItems, SrtingMethods} from "./methodslist/StringMethods";
 import {objectItems, ObjectMethods} from "./methodslist/ObjectMethods";
 import {numberItems, NumberMethods} from "./methodslist/NumberMethods";
 import {dateItems, DataMethods} from "./methodslist/DateMethods";
-import {Hooks, hooksItems} from "./hooks/Hooks";
 
-export const MethotsAndHooks = () => {
+export const Methots = () => {
     return (
         <>
             <TypeTitle>Methods</TypeTitle>
@@ -16,7 +15,6 @@ export const MethotsAndHooks = () => {
             {/*<ObjectMethods objectItems={objectItems}/>*/}
             {/*<NumberMethods numberItems={numberItems}/>*/}
             {/*<DataMethods dateItems={dateItems}/>*/}
-            {/*<Hooks hooksItems={hooksItems}/>*/}
         </>
     );
 };

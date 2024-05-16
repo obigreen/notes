@@ -13,6 +13,7 @@ import {
 } from "../../RecordsDirectory_Style";
 import Copy from '../../../accets/img/all/copy.png'
 import Props from '../../../accets/img/theory/props.png'
+import Event from '../../../accets/img/theory/event.png'
 
 
 //type for texteria
@@ -388,6 +389,33 @@ export const Theory = ({src, alt}: ImgPropsType) => {
                         `
                         }
                     </HighlightedCodeBlock>
+                </Section>
+
+                <Section>
+                    <ParagraphTitle>Event</ParagraphTitle>
+                    <TextP>
+                        <Link target={"_blank"}
+                              href="https://react.dev/reference/react-dom/components/common#react-event-object">Объект
+                            события (event)</Link> - это что-то, что происходит в определенный момент времени. Например,
+                        когда вы кликаете на кнопку на веб-странице, это событие.
+                    </TextP>
+                    <TextP>
+                        Объект события содержит информацию о самом событии, такую как тип события (например, "клик"),
+                        место его возникновения (например, координаты курсора) и другие данные, которые могут быть
+                        связаны с этим событием.
+                    </TextP>
+                    <TextP>
+                        Обработчики событий используются для того, чтобы реагировать на эти события и выполнять
+                        определенные действия в ответ на них, например, изменять содержимое страницы или запускать
+                        определенные функции.
+                    </TextP>
+
+                    <ImgWrapp>
+                        <Img src={Event} alt={alt} onClick={toggleModal}/>
+                        <Modal isOpen={modalIsOpen} onRequestClose={toggleModal} style={modalStyles}>
+                            <Img src={Event} alt={alt} style={{width: '100%', height: '100%'}}/>
+                        </Modal>
+                    </ImgWrapp>
                 </Section>
 
             </Text>

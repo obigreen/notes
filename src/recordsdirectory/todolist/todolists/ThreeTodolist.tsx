@@ -54,6 +54,7 @@ const HighlightedCodeBlock = ({children}: HighlightedCodeBlockProps) => {
         }
     }
     return (
+
         <CodeBlockWrapp>
       <pre>
         <code ref={codeRef} className="javascript">
@@ -141,11 +142,22 @@ export const ThreeTodolist = () => {
                             `
                         }
                     </HighlightedCodeBlock>
+
+                    <NoteUl>
+                        <NoteLi>
+                            <Link target={"_blank"} href="https://www.npmjs.com/package/uuid">uuid</Link>
+                        </NoteLi>
+                        <NoteLi>
+                            <Link target={"_blank"}
+                                  href="https://www.npmjs.com/package/@types/uuid">TS types</Link>
+                        </NoteLi>
+                    </NoteUl>
+
                 </Section>
 
 
                 <Section>
-                    <ParagraphTitle>3. Создание функции <Marker>addTask</Marker> для добавления задачи</ParagraphTitle>
+                    <ParagraphTitle>3. Создание function <Marker>addTask</Marker> для добавления задачи</ParagraphTitle>
 
                     <TextP>
                         Функция <Marker>addTask</Marker> позволяет добавить новую task в список tasks. Она принимает как
@@ -240,7 +252,191 @@ const addTask = (title: string) => {
                     </HighlightedCodeBlock>
                 </Section>
 
+                <ParagraphTitle>6. Создание контролируемого <Marker>input</Marker></ParagraphTitle>
+                <Section>
+                    <ParagraphTitle>Создаем новый локальный state <Marker>taskTitle</Marker> для трекинга значение ввода</ParagraphTitle>
+                    <TextP>
+                        Это позволяет контролировать содержимое <Marker>input</Marker> полей через React состояние.
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const [taskTitle, setTaskTitle] = useState("");
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+                <Section>
+                    <ParagraphTitle>7. Добавляем <Marker>value</Marker> <Marker>input</Marker> полю, присвоив
+                        его <Marker>taskTitle</Marker></ParagraphTitle>
+                    <TextP>
+                        Это гарантирует, что значение <Marker>input</Marker> будет синхронизировано со
+                        значением <Marker>taskTitle</Marker>.
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    <input value={taskTitle} ...
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+                <Section>
+                    <ParagraphTitle>8. Добавляем
+                        event <Marker>onChange</Marker> на <Marker>input</Marker></ParagraphTitle>
+                    <TextP>input fixing следующим образом:</TextP>
 
+                    <NoteUl>
+                        <NoteLi>повесим на input обработчик события onChange</NoteLi>
+                        <NoteLi>onChange принимает callback function, первым параметром которой является object event
+                            event</NoteLi>
+                        <NoteLi>достаем значение event.currentTarget.value</NoteLi>
+                    </NoteUl>
+
+                    <TextP>
+                        Введенное значение обновляет <Marker>taskTitle</Marker> через <Marker>setTaskTitle</Marker>.
+                    </TextP>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const changeTaskTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTaskTitle(e.currentTarget.value);
+    
+    <input value={taskTitle}
+           onChange={changeTaskTitleHandler} 
+                            `
+                        }
+                    </HighlightedCodeBlock>
+
+                    <TextP><Marker>event.currentTarget.value</Marker> получает текст в элементе формы, когда происходит
+                        event, такое
+                        как ввод текста. <Marker>event</Marker> это events object, <Marker>currentTarget</Marker> это
+                        элемент, к которому привязан
+                        событийный обработчик, а <Marker>value</Marker> это текст введенный в этот элемент.</TextP>
+                </Section>
+                <Section>
+                    <ParagraphTitle>9. Включение/отключение button и вывод предупреждений</ParagraphTitle>
+                    <TextP>
+                        Определяем логику для <Marker>disabled</Marker> свойства button, чтобы она становилась
+                        неактивной, когда <Marker>taskTitle</Marker> пустой или его длина больше 15 символов.
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const isAddBtnDis = taskTitle.length === 0 || taskTitle.length > 15;
+    
+    <Button title={"+"}
+            onClick={addTaskHandler}
+            disabled={isAddBtnDis}/>
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                    <TextP>
+                        Используем тернарный оператор для вывода сообщения пользователю в зависимости от
+                        длины <Marker>taskTitle</Marker>.
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    {
+        taskTitle.length > 15
+            ? <div>max 15 characters</div>
+            : taskTitle.length > 10 && <div>recommended 10 characters</div>
+    }
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
+                <Section>
+                    <ParagraphTitle>10. Добавление обработчика <Marker>addTaskHandler</Marker></ParagraphTitle>
+                    <TextP>
+                        Этот обработчик вызывает <Marker>addTask</Marker>, передавая в него текущее
+                        значение <Marker>taskTitle</Marker> (название новой
+                        task, <Marker>введенное пользователем</Marker>).
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const addTaskHandler = () => {
+        addTask(taskTitle);
+        setTaskTitle("");
+    }
+                            `
+                        }
+                    </HighlightedCodeBlock>
+
+
+                </Section>
+                <Section>
+                    <ParagraphTitle>11. Разные подходы к обработке события <Marker>onKeyUp</Marker></ParagraphTitle>
+                    <TextP>a. Условное присвоение обработчика <Marker>addTaskOnkeyUpHandler</Marker></TextP>
+
+                    <TextP>
+                        В этом подходе обработчик события <Marker>onKeyUp</Marker> устанавливается только
+                        если <Marker>taskTitle</Marker> не пустой. Это
+                        снижает ненужные вычисления, но может привести к частым перерисовкам из-за изменения ссылки на
+                        function обработчика.
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const addTaskOnkeyUpHandler = taskTitle.length === 0
+        ? undefined : (e: KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter") {
+                addTaskHandler()
+            }
+        };
+                            `
+                        }
+                    </HighlightedCodeBlock>
+
+                    <TextP>b. Постоянный обработчик с условием внутри <Marker>addTaskOnKeyUpHandler</Marker>
+                    </TextP>
+
+                    <TextP>
+                        Обработчик всегда установлен, но действие выполняется только при выполнении условий (нажатие
+                        Enter и непустой <Marker>taskTitle</Marker>). Предотвращает потенциальные ререндеринги из-за
+                        изменений ссылки на
+                        function, но каждое нажатие клавиши теперь вызывает выполнение function обработчика.
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const addTaskOnKeyUpHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter" && taskTitle) {
+            addTaskHandler()
+        }
+    };
+                            `
+                        }
+                    </HighlightedCodeBlock>
+                    <Link target={"_blank"}
+                          href="https://developer.mozilla.org/en-US/docs/Web/API/Element/keyup_event">KeyUp</Link>
+                    <TextP></TextP>
+
+                </Section>
+
+
+                <Section>
+                    <ParagraphTitle>12. Исправление бага добавления empty tasks</ParagraphTitle>
+                    <TextP>
+                        Добавление <Marker>setTaskTitle("")</Marker> после
+                        успешного добавления task обнуляет <Marker>taskTitle</Marker>.
+                    </TextP>
+                    <HighlightedCodeBlock>
+                        {
+                            `
+const addTaskHandler = () => {
+    if (taskTitle) {
+        addTask(taskTitle);
+        // добавляем
+        setTaskTitle("");
+    }
+};
+            `
+                        }
+                    </HighlightedCodeBlock>
+                </Section>
             </Text>
         </NoteBlock>
     );
