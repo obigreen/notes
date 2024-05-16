@@ -10,6 +10,8 @@ import {Methots} from "./recordsdirectory/methods_hooks/Methots";
 import {SamuraiFast} from "./recordsdirectory/samuraifast/SamuraiFast";
 import {Todolist} from "./recordsdirectory/todolist/Todolist";
 import {Propertys} from "./recordsdirectory/propertys/Propertys";
+import {Hooks} from "./recordsdirectory/hooks/Hooks";
+
 
 
 const App: React.FC = () => {
@@ -25,12 +27,13 @@ const App: React.FC = () => {
                 <Article>
                     <WrappUse/>
 
-                    <Todolist/>
+                    {/*<Todolist/>*/}
                     {/*<JsForChildren/>*/}
                     {/*<Propertys/>*/}
                     {/*<Methots/>*/}
                     {/*<SamuraiFast/>*/}
                     {/*<English/>*/}
+                   <Hooks/>
                 </Article>
 
             </Container>

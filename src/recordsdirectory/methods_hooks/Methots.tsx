@@ -12,9 +12,9 @@ export const Methots = () => {
             <TypeTitle>Methods</TypeTitle>
             <ArrayMethods arrayItems={arrayItems}/>
             <SrtingMethods stringItems={stringItems}/>
-            {/*<ObjectMethods objectItems={objectItems}/>*/}
-            {/*<NumberMethods numberItems={numberItems}/>*/}
-            {/*<DataMethods dateItems={dateItems}/>*/}
+            <ObjectMethods objectItems={objectItems}/>
+            <NumberMethods numberItems={numberItems}/>
+            <DataMethods dateItems={dateItems}/>
         </>
     );
 };
