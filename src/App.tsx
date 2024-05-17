@@ -13,7 +13,6 @@ import {Propertys} from "./recordsdirectory/propertys/Propertys";
 import {Hooks} from "./recordsdirectory/hooks/Hooks";
 
 
-
 const App: React.FC = () => {
     return (
         <main>
@@ -33,7 +32,7 @@ const App: React.FC = () => {
                     {/*<Methots/>*/}
                     {/*<SamuraiFast/>*/}
                     {/*<English/>*/}
-                   <Hooks/>
+                    {/*<Hooks/>*/}
                 </Article>
 
             </Container>
