@@ -325,6 +325,22 @@ export const TwoTodolist = () => {
     if (filter === 'Completed') {
         taskForTodolist = tasks.filter(task => task.isDone);
     }
+    
+    // или через swichcase в компоненте todolist 
+        const getFilteredTasks = (allTasks: Array<TaskType>, filterValue: FilterValuesType): Array<TaskType> => {
+        switch (filterValue) {
+            case "Active":
+                return allTasks.filter(t => !t.isDone);
+            case "Completed":
+                return allTasks.filter(t => t.isDone);
+            default:
+                return allTasks;
+        }
+    }
+    
+    const filteredTasks: Array<TaskType> = getFilteredTasks(tasks, filter)
+    
+    // не забыть заменить в map tasks на filteredTasks
                 `
                         }
                     </HighlightedCodeBlock>

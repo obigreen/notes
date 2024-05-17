@@ -11,10 +11,10 @@ export const Todolist = () => {
         <>
             <TypeTitle>Todolists</TypeTitle>
             {/*<OneTodolist/>*/}
-            {/*<TwoTodolist/>*/}
+            <TwoTodolist/>
             <ThreeTodolist/>
 
-            {/*<CodeForLessons/>*/}
+            <CodeForLessons/>
             {/*<Theory src={"string"} alt={"string"}/>*/}
         </>
     );
