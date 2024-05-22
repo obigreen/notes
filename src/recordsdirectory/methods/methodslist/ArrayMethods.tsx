@@ -149,6 +149,19 @@ export const arrayItems = [
         let numbers = [1, 2, 3, 4, 5, 6];
         let evenNumbers = numbers.filter(number => number % 2 === 0);
         console.log(evenNumbers); // [2, 4, 6]
+        
+        
+        //---
+        let [tasks, setTasks] = useState([
+        {id: 1, title: "HTML & CSS", isDone: true},
+        {id: 2, title: "JS & TS", isDone: true},
+        {id: 3, title: "REACT", isDone: false}
+        ]);
+        
+        function removeTasak(taskId: number) {
+        let resutlTasks = tasks.filter(t => t.id !== taskId)
+        setTasks(resutlTasks)
+        } 
             `
     },
     {

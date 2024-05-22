@@ -9,7 +9,7 @@ import {
     NoteBlock, NoteLi, NoteUl,
     Text,
     Textarea,
-    TextareaWrapper, TextP, BookTitle, Section, ImgWrapp, Img
+    TextareaWrapper, TextP, BookTitle, Section, ImgWrapp, Img, VideoContainer
 } from "../../../RecordsDirectory_Style";
 import Copy from '../../../../accets/img/all/copy.png'
 import {Count} from "./Count";
@@ -107,14 +107,8 @@ export const HookUseState = () => {
     return (
         <NoteBlock>
             <Text>
-                <BookTitle>Hooks</BookTitle>
+                <BookTitle>useState</BookTitle>
                 <Section>
-                    <ParagraphTitle>useRef</ParagraphTitle>
-                    <Link target={"_blank"} href="https://react.dev/reference/react/useRef">useRef - документация</Link>
-                </Section>
-
-                <Section>
-                    <ParagraphTitle>useState</ParagraphTitle>
                     <TextP>
                         Хук <Marker>useState</Marker> в React — это функция, которая позволяет обычным функциям
                         запоминать информацию и
@@ -134,6 +128,25 @@ export const HookUseState = () => {
                         обновления</Marker>. Это позволяет компоненту
                         реагировать на изменения данных и интерактивно меняться без необходимости перезагрузки страницы.
                     </TextP>
+
+                    <TextP>Деструктуризация <Marker>useState</Marker></TextP>
+
+                    <VideoContainer>
+                        <iframe src="https://www.youtube.com/embed/wqs3LuU2x3s"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
+                    </VideoContainer>
+
+                    <HighlightedCodeBlock>
+                        {
+                            `
+    const result = useState(tasks)
+    const state = result[0]
+    const setState = result[1]
+
+    const [state, setState] = useState(tasks)
+                            `
+                        }
+                    </HighlightedCodeBlock>
 
 
                     <HighlightedCodeBlock>

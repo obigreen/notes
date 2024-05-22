@@ -6,8 +6,7 @@ import {MrEye} from "./components/mreye/MrEye";
 import {English} from "./recordsdirectory/english/English";
 import {WrappUse} from "./components/use/WrappUse";
 import {JsForChildren} from "./recordsdirectory/jsforchildren_book/JSForChildren";
-import {Methots} from "./recordsdirectory/methods_hooks/Methots";
-import {SamuraiFast} from "./recordsdirectory/samuraifast/SamuraiFast";
+import {Methots} from "./recordsdirectory/methods/Methots";
 import {Todolist} from "./recordsdirectory/todolist/Todolist";
 import {Propertys} from "./recordsdirectory/propertys/Propertys";
 import {Hooks} from "./recordsdirectory/hooks/Hooks";
@@ -27,11 +26,11 @@ const App = () => {
                     <WrappUse/>
 
                     {/*<Todolist/>*/}
-                    {/*<JsForChildren/>*/}
+                    <JsForChildren/>
                     {/*<Propertys/>*/}
                     {/*<Methots/>*/}
-                    {/*<SamuraiFast/>*/}
-                    <English/>
+
+                    {/*<English/>*/}
                     {/*<Hooks/>*/}
                 </Article>
 
