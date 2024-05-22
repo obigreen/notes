@@ -104,6 +104,38 @@ export const OneWhatJavaScript: FC = () => {
     return (
         <NoteBlock>
             <Text>
+                <TextareaWrapper>
+                    <TextareaWithStorage id="1" />
+                </TextareaWrapper>
+
+
+                <HighlightedCodeBlock>
+                    {
+                        `
+    //рисуем столько котиков сколько захотим
+    let drawCats = function (howManyTimes) {
+        for (let i = 0; i < howManyTimes; i++) {
+            console.log(i + "=^.^=")
+        }
+    }
+    drawCats(10)
+                
+                
+                
+                
+                
+    // математически и языком программирования            
+    8 / (1 +3)
+    
+    var numberOfSiblings = 1 + 3;
+    var numberOfCandies = 8;
+    const result = numberOfCandies / numberOfSiblings
+    console.log(result)                
+                
+ 
+                        `
+                    }
+                </HighlightedCodeBlock>
 
             </Text>
         </NoteBlock>
