@@ -255,6 +255,68 @@ export const TheoryEng = () => {
 
                 </Section>
 
+                <Section>
+                    <ParagraphTitle>
+                        Разница между <Marker>clever</Marker>,
+                        <Marker> smart</Marker> и
+                        <Marker> intelligent</Marker>
+                    </ParagraphTitle>
+
+                    <Section>
+                        <TextP><Marker>Clever</Marker></TextP>
+                        <NoteUl>
+                            <NoteLi>
+                                <Marker>Clever</Marker> чаще всего означает остроумие или находчивость. Это слово
+                                подразумевает способность быстро понимать, изобретать или адаптироваться к новым
+                                ситуациям.
+                            </NoteLi>
+                            <TextP>
+                                <Marker>Пример:</Marker> He came up with a clever solution to the problem. (Он нашел
+                                остроумное решение проблемы.)
+                            </TextP>
+                        </NoteUl>
+
+                        <TextP><Marker>Smart</Marker></TextP>
+                        <NoteUl>
+                            <NoteLi>
+                                <Marker>Smart</Marker> может использоваться в более широком смысле и охватывать
+                                умственную остроту, а также хитрость и модность. Кроме того, "smart" часто используется
+                                для описания хорошо одетых людей.
+                            </NoteLi>
+                            <TextP>
+                                <Marker>Пример(ум):</Marker> She’s smart enough to solve complex math problems. (Она
+                                достаточно умна, чтобы решать сложные математические задачи.)
+                            </TextP>
+                            <TextP>
+                                <Marker>Пример(мода):</Marker> He looks smart in that suit. (Он выглядит элегантно в
+                                этом костюме.)
+                            </TextP>
+                        </NoteUl>
+
+                        <TextP><Marker>Intelligent</Marker></TextP>
+                        <NoteUl>
+                            <NoteLi>
+                                <Marker>Intelligent</Marker> подразумевает большую способность к обучению, пониманию и
+                                размышлению, часто на более высоком или абстрактном уровне. Это слово подчеркивает общее
+                                интеллектуальное мастерство или высокий уровень ума.
+                            </NoteLi>
+                            <TextP>
+                                <Marker>Пример:</Marker> The scientist is known for her intelligent approach to solving
+                                environmental issues. (Ученый известен своим интеллектуальным подходом к решению
+                                экологических проблем.)
+                            </TextP>
+                        </NoteUl>
+                    </Section>
+
+                    <ParagraphTitle>Вывод:</ParagraphTitle>
+                    <TextP>
+                        Хотя все три этих термина могут казаться взаимозаменяемыми, разница между ними заключается в
+                        коннотациях и контексте использования. <Marker>"Clever"</Marker> чаще всего означает находчивость и остроумие,
+                        <Marker>"smart"</Marker> — широкую область умственной и социальной остроты или элегантность, а <Marker>"intelligent"</Marker>
+                        говорит о глубоком, часто абстрактном интеллекте.
+                    </TextP>
+                </Section>
+
             </Text>
         </NoteBlock>
     );

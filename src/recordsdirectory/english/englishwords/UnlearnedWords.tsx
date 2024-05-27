@@ -4,7 +4,6 @@ import {S} from '../English_Styles'
 
 
 const unlearnedWords = [
-    { eng: 'old', rus: 'старый' },
     { eng: 'Us', rus: 'мы, нас, нам' },
     { eng: 'our, ours', rus: 'наш, наша, наше, наши' },
     { eng: 'them', rus: 'их, им' },
@@ -40,7 +39,7 @@ const unlearnedWords = [
     { eng: 'vacation', rus: 'отпуск' },
     { eng: 'holidays', rus: 'праздники' },
     { eng: 'vegetables', rus: 'овощи' },
-    { eng: 'clever', rus: 'умный' },
+    { eng: 'clever', rus: 'умный (сообразительный, остроумный, находчивый)' },
     { eng: 'soft', rus: 'мягкий' },
     { eng: 'hungry', rus: 'голодный' },
     { eng: 'windy', rus: 'ветреный' },
@@ -54,7 +53,7 @@ const unlearnedWords = [
 export const UnlearnedWords = () => {
     return (
         <NoteBlock>
-            <NotesTitle>Ajectives</NotesTitle>
+            <NotesTitle>Unlearned Words</NotesTitle>
             <Text>
                 {unlearnedWords.map((unlearnedWords, index) => (
                     <S.TextWrapper key={index}>
