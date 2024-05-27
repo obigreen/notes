@@ -12,6 +12,7 @@ import {Phrases} from "./englishwords/Phrases";
 import {TheoryEng} from "./TheoryEng";
 import {DayAndTime} from "./englishwords/DayAndTime";
 import {UnlearnedWords} from "./englishwords/UnlearnedWords";
+import {ProgrammingLanguageTranslate} from "./englishwords/ProgrammingLanguageTranslate";
 
 export const English = () => {
     return (
@@ -44,6 +45,8 @@ export const English = () => {
             <Phrases/>
             {/*надо выучить слова/фразы*/}
             <UnlearnedWords/>
+            {/*перевод языка программирования*/}
+            <ProgrammingLanguageTranslate/>
 
             <TheoryEng/>
         </>

@@ -38,6 +38,7 @@ const verbs = [
     { eng: 'speak', rus: 'говорить(обычный разговор)' },
     { eng: 'go', rus: 'идти' },
     { eng: 'take', rus: 'брать' },
+    { eng: 'get dressed', rus: 'одеться' },
 ];
 
 

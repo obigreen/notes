@@ -25,7 +25,9 @@ const adjectives = [
     { eng: 'hard-working', rus: 'трудолюбивый' },
     { eng: 'creative', rus: 'творческий' },
     { eng: 'kind', rus: 'добрый' },
-    { eng: 'beautiful', rus: 'красивая' }
+    { eng: 'beautiful', rus: 'красивая' },
+    { eng: 'tense', rus: 'напряженный' },
+    { eng: 'powerful', rus: 'мощный' },
 ];
 
 

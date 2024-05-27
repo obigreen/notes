@@ -73,7 +73,8 @@ const nouns = [
     { eng: 'vacation', rus: 'отпуск' },
     { eng: 'holidays', rus: 'праздники' },
     { eng: 'nationality', rus: 'национальность' },
-    { eng: 'vegetables', rus: 'овощи' }
+    { eng: 'vegetables', rus: 'овощи' },
+    { eng: 'relative', rus: 'родственник' },
 ];
 
 
