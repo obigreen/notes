@@ -4,18 +4,18 @@ import {S} from '../English_Styles'
 
 
 const pronouns = [
-    { eng: 'My', rus: 'Мой' },
-    { eng: 'her', rus: 'ее' },
-    { eng: 'his', rus: 'его' },
     { eng: 'he, she, it', rus: 'он, она, это' },
-    { eng: 'our, ours', rus: 'наш, наша, наше, наши' },
-    { eng: 'him', rus: 'его' },
-    { eng: 'Us', rus: 'мы, нас, нам' },
-    { eng: 'Them', rus: 'они, их, им' },
-    { eng: 'Me', rus: 'я, меня, мне' },
-    { eng: 'we', rus: 'мы' },
     { eng: 'you', rus: 'ты, вы' },
-    { eng: 'they', rus: 'они' }
+    { eng: 'we', rus: 'мы' },
+    { eng: 'they', rus: 'они' },
+    { eng: 'my', rus: 'мой' },
+    { eng: 'me', rus: 'я, меня, мне' },
+    { eng: 'Us', rus: 'мы, нас, нам' },
+    { eng: 'her', rus: 'ее, ей' },
+    { eng: 'his', rus: 'его' },
+    { eng: 'him', rus: 'ему' },
+    { eng: 'our, ours', rus: 'наш, наша, наше, наши' },
+    { eng: 'them', rus: 'их, им' },
 ];
 
 

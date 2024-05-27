@@ -10,6 +10,7 @@ import {Methots} from "./recordsdirectory/methods/Methots";
 import {Todolist} from "./recordsdirectory/todolist/Todolist";
 import {Propertys} from "./recordsdirectory/propertys/Propertys";
 import {Hooks} from "./recordsdirectory/hooks/Hooks";
+import {BotQuestions} from "./recordsdirectory/botQuestions/BotQuestions";
 
 
 const App = () => {
@@ -26,12 +27,14 @@ const App = () => {
                     <WrappUse/>
 
                     {/*<Todolist/>*/}
-                    <JsForChildren/>
+
+                    {/*<JsForChildren/>*/}
                     {/*<Propertys/>*/}
                     {/*<Methots/>*/}
 
-                    {/*<English/>*/}
+                    <English/>
                     {/*<Hooks/>*/}
+                    <BotQuestions/>
                 </Article>
 
             </Container>

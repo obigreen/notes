@@ -14,7 +14,6 @@ const questions = [
     { eng: 'Whose?', rus: 'Чей?' },
     { eng: 'Whom?', rus: 'Кому?' },
     { eng: 'What is?', rus: 'Что такое?' },
-    { eng: 'How many?', rus: 'Сколько?' },
 ];
 
 

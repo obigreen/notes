@@ -10,6 +10,8 @@ import {Conjunctions} from "./englishwords/Conjunctions";
 import {Interjections} from "./englishwords/Interjections";
 import {Phrases} from "./englishwords/Phrases";
 import {TheoryEng} from "./TheoryEng";
+import {DayAndTime} from "./englishwords/DayAndTime";
+import {UnlearnedWords} from "./englishwords/UnlearnedWords";
 
 export const English = () => {
     return (
@@ -35,10 +37,13 @@ export const English = () => {
                 <Conjunctions/>
                 {/*междометия*/}
                 <Interjections/>
+                {/*дни недели, время*/}
+                <DayAndTime/>
             </>
-
+            {/*фразы*/}
             <Phrases/>
-
+            {/*надо выучить слова/фразы*/}
+            <UnlearnedWords/>
 
             <TheoryEng/>
         </>

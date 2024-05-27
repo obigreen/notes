@@ -5,7 +5,7 @@ import {S} from '../English_Styles'
 
 const prepositions = [
     { eng: 'for', rus: 'для' },
-    { eng: 'With', rus: 'с' },
+    { eng: 'With', rus: 'с (кем-то, чем-то)' },
     { eng: 'in', rus: 'в' },
     { eng: 'into', rus: 'внутрь' },
     { eng: 'about', rus: 'о (о ком-то, о чем-то)' },
@@ -13,7 +13,7 @@ const prepositions = [
     { eng: 'Or', rus: 'или' },
     { eng: 'at', rus: 'у, в, на' },
     { eng: 'of', rus: 'из, от' },
-    { eng: 'to', rus: 'к' },
+    { eng: 'to', rus: 'к (чему-то)' },
     { eng: 'also', rus: 'также' },
     { eng: 'on', rus: 'на' },
     { eng: 'from ... to ...', rus: 'с ... до ...' }
