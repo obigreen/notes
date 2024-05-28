@@ -18,6 +18,7 @@ const verbs = [
     { eng: 'test (verb)', rus: 'тестировать' },
     { eng: 'spell', rus: 'произносить(по буквам)' },
     { eng: 'sleep', rus: 'спать' },
+    { eng: 'find', rus: 'найти' },
     { eng: 'meet', rus: 'встречаться, знакомиться' },
     { eng: 'mend', rus: 'чинить' },
     { eng: 'tell', rus: 'сказать(рассказывать, сообщать)' },

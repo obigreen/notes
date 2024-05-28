@@ -22,7 +22,6 @@ const nouns = [
     { eng: 'time', rus: 'время' },
     { eng: 'life', rus: 'жизнь' },
     { eng: 'lives', rus: 'жизни' },
-    { eng: 'find', rus: 'найти' },
     { eng: 'type', rus: 'тип' },
     { eng: 'test', rus: 'тест' },
     { eng: 'steel', rus: 'сталь' },

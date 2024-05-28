@@ -16,6 +16,11 @@ const pronouns = [
     { eng: 'him', rus: 'ему' },
     { eng: 'our, ours', rus: 'наш, наша, наше, наши' },
     { eng: 'them', rus: 'их, им' },
+    { eng: 'this', rus: 'этот' },
+    { eng: 'these', rus: 'эти' },
+    { eng: 'that', rus: 'тот' },
+    { eng: 'those', rus: 'те' },
+    { eng: 'there', rus: 'там' },
 ];
 
 
