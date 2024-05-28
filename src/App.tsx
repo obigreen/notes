@@ -30,10 +30,10 @@ const App = () => {
                     {/*<Todolist/>*/}
 
                     {/*<JsForChildren/>*/}
-                    {/*<Propertys/>*/}
-                    {/*<Methots/>*/}
+                    <Propertys/>
+                    <Methots/>
 
-                    <English/>
+                    {/*<English/>*/}
                     {/*<Hooks/>*/}
 
                     {/*<BotQuestions/>*/}
