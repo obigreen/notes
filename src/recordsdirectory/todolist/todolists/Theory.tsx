@@ -172,8 +172,8 @@ export const Theory = ({src, alt}: ImgPropsType) => {
                     <ParagraphTitle><Marker>CRUD</Marker> Операции</ParagraphTitle>
                     <NoteUl>
                         <NoteLi><Marker>Create</Marker> - создание</NoteLi>
-                        <NoteLi><Marker>Read</Marker> - чтение</NoteLi>
-                        <NoteLi><Marker>Update</Marker> - обновление</NoteLi>
+                        <NoteLi><Marker>Read</Marker> - чтение (view mode, filter, sort, search, pagination)</NoteLi>
+                        <NoteLi><Marker>Update</Marker> - обновление (change task title, change task status)</NoteLi>
                         <NoteLi><Marker>Delete</Marker> - удаление</NoteLi>
                     </NoteUl>
                 </Section>
