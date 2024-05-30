@@ -5,6 +5,7 @@ import {CodeForLessons} from "./todolists/code/CodeForLessons";
 import {TwoTodolist} from "./todolists/TwoTodolist";
 import {Theory} from "./todolists/Theory";
 import {ThreeTodolist} from "./todolists/ThreeTodolist";
+import {FourTodolist} from "./todolists/FourTodolist";
 
 export const Todolist = () => {
     return (
@@ -13,9 +14,9 @@ export const Todolist = () => {
             {/*<OneTodolist/>*/}
             {/*<TwoTodolist/>*/}
             {/*<ThreeTodolist/>*/}
-
+            <FourTodolist/>
             {/*<CodeForLessons/>*/}
-            <Theory src={"string"} alt={"string"}/>
+            {/*<Theory src={"string"} alt={"string"}/>*/}
         </>
     );
 };
