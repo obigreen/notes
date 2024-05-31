@@ -27,11 +27,11 @@ const App = () => {
                 <Article>
                     <WrappUse/>
 
-                    <Todolist/>
+                    {/*<Todolist/>*/}
 
                     {/*<JsForChildren/>*/}
                     {/*<Propertys/>*/}
-                    {/*<Methots/>*/}
+                    <Methots/>
 
                     {/*<English/>*/}
                     {/*<Hooks/>*/}
