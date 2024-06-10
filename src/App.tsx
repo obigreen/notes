@@ -12,6 +12,7 @@ import {Propertys} from "./recordsdirectory/propertys/Propertys";
 import {Hooks} from "./recordsdirectory/hooks/Hooks";
 import {BotQuestions} from "./recordsdirectory/bot_And_InterviewQuestions/BotQuestions";
 import {InterviewQuestions} from "./recordsdirectory/bot_And_InterviewQuestions/InterviewQuestions";
+import {MyList} from "./recordsdirectory/mylist/MyList";
 
 
 const App = () => {
@@ -31,13 +32,15 @@ const App = () => {
 
                     {/*<JsForChildren/>*/}
                     {/*<Propertys/>*/}
-                    <Methots/>
+                    {/*<Methots/>*/}
 
                     {/*<English/>*/}
                     {/*<Hooks/>*/}
 
                     {/*<BotQuestions/>*/}
                     {/*<InterviewQuestions/>*/}
+
+                    <MyList/>
                 </Article>
 
             </Container>
