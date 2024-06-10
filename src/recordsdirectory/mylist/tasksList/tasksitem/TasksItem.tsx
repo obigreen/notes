@@ -15,9 +15,10 @@ export const TasksItem = ({ image, title, link, description }: AiItemProps) => (
         </S.ImageContainer>
         <S.TextBlock>
             <S.Title>{title}</S.Title>
-            <S.Link href={link}>{link}</S.Link>
+            <S.LinkWrapp>
+                <S.Link target={'_blank'} href={link}>{link}</S.Link>
+            </S.LinkWrapp>
             <S.Description>{description}</S.Description>
         </S.TextBlock>
     </S.AiWrapper>
 );
-
