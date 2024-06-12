@@ -104,7 +104,7 @@ export const TwoTodolist = () => {
                     <ParagraphTitle>1. Добавляем обработку события по клику</ParagraphTitle>
                     <TextP>
                         Мы добавляем кнопку с обработчиком клика в JSX коде. Каждая кнопка при нажатии будет
-                        активировать function удаления задачи.
+                        активировать function удаления задачи. <Marker>(не забыть add in button type with function void)</Marker>
                     </TextP>
                     <HighlightedCodeBlock>
                         {
@@ -192,25 +192,8 @@ export const TwoTodolist = () => {
                     </HighlightedCodeBlock>
                 </Section>
 
-
                 <Section>
-                    <ParagraphTitle>5. Переименовываем переменную в let</ParagraphTitle>
-                    <TextP>
-                        Объявляем переменную с tasks с использованием <Marker>let</Marker>, так как мы будем изменять
-                        её значение.
-                    </TextP>
-
-                    <HighlightedCodeBlock>
-                        {
-                            `
-    let tasks = [ /... список задач .../ ];
-                            `
-                        }
-                    </HighlightedCodeBlock>
-                </Section>
-
-                <Section>
-                    <ParagraphTitle>6. Использование хука useState</ParagraphTitle>
+                    <ParagraphTitle>5. Использование хука useState</ParagraphTitle>
                     <TextP>
                         Мы используем хук <Marker>useState</Marker> для создания локального state и его обновления, что
                         позволит перерисовать component с новыми данными после удаления task.
@@ -236,7 +219,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>7. Рефакторинг component Button</ParagraphTitle>
+                    <ParagraphTitle>6. Рефакторинг component Button</ParagraphTitle>
                     <TextP>Стандартизируем <Marker>props</Marker> и поведение
                         component <Marker>Button</Marker>.</TextP>
 
@@ -257,7 +240,7 @@ export const TwoTodolist = () => {
 
 
                 <Section>
-                    <ParagraphTitle>8. Создание state для фильтрации tasks</ParagraphTitle>
+                    <ParagraphTitle>7. Создание state для фильтрации tasks</ParagraphTitle>
                     <TextP>Начнем с определения state filter с использованием хука useState. Этот state будет хранить
                         текущий выбранный фильтр.</TextP>
 
@@ -272,7 +255,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>9. Так же быстренько выносим Title в переменную, это все data</ParagraphTitle>
+                    <ParagraphTitle>8. Так же быстренько выносим Title в переменную, это все data</ParagraphTitle>
                     <TextP>Начнем с определения state filter с использованием хука useState. Этот state будет хранить
                         текущий выбранный фильтр.</TextP>
 
@@ -299,7 +282,7 @@ export const TwoTodolist = () => {
 
 
                 <Section>
-                    <ParagraphTitle>10. Определение списка tasks для отображения</ParagraphTitle>
+                    <ParagraphTitle>9. Определение списка tasks для отображения</ParagraphTitle>
                     <TextP>Сначала мы сохраняем все текущие tasks в переменную taskForTodolist.</TextP>
 
                     <HighlightedCodeBlock>
@@ -312,7 +295,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>11. Фильтрация tasks</ParagraphTitle>
+                    <ParagraphTitle>10. Фильтрация tasks</ParagraphTitle>
                     <TextP>Мы реализуем логику для отображения tasks в зависимости от выбранного фильтра</TextP>
 
                     <HighlightedCodeBlock>
@@ -349,7 +332,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>12. Создание function для смены фильтра</ParagraphTitle>
+                    <ParagraphTitle>11. Создание function для смены фильтра</ParagraphTitle>
                     <TextP>Funtion changeFilter реализуем так, чтобы она принимала новый фильтр и устанавливала его в
                         state</TextP>
 
@@ -365,7 +348,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>13. Внедрение фильтра в JSX</ParagraphTitle>
+                    <ParagraphTitle>12. Внедрение фильтра в JSX</ParagraphTitle>
                     <TextP>Модифицируем component App, чтобы он передавал props tasks, removeTask и changeFilter в
                         Todolist.</TextP>
 
@@ -388,7 +371,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>14. Типизация пропсов в Todolist</ParagraphTitle>
+                    <ParagraphTitle>13. Типизация пропсов в Todolist</ParagraphTitle>
                     <TextP>Убедимся, что component Todolist принимает function changeFilter в качестве props</TextP>
 
                     <HighlightedCodeBlock>
@@ -406,7 +389,7 @@ export const TwoTodolist = () => {
                 </Section>
 
                 <Section>
-                    <ParagraphTitle>15. Добавление обработчиков для кнопок фильтрации</ParagraphTitle>
+                    <ParagraphTitle>14. Добавление обработчиков для кнопок фильтрации</ParagraphTitle>
                     <TextP>Добавляем обработчики кликов onClick для изменения фильтра</TextP>
 
                     <HighlightedCodeBlock>

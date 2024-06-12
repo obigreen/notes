@@ -12,9 +12,9 @@ export const Todolist = () => {
         <>
             <TypeTitle>Todolists</TypeTitle>
             {/*<OneTodolist/>*/}
-            {/*<TwoTodolist/>*/}
+            <TwoTodolist/>
             {/*<ThreeTodolist/>*/}
-            <FourTodolist/>
+            {/*<FourTodolist/>*/}
 
             {/*<CodeForLessons/>*/}
             {/*<Theory src={"string"} alt={"string"}/>*/}
