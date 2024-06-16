@@ -22,7 +22,7 @@ const AiWrapper = styled.div`
 
 // Стиль для блока изображения
 const ImageContainer = styled.div`
-    min-width: 100px;
+    min-width: 200px;
     max-width: 200px;
     width: 100%;
     display: flex;

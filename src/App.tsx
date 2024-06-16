@@ -28,7 +28,7 @@ const App = () => {
                 <Article>
                     <WrappUse/>
 
-                    <Todolist/>
+                    {/*<Todolist/>*/}
 
                     {/*<JsForChildren/>*/}
                     {/*<Propertys/>*/}
@@ -40,7 +40,7 @@ const App = () => {
                     {/*<BotQuestions/>*/}
                     {/*<InterviewQuestions/>*/}
 
-                    {/*<MyList/>*/}
+                    <MyList/>
                 </Article>
 
             </Container>
