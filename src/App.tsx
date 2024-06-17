@@ -32,7 +32,7 @@ const App = () => {
                     {/*<Propertys/>*/}
                     {/*<Methots/>*/}
 
-                    {/*<English/>*/}
+                    <English/>
                     {/*<Hooks/>*/}
 
                     {/*<BotQuestions/>*/}

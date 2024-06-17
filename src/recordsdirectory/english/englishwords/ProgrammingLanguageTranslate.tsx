@@ -11,6 +11,7 @@ const adjectives = [
     { eng: 'layout', rus: 'Макет' },
     { eng: 'Array', rus: 'Массив' },
     { eng: 'Join', rus: 'Присоединиться' },
+    { eng: 'Current', rus: 'Текущий' },
 ];
 
 
