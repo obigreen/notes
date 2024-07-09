@@ -32,13 +32,13 @@ const App = () => {
                     {/*<Propertys/>*/}
                     {/*<Methots/>*/}
 
-                    <English/>
+                    {/*<English/>*/}
                     {/*<Hooks/>*/}
 
                     {/*<BotQuestions/>*/}
                     {/*<InterviewQuestions/>*/}
 
-                    {/*<MyList/>*/}
+                    <MyList/>
                 </Article>
 
             </Container>
