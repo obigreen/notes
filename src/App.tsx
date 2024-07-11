@@ -25,7 +25,7 @@ const App = () => {
                 </TitleWrapper>
 
                 <Article>
-                    <WrappUse/>
+                    {/*<WrappUse/>*/}
 
 
                     {/*<JsForChildren/>*/}
@@ -35,10 +35,10 @@ const App = () => {
                     {/*<English/>*/}
                     {/*<Hooks/>*/}
 
-                    {/*<BotQuestions/>*/}
+                    <BotQuestions/>
                     {/*<InterviewQuestions/>*/}
 
-                    <MyList/>
+                    {/*<MyList/>*/}
                 </Article>
 
             </Container>
