@@ -1,5 +1,4 @@
 import React from "react";
-import Modal from 'react-modal';
 import './App.css';
 import styled from "styled-components";
 import {MrEye} from "./components/mreye/MrEye";
@@ -25,18 +24,19 @@ const App = () => {
                 </TitleWrapper>
 
                 <Article>
-                    {/*<WrappUse/>*/}
+                    <WrappUse/>
 
 
                     {/*<JsForChildren/>*/}
-                    {/*<Propertys/>*/}
-                    {/*<Methots/>*/}
 
-                    {/*<English/>*/}
-                    {/*<Hooks/>*/}
+                    <Propertys/>
+                    <Methots/>
+                    <Hooks/>
 
-                    {/*<BotQuestions/>*/}
-                    {/*<InterviewQuestions/>*/}
+                    <English/>
+
+                    <BotQuestions/>
+                    <InterviewQuestions/>
 
                     <MyList/>
                 </Article>
