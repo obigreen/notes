@@ -1,24 +1,13 @@
-import React, {useEffect, useRef, ChangeEvent, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/default.css';
-import Modal from 'react-modal';
 import {
-    ParagraphTitle,
     ButtonCopy,
-    CodeBlockWrapp, Link, Marker,
-    NoteBlock, NoteLi, NoteUl,
-    Text,
-    Textarea,
-    TextareaWrapper, TextP, BookTitle, Section, ImgWrapp, Img, VideoContainer
+    CodeBlockWrapp, Link,
+    Text, BookTitle, Section, NoteBlock
 } from "../../../RecordsDirectory_Style";
 import Copy from '../../../../accets/img/all/copy.png'
 
-
-
-//type for texteria
-type TextareaWithStorageProps = {
-    id: string;
-};
 
 //type for code
 interface HighlightedCodeBlockProps {
@@ -71,29 +60,6 @@ const HighlightedCodeBlock = ({children}: HighlightedCodeBlockProps) => {
     );
 };
 
-//save texteria
-const useTextareaStorage = (id: string): [string, (value: string) => void] => {
-    const localStorageKey = `textareaContent_${id}`;
-    const [value, setValue] = useState<string>(() => {
-        return localStorage.getItem(localStorageKey) || '';
-    });
-    const setStoredValue = (newValue: string) => {
-        setValue(newValue);
-        localStorage.setItem(localStorageKey, newValue);
-    };
-    return [value, setStoredValue];
-};
-const TextareaWithStorage = ({id}: TextareaWithStorageProps) => {
-    const [textValue, setTextValue] = useTextareaStorage(id);
-    const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        setTextValue(event.target.value);
-    };
-    return (
-        <TextareaWrapper>
-            <Textarea value={textValue} onChange={handleTextChange}/>
-        </TextareaWrapper>
-    );
-};
 
 
 // ---------------------------------------------------------------------------------------

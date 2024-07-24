@@ -1,17 +1,9 @@
 import React, {useState, useRef, useEffect} from "react";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/default.css';
-import {NoteBlock, NotesTitle, Text} from '../../RecordsDirectory_Style';
+import {NoteBlock, Text} from '../../RecordsDirectory_Style';
 
 import {S} from '../Property_Styles'
-
-type PropertysProps = {
-    propertyItems?: Array<{
-        highlight: string;
-        content: string;
-        code: string;
-    }>;
-};
 
 
 export const propertys = [
@@ -286,7 +278,8 @@ export const propertys = [
 ];
 
 
-export const Property = ({propertyItems = []}: PropertysProps) => {
+export const Property = () => {
+
     const [selectedCode, setSelectedCode] = useState<string | null>(null);
     const codeRef = useRef<HTMLElement>(null);
 
@@ -298,7 +291,6 @@ export const Property = ({propertyItems = []}: PropertysProps) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Propertys</NotesTitle>
             <Text>
                 <S.List>
                     {propertys.map((item, index) => (

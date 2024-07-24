@@ -221,12 +221,6 @@ const code = [
     },
     {
         image: '',
-        title: "Пятнашки на 8",
-        link: "https://codepen.io/leemartin/pen/VwmdyNQ",
-        description: "Оставляем для вас ниже готовый код упрощенной версии игры пятнашки на 8 чисел."
-    },
-    {
-        image: '',
         title: "To Do List",
         link: "https://codepen.io/lockingdong/pen/qNeyVL",
         description: "Вы можете создать To Do List на HTML, CSS и JavaScript с помощью готового кода ниже."
