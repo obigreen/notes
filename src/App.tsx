@@ -6,7 +6,7 @@ import {MrEye} from "./components/mreye/MrEye";
 import {English} from "./recordsdirectory/english/English";
 import {WrappUse} from "./components/use/WrappUse";
 import {JsForChildren} from "./recordsdirectory/jsforchildren_book/JSForChildren";
-import {Methots} from "./recordsdirectory/methods/Methots";
+import {Methods} from "./recordsdirectory/methods/Methods";
 import {Propertys} from "./recordsdirectory/propertys/Propertys";
 import {Hooks} from "./recordsdirectory/hooks/Hooks";
 import {BotQuestions} from "./recordsdirectory/bot_And_InterviewQuestions/BotQuestions";
@@ -29,12 +29,12 @@ const App = () => {
 
 
                     {/*<JsForChildren/>*/}
-                    {/*<Propertys/>*/}
-                    {/*<Methots/>*/}
+
 
                     {/*<English/>*/}
+                    <Methods/>
                     {/*<Hooks/>*/}
-
+                    {/*<Propertys/>*/}
                     {/*<BotQuestions/>*/}
                     {/*<InterviewQuestions/>*/}
 
