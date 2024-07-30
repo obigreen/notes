@@ -31,8 +31,8 @@ const App = () => {
                     {/*<JsForChildren/>*/}
 
 
-                    {/*<English/>*/}
-                    <Methods/>
+                    <English/>
+                    {/*<Methods/>*/}
                     {/*<Hooks/>*/}
                     {/*<Propertys/>*/}
                     {/*<BotQuestions/>*/}
