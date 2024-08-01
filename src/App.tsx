@@ -25,16 +25,16 @@ const App = () => {
                 </TitleWrapper>
 
                 <Article>
-                    {/*<WrappUse/>*/}
+                    <WrappUse/>
 
 
                     {/*<JsForChildren/>*/}
 
 
                     <English/>
-                    {/*<Methods/>*/}
-                    {/*<Hooks/>*/}
-                    {/*<Propertys/>*/}
+                    <Methods/>
+                    <Hooks/>
+                    <Propertys/>
                     {/*<BotQuestions/>*/}
                     {/*<InterviewQuestions/>*/}
 

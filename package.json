@@ -2,6 +2,7 @@
   "name": "notescode",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://obigreen.github.io/notes",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
@@ -13,6 +14,7 @@
     "@types/react-modal": "^3.16.3",
     "ace-builds": "^1.33.1",
     "copy-to-clipboard": "^3.3.3",
+    "gh-pages": "^6.1.1",
     "react": "^18.2.0",
     "react-ace": "^11.0.1",
     "react-dom": "^18.2.0",
@@ -28,7 +30,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
