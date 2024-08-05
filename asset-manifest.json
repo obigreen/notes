@@ -1,30 +1,15 @@
 {
   "files": {
     "main.css": "/notes/static/css/main.bc720eb8.css",
-    "main.js": "/notes/static/js/main.a81d4085.js",
+    "main.js": "/notes/static/js/main.bc93149a.js",
     "static/js/453.e882b536.chunk.js": "/notes/static/js/453.e882b536.chunk.js",
-    "static/media/one.jpg": "/notes/static/media/one.b63c4aef678cf8b96673.jpg",
-    "static/media/code.jpg": "/notes/static/media/code.21f81e7e98efc24dcaf9.jpg",
-    "static/media/codeAi.jpg": "/notes/static/media/codeAi.bc0dbdeb0963793097c7.jpg",
-    "static/media/logoDiffusion.png": "/notes/static/media/logoDiffusion.a874cbe40d2bdefad61c.png",
-    "static/media/next.jpg": "/notes/static/media/next.a108123da989ac66cdc6.jpg",
-    "static/media/huggingface.svg": "/notes/static/media/huggingface.8bcf2fb06963c8b86261887b500daccd.svg",
-    "static/media/js.jpg": "/notes/static/media/js.cc76e9645f523f7d6fea.jpg",
-    "static/media/nodejs.jpg": "/notes/static/media/nodejs.9750419cf6480a4c47d3.jpg",
-    "static/media/goEnhance.png": "/notes/static/media/goEnhance.6428aeecce7fa16b2eb2.png",
-    "static/media/python.jpg": "/notes/static/media/python.05476f9404784dbb9342.jpg",
-    "static/media/bypassGPT.jpg": "/notes/static/media/bypassGPT.4cb01d4e331892a9fe57.jpg",
-    "static/media/suno.png": "/notes/static/media/suno.7dc85dd63391eebade7c.png",
-    "static/media/modyfi.svg": "/notes/static/media/modyfi.1a549bf0f42d6adeac3d5107239a9f8e.svg",
-    "static/media/copilot.svg": "/notes/static/media/copilot.a8fce1354fd9224018cc8742b14c5db4.svg",
-    "static/media/chatGPT.svg": "/notes/static/media/chatGPT.b9aba638efa7d7f197111e16c3133af3.svg",
     "index.html": "/notes/index.html",
     "main.bc720eb8.css.map": "/notes/static/css/main.bc720eb8.css.map",
-    "main.a81d4085.js.map": "/notes/static/js/main.a81d4085.js.map",
+    "main.bc93149a.js.map": "/notes/static/js/main.bc93149a.js.map",
     "453.e882b536.chunk.js.map": "/notes/static/js/453.e882b536.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bc720eb8.css",
-    "static/js/main.a81d4085.js"
+    "static/js/main.bc93149a.js"
   ]
 }
