@@ -38,7 +38,7 @@ const App = () => {
                     {/*<BotQuestions/>*/}
                     {/*<InterviewQuestions/>*/}
 
-                    <MyList/>
+                    {/*<MyList/>*/}
                 </Article>
 
             </Container>
