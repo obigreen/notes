@@ -10,10 +10,12 @@ const questions = [
     { eng: 'When?', rus: 'Когда?' },
     { eng: 'Why?', rus: 'Почему?' },
     { eng: 'How?', rus: 'Как?' },
-    { eng: 'How many?', rus: 'Сколько?' },
+    { eng: 'How many?', rus: 'Сколько? (исчесл.)' },
+    { eng: 'How much?', rus: 'Сколько? (не исчесл.)' },
     { eng: 'Whose?', rus: 'Чей?' },
     { eng: 'Whom?', rus: 'Кому?' },
     { eng: 'What is?', rus: 'Что такое?' },
+    { eng: 'Which', rus: 'Который?' },
 ];
 
 

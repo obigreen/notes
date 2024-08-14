@@ -32,6 +32,7 @@ const App = () => {
 
 
                     <English/>
+
                     <Methods/>
                     <Hooks/>
                     <Propertys/>

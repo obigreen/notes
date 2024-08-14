@@ -17,7 +17,6 @@ const verbs = [
     { eng: 'set', rus: 'набор' },
     { eng: 'test (verb)', rus: 'тестировать' },
     { eng: 'spell', rus: 'произносить(по буквам)' },
-    { eng: 'sleep', rus: 'спать' },
     { eng: 'find', rus: 'найти' },
     { eng: 'meet', rus: 'встречаться, знакомиться' },
     { eng: 'mend', rus: 'чинить' },
@@ -40,6 +39,18 @@ const verbs = [
     { eng: 'go', rus: 'идти' },
     { eng: 'take', rus: 'брать' },
     { eng: 'get dressed', rus: 'одеться' },
+    { eng: 'think', rus: 'думать' },
+    { eng: 'want', rus: 'хотеть' },
+    { eng: 'give', rus: 'давать' },
+    { eng: 'use', rus: 'использовать' },
+    { eng: 'ask', rus: 'спрашивать' },
+    { eng: 'feel', rus: 'чувствовать' },
+    { eng: 'tired', rus: 'уставать' },
+    { eng: 'forget', rus: 'забывать' },
+    { eng: 'afraid', rus: 'бояться' },
+    { eng: 'angry', rus: 'злиться' },
+    { eng: 'thirsty', rus: 'хочется пить, жажда' },
+    { eng: 'to book', rus: 'бронировать (столик)' },
 ];
 
 

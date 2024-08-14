@@ -9,7 +9,8 @@ const adjectives = [
     { eng: 'easy', rus: 'легкий' },
     { eng: 'empty', rus: 'пустой' },
     { eng: 'foreign', rus: 'иностранный' },
-    { eng: 'little', rus: 'маленький' },
+    { eng: 'little', rus: 'маленький (уменьшительно)' },
+    { eng: 'small', rus: 'маленький' },
     { eng: 'sunny', rus: 'солнечный' },
     { eng: 'smart', rus: 'умный (общее понятие)' },
     { eng: 'clever', rus: 'умный (сообразительный, остроумный, находчивый)' },
@@ -28,7 +29,9 @@ const adjectives = [
     { eng: 'beautiful', rus: 'красивая' },
     { eng: 'tense', rus: 'напряженный' },
     { eng: 'powerful', rus: 'мощный' },
-    { eng: 'Intelligent', rus: 'умный (самый умный)' },
+    { eng: 'intelligent', rus: 'умный (самый умный)' },
+    { eng: 'tall', rus: 'высокий' },
+    { eng: 'cheap', rus: 'дешевый' },
 ];
 
 

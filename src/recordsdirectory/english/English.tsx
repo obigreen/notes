@@ -7,11 +7,10 @@ import {Ajectives} from "./englishwords/Adjectives";
 import {Pronouns} from "./englishwords/Pronouns";
 import {Prepositions} from "./englishwords/Prepositions";
 import {Conjunctions} from "./englishwords/Conjunctions";
-import {Interjections} from "./englishwords/Interjections";
+import {Adverbs} from "./englishwords/Interjections";
 import {Phrases} from "./englishwords/Phrases";
 import {TheoryEng} from "./TheoryEng";
 import {DayAndTime} from "./englishwords/DayAndTime";
-import {UnlearnedWords} from "./englishwords/UnlearnedWords";
 import {ProgrammingLanguageTranslate} from "./englishwords/ProgrammingLanguageTranslate";
 
 export const English = () => {
@@ -36,15 +35,13 @@ export const English = () => {
                 <Prepositions/>
                 {/*союзы*/}
                 <Conjunctions/>
-                {/*междометия*/}
-                <Interjections/>
+                {/*наречия*/}
+                <Adverbs/>
                 {/*дни недели, время*/}
                 <DayAndTime/>
             </>
             {/*фразы*/}
             <Phrases/>
-            {/*надо выучить слова/фразы*/}
-            <UnlearnedWords/>
             {/*перевод языка программирования*/}
             <ProgrammingLanguageTranslate/>
 
