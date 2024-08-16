@@ -51,6 +51,8 @@ const verbs = [
     { eng: 'angry', rus: 'злиться' },
     { eng: 'thirsty', rus: 'хочется пить, жажда' },
     { eng: 'to book', rus: 'бронировать (столик)' },
+    { eng: 'charge', rus: 'заряжать' },
+    { eng: 'watch', rus: 'смотреть' },
 ];
 
 

@@ -71,6 +71,12 @@ const nouns = [
     { eng: 'coat', rus: 'куртка, пальто' },
     { eng: 'piece of paper', rus: 'лист бумаги' },
     { eng: 'reservation', rus: 'бронь' },
+    { eng: 'lap', rus: 'колени' },
+    { eng: 'charger', rus: 'зарядное устройство' },
+    { eng: 'watch', rus: 'часы' },
+    { eng: 'wallet', rus: 'кошелек (мужск.)' },
+    { eng: 'purse', rus: 'кошелек (женск.)' },
+    { eng: 'pensil', rus: 'карандаш' },
 ];
 
 

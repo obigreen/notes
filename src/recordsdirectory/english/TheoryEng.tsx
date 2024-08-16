@@ -227,6 +227,7 @@ export const TheoryEng = () => {
 
                 </Section>
 
+                {/*clever smart and intelligent*/}
                 <Section>
                     <ParagraphTitle>
                         Разница между <Marker>clever</Marker>,
@@ -287,6 +288,51 @@ export const TheoryEng = () => {
                         <Marker>"smart"</Marker> — широкую область умственной и социальной остроты или элегантность, а <Marker>"intelligent"</Marker>
                         говорит о глубоком, часто абстрактном интеллекте.
                     </TextP>
+                </Section>
+
+                {/*House and home*/}
+                <Section>
+                    <ParagraphTitle>
+                        Разница между <Marker>House</Marker> и <Marker>Home</Marker>
+                    </ParagraphTitle>
+
+                    <Section>
+                        <TextP><Marker>House</Marker></TextP>
+                        <NoteUl>
+                            <NoteLi>
+                                <Marker>House</Marker> используется для обозначения непосредственно здания
+                            </NoteLi>
+                        </NoteUl>
+
+                        <TextP><Marker>Home</Marker></TextP>
+                        <NoteUl>
+                            <NoteLi>
+                                <Marker>Home</Marker> используется для обозначения самого чувства, уют в доме, дом там где хорошо
+                            </NoteLi>
+                        </NoteUl>
+                    </Section>
+                </Section>
+                {/*e.g and etc*/}
+                <Section>
+                    <ParagraphTitle>
+                        <Marker>e.g</Marker> и <Marker>etc</Marker>
+                    </ParagraphTitle>
+
+                    <Section>
+                        <TextP><Marker>e.g</Marker></TextP>
+                        <NoteUl>
+                            <NoteLi>
+                                <Marker>e.g</Marker> читается как <Marker>for example</Marker> переводится как <Marker>например</Marker>
+                            </NoteLi>
+                        </NoteUl>
+
+                        <TextP><Marker>etc</Marker></TextP>
+                        <NoteUl>
+                            <NoteLi>
+                                <Marker>etc</Marker> /etˈset̬.ər.ə/ переводиться как <Marker>и так далее</Marker>
+                            </NoteLi>
+                        </NoteUl>
+                    </Section>
                 </Section>
 
             </Text>

@@ -22,7 +22,7 @@ const pronouns = [
     { eng: 'these', rus: 'эти' },
     { eng: 'that', rus: 'тот, та, то' },
     { eng: 'those', rus: 'те' },
-    { eng: 'other', rus: 'другой' },
+    { eng: 'other', rus: 'другой, другие' },
 ];
 
 
