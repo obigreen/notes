@@ -7,7 +7,7 @@ import {Ajectives} from "./englishwords/Adjectives";
 import {Pronouns} from "./englishwords/Pronouns";
 import {Prepositions} from "./englishwords/Prepositions";
 import {Conjunctions} from "./englishwords/Conjunctions";
-import {Adverbs} from "./englishwords/Interjections";
+import {Adverbs} from "./englishwords/Adverbs";
 import {Phrases} from "./englishwords/Phrases";
 import {TheoryEng} from "./TheoryEng";
 import {DayAndTime} from "./englishwords/DayAndTime";

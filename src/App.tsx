@@ -5,7 +5,6 @@ import styled from "styled-components";
 import {MrEye} from "./components/mreye/MrEye";
 import {English} from "./recordsdirectory/english/English";
 import {WrappUse} from "./components/use/WrappUse";
-import {JsForChildren} from "./recordsdirectory/jsforchildren_book/JSForChildren";
 import {Methods} from "./recordsdirectory/methods/Methods";
 import {Propertys} from "./recordsdirectory/propertys/Propertys";
 import {Hooks} from "./recordsdirectory/hooks/Hooks";
@@ -25,13 +24,12 @@ const App = () => {
                 </TitleWrapper>
 
                 <Article>
+                    {/*English*/}
                     <WrappUse/>
-
-
-                    {/*<JsForChildren/>*/}
-
-
                     <English/>
+                    {/*English*/}
+
+
 
                     <Methods/>
                     <Hooks/>

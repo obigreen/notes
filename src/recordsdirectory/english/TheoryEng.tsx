@@ -12,7 +12,6 @@ import {
 } from "../RecordsDirectory_Style";
 
 
-
 //type for code
 interface HighlightedCodeBlockProps {
     children: string;
@@ -63,8 +62,6 @@ const HighlightedCodeBlock = ({children}: HighlightedCodeBlockProps) => {
         </CodeBlockWrapp>
     );
 };
-
-
 
 
 // ---------------------------------------------------------------------------------------
@@ -284,8 +281,10 @@ export const TheoryEng = () => {
                     <ParagraphTitle>Вывод:</ParagraphTitle>
                     <TextP>
                         Хотя все три этих термина могут казаться взаимозаменяемыми, разница между ними заключается в
-                        коннотациях и контексте использования. <Marker>"Clever"</Marker> чаще всего означает находчивость и остроумие,
-                        <Marker>"smart"</Marker> — широкую область умственной и социальной остроты или элегантность, а <Marker>"intelligent"</Marker>
+                        коннотациях и контексте использования. <Marker>"Clever"</Marker> чаще всего означает
+                        находчивость и остроумие,
+                        <Marker>"smart"</Marker> — широкую область умственной и социальной остроты или элегантность,
+                        а <Marker>"intelligent"</Marker>
                         говорит о глубоком, часто абстрактном интеллекте.
                     </TextP>
                 </Section>
@@ -307,7 +306,8 @@ export const TheoryEng = () => {
                         <TextP><Marker>Home</Marker></TextP>
                         <NoteUl>
                             <NoteLi>
-                                <Marker>Home</Marker> используется для обозначения самого чувства, уют в доме, дом там где хорошо
+                                <Marker>Home</Marker> используется для обозначения самого чувства, уют в доме, дом там
+                                где хорошо
                             </NoteLi>
                         </NoteUl>
                     </Section>
@@ -322,7 +322,8 @@ export const TheoryEng = () => {
                         <TextP><Marker>e.g</Marker></TextP>
                         <NoteUl>
                             <NoteLi>
-                                <Marker>e.g</Marker> читается как <Marker>for example</Marker> переводится как <Marker>например</Marker>
+                                <Marker>e.g</Marker> читается как <Marker>for example</Marker> переводится
+                                как <Marker>например</Marker>
                             </NoteLi>
                         </NoteUl>
 
@@ -332,6 +333,17 @@ export const TheoryEng = () => {
                                 <Marker>etc</Marker> /etˈset̬.ər.ə/ переводиться как <Marker>и так далее</Marker>
                             </NoteLi>
                         </NoteUl>
+                    </Section>
+                </Section>
+                <Section>
+                    <ParagraphTitle>
+                        <Marker>Ударение на слово из <Marker>2ух</Marker> частей</Marker>
+                    </ParagraphTitle>
+
+                    <Section>
+                        <TextP>Если слово состоит из <Marker>2ух</Marker> частей</TextP>
+                        <TextP><Marker>Например - </Marker>Sunglasses</TextP>
+                        <TextP>Ударение ставим на <Marker>1ую</Marker> часть</TextP>
                     </Section>
                 </Section>
 

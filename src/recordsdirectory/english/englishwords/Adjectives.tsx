@@ -32,6 +32,7 @@ const adjectives = [
     { eng: 'intelligent', rus: 'умный (самый умный)' },
     { eng: 'tall', rus: 'высокий' },
     { eng: 'cheap', rus: 'дешевый' },
+    { eng: 'silly', rus: 'глупенький' },
 ];
 
 

@@ -25,6 +25,8 @@ const adverbs = [
     { eng: 'then', rus: 'тогда, затем' },
     { eng: 'here', rus: 'здесь' },
     { eng: 'there', rus: 'там' },
+    { eng: 'out loud', rus: 'вслух' },
+    { eng: 'almost', rus: 'почти' },
 ];
 
 
