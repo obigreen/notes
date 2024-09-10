@@ -21,11 +21,17 @@ export const GlobalStyles = createGlobalStyle`
     a {
         text-decoration: none;
         cursor: pointer;
+        color: inherit;
     }
 
     button {
-
+        background-color: unset;
+        border: none;
+        cursor: pointer;
     }
     
 `
+
+
+
 

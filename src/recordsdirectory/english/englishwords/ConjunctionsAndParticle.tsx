@@ -7,43 +7,25 @@ import {FlexWrapper} from "../../../components/FlexWrapper";
 import {Button} from "../button/Button";
 
 
-const arrAdverbs = [
-    { eng: 'near', rus: 'рядом' },
-    { eng: 'very', rus: 'очень' },
-    { eng: 'just', rus: 'только что' },
-    { eng: 'still', rus: 'все еще' },
-    { eng: 'even', rus: 'даже' },
-    { eng: 'also', rus: 'также' },
-    { eng: 'often', rus: 'часто' },
-    { eng: 'usually', rus: 'обычно' },
-    { eng: 'really', rus: 'действительно' },
-    { eng: 'always', rus: 'всегда' },
-    { eng: 'sometimes', rus: 'иногда' },
-    { eng: 'never', rus: 'никогда' },
-    { eng: 'well', rus: 'хорошо' },
-    { eng: 'actually', rus: 'на самом деле' },
-    { eng: 'quickly', rus: 'быстро' },
-    { eng: 'together', rus: 'вместе' },
-    { eng: 'soon', rus: 'скоро' },
-    { eng: 'finally', rus: 'наконец' },
-    { eng: 'then', rus: 'тогда, затем' },
-    { eng: 'here', rus: 'здесь' },
-    { eng: 'there', rus: 'там' },
-    { eng: 'out loud', rus: 'вслух' },
-    { eng: 'almost', rus: 'почти' },
+const arrConjunctionsAndParticle = [
+    { eng: 'so', rus: 'так' },
+    { eng: 'but', rus: 'но' },
+    { eng: 'and', rus: 'и' },
+    { eng: 'or', rus: 'или' },
+    { eng: 'because', rus: 'потому что' },
+    { eng: 'well', rus: 'ну' },
 ];
 
-
-export const Adverbs = () => {
-    const { array: adverbs, toggleArray } = useToggleArray(arrAdverbs);
+export const ConjunctionsAndParticle = () => {
+    const { array: conjunctionsAndParticle, toggleArray } = useToggleArray(arrConjunctionsAndParticle);
     const {
         isSingleWordMode, toggleMode, currentWord, inputValue,
         setInputValue, isCorrect, handleNextWord, handleCheckTranslation
-    } = useWord(adverbs);
+    } = useWord(conjunctionsAndParticle);
 
     return (
         <NoteBlock>
-            <NotesTitle>Adverbs</NotesTitle>
+            <NotesTitle>Conjunctions and Particle</NotesTitle>
             <Text>
                 <FlexWrapper gap={'20px'} margin={'0 0 20px 0'}>
                     <Button onClick={toggleArray} iconId={'random'}/>
@@ -74,10 +56,10 @@ export const Adverbs = () => {
                         )}
                     </div>
                 ) : (
-                    adverbs.map((adverb, index) => (
+                    conjunctionsAndParticle.map((word, index) => (
                         <S.TextWrapper key={index}>
-                            <S.EngWord>{adverb.eng}</S.EngWord>
-                            <S.RusWord>{adverb.rus}</S.RusWord>
+                            <S.EngWord>{word.eng}</S.EngWord>
+                            <S.RusWord>{word.rus}</S.RusWord>
                         </S.TextWrapper>
                     ))
                 )}
@@ -85,5 +67,6 @@ export const Adverbs = () => {
         </NoteBlock>
     );
 };
+
 
 

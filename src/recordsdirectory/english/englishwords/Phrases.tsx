@@ -1,9 +1,13 @@
 import React from 'react';
 import {NoteBlock, NotesTitle, Text} from "../../RecordsDirectory_Style";
 import {S} from "../English_Styles";
+import {useToggleArray} from "../hooks/useToggleArray";
+import {useWord} from "../hooks/useWordTest";
+import {FlexWrapper} from "../../../components/FlexWrapper";
+import {Button} from "../button/Button";
 
 
-const phrases = [
+const arrPhrases = [
     {eng: 'Me too.', rus: 'Я тоже.'},
     {eng: 'Much work', rus: 'много работы'},
     {eng: 'Day off', rus: 'выходной день'},
@@ -61,18 +65,53 @@ const phrases = [
     {eng: "Almost everything", rus: "Почти все"},
 ];
 
-
 export const Phrases = () => {
+    const { array: phrases, toggleArray } = useToggleArray(arrPhrases);
+    const {
+        isSingleWordMode, toggleMode, currentWord, inputValue,
+        setInputValue, isCorrect, handleNextWord, handleCheckTranslation
+    } = useWord(phrases);
+
     return (
         <NoteBlock>
             <NotesTitle>Phrases</NotesTitle>
             <Text>
-                {phrases.map((phrases, index) => (
-                    <S.TextWrapper key={index}>
-                        <S.EngWord>{phrases.eng}</S.EngWord>
-                        <S.RusWord>{phrases.rus}</S.RusWord>
-                    </S.TextWrapper>
-                ))}
+                <FlexWrapper gap={'20px'} margin={'0 0 20px 0'}>
+                    <Button onClick={toggleArray} iconId={'random'}/>
+                    <Button onClick={toggleMode} iconId={isSingleWordMode ? "back" : "englishWord"} />
+                </FlexWrapper>
+
+
+                {isSingleWordMode ? (
+                    <div>
+                        <S.TextWrapper>
+                            <S.EngWord>{currentWord.eng}</S.EngWord>
+                            {isCorrect ? (
+                                <S.RusWord>{currentWord.rus}</S.RusWord>
+                            ) : (
+                                <S.Input
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    placeholder="Введите перевод"
+                                />
+                            )}
+                        </S.TextWrapper>
+
+                        {!isCorrect ? (
+                            <Button onClick={handleCheckTranslation} title="Проверить" />
+                        ) : (
+                            <Button onClick={handleNextWord} title="Следующее слово" />
+                        )}
+                    </div>
+                ) : (
+                    phrases.map((phrase, index) => (
+                        <S.TextWrapper key={index}>
+                            <S.EngWord>{phrase.eng}</S.EngWord>
+                            <S.RusWord>{phrase.rus}</S.RusWord>
+                        </S.TextWrapper>
+                    ))
+                )}
             </Text>
         </NoteBlock>
     );

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-// notes
+//All notes
 export const NoteBlock = styled.section`
     width: 100%;
     margin: 0 auto 70px auto;
@@ -13,6 +13,7 @@ export const Text = styled.article`
     border-radius: 12px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin: 10px 0;
+    position: relative;
 `;
 
 export const NotesTitle = styled.h3`
@@ -34,6 +35,12 @@ export const TypeTitle = styled.h2`
 export const Link = styled.a`
 
 `
+
+// notesBloks
+export const Section = styled.div`
+    margin-bottom: 50px;
+`
+
 export const BookTitle = styled.h3`
     margin-bottom: 60px;
     font-style: normal;
@@ -70,9 +77,6 @@ export const NoteLi = styled.li`
         margin-bottom: 15px;
     }
 `
-export const Section = styled.div`
-    margin-bottom: 50px;
-`
 
 
 //Copy code bitton
@@ -97,31 +101,6 @@ export const ButtonCopy = styled.button`
 `
 
 
-// texteria
-export const TextareaWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-`
-
-export const Textarea = styled.textarea`
-    width: 100%;
-    resize: vertical;
-    padding: 15px;
-    border-radius: 12px 12px 0 12px;
-    border: 1px solid #1e1f22;;
-    font-weight: 300;
-    font-size: 20px;
-    outline: none;
-
-    &:focus {
-        border-color: #6a9fb5
-    }
-
-    overflow-y: auto;
-`
-
 //video
 export const VideoContainer = styled.div`
     position: relative;
@@ -143,15 +122,4 @@ export const VideoContainer = styled.div`
         border-radius: 12px;
         border: none;
     }
-`
-
-// img
-export const ImgWrapp = styled.div`
-    max-width: 100%;
-    width: 100%;
-    cursor: pointer;
-`
-
-export const Img = styled.img`
-    width: 100%;
 `

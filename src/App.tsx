@@ -20,7 +20,7 @@ const App = () => {
                 <MrEye/>
 
                 <TitleWrapper>
-                    <MainTitle>Incubator notes</MainTitle>
+                    <MainTitle>Notes</MainTitle>
                 </TitleWrapper>
 
                 <Article>
@@ -32,8 +32,8 @@ const App = () => {
 
 
                     <Methods/>
-                    <Hooks/>
-                    <Propertys/>
+                    {/*<Hooks/>*/}
+                    {/*<Propertys/>*/}
                     {/*<BotQuestions/>*/}
                     {/*<InterviewQuestions/>*/}
 
@@ -47,6 +47,7 @@ const App = () => {
 
 const Container = styled.div`
     max-width: 1140px;
+    width: 100%;
     padding: 40px 15px;
     margin: 0 auto;
     background-color: #2a2d30;

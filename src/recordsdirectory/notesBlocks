@@ -19,10 +19,6 @@ detals:
     <NoteLi></NoteLi>
 </NoteUl>
 
-<TextareaWrapper>
-    <TextareaWithStorage id=" " />
-</TextareaWrapper>
-
 <HighlightedCodeBlock>
     {
         `
@@ -36,11 +32,3 @@ detals:
     <iframe src="https://www.youtube.com/embed/84wKkCVqEnk"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
 </VideoContainer>
-
-
-<ImgWrapp>
-    <Img src={картинка} alt={alt} onClick={toggleModal}/>
-    <Modal isOpen={modalIsOpen} onRequestClose={toggleModal} style={modalStyles}>
-        <Img src={картинка} alt={alt} style={{width: '100%', height: '100%'}}/>
-    </Modal>
-</ImgWrapp>

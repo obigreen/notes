@@ -1,9 +1,13 @@
 import React from 'react';
 import {NoteBlock, NotesTitle, Text} from "../../RecordsDirectory_Style";
 import {S} from '../English_Styles'
+import {useToggleArray} from "../hooks/useToggleArray";
+import {useWord} from "../hooks/useWordTest";
+import {FlexWrapper} from "../../../components/FlexWrapper";
+import {Button} from "../button/Button";
 
 
-const verbs = [
+const arrVerbs = [
     { eng: 'listen', rus: 'слушать' },
     { eng: 'open', rus: 'открыть, раскрытый' },
     { eng: 'visit', rus: 'посещать' },
@@ -16,11 +20,11 @@ const verbs = [
     { eng: 'see', rus: 'видеть' },
     { eng: 'set', rus: 'набор' },
     { eng: 'test (verb)', rus: 'тестировать' },
-    { eng: 'spell', rus: 'произносить(по буквам)' },
+    { eng: 'spell', rus: 'произносить (по буквам)' },
     { eng: 'find', rus: 'найти' },
     { eng: 'meet', rus: 'встречаться, знакомиться' },
     { eng: 'mend', rus: 'чинить' },
-    { eng: 'tell', rus: 'сказать(рассказывать, сообщать)' },
+    { eng: 'tell', rus: 'сказать (рассказывать, сообщать)' },
     { eng: 'lend', rus: 'одолжить, занять' },
     { eng: 'wash', rus: 'мыть' },
     { eng: 'start', rus: 'начинать' },
@@ -30,12 +34,12 @@ const verbs = [
     { eng: 'study', rus: 'изучать' },
     { eng: 'live', rus: 'жить' },
     { eng: 'eat', rus: 'есть' },
-    { eng: 'do', rus: 'делать(обычные дела, задачи)' },
-    { eng: 'make', rus: 'делать, создавать(что то новое)' },
+    { eng: 'do', rus: 'делать (обычные дела, задачи)' },
+    { eng: 'make', rus: 'делать, создавать (что то новое)' },
     { eng: 'choose', rus: 'выбирать' },
     { eng: 'rest', rus: 'отдыхать' },
     { eng: 'train', rus: 'тренироваться' },
-    { eng: 'speak', rus: 'говорить(обычный разговор)' },
+    { eng: 'speak', rus: 'говорить (обычный разговор)' },
     { eng: 'go', rus: 'идти' },
     { eng: 'take', rus: 'брать' },
     { eng: 'get dressed', rus: 'одеться' },
@@ -56,17 +60,54 @@ const verbs = [
 ];
 
 
+
 export const Verbs = () => {
+    const { array: verbs, toggleArray } = useToggleArray(arrVerbs);
+    const {
+        isSingleWordMode, toggleMode, currentWord, inputValue,
+        setInputValue, isCorrect, handleNextWord, handleCheckTranslation
+    } = useWord(verbs);
+
     return (
         <NoteBlock>
             <NotesTitle>Verbs</NotesTitle>
             <Text>
-                {verbs.map((verbs, index) => (
-                    <S.TextWrapper key={index}>
-                        <S.EngWord>{verbs.eng}</S.EngWord>
-                        <S.RusWord>{verbs.rus}</S.RusWord>
-                    </S.TextWrapper>
-                ))}
+                <FlexWrapper gap={'20px'} margin={'0 0 20px 0'}>
+                    <Button onClick={toggleArray} iconId={'random'}/>
+                    <Button onClick={toggleMode} iconId={isSingleWordMode ? "back" : "englishWord"} />
+                </FlexWrapper>
+
+
+                {isSingleWordMode ? (
+                    <div>
+                        <S.TextWrapper>
+                            <S.EngWord>{currentWord.eng}</S.EngWord>
+                            {isCorrect ? (
+                                <S.RusWord>{currentWord.rus}</S.RusWord>
+                            ) : (
+                                <S.Input
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    placeholder="Введите перевод"
+                                />
+                            )}
+                        </S.TextWrapper>
+
+                        {!isCorrect ? (
+                            <Button onClick={handleCheckTranslation} title="Проверить" />
+                        ) : (
+                            <Button onClick={handleNextWord} title="Следующее слово" />
+                        )}
+                    </div>
+                ) : (
+                    verbs.map((verb, index) => (
+                        <S.TextWrapper key={index}>
+                            <S.EngWord>{verb.eng}</S.EngWord>
+                            <S.RusWord>{verb.rus}</S.RusWord>
+                        </S.TextWrapper>
+                    ))
+                )}
             </Text>
         </NoteBlock>
     );

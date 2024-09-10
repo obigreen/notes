@@ -86,6 +86,7 @@ const WrappUseButton = styled.div`
     height: auto;
     top: 15px;
     right: 15px;
+    z-index: 999;
 `
 const ButtonUse = styled.button`
     display: flex;
