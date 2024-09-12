@@ -57,6 +57,8 @@ const arrVerbs = [
     { eng: 'to book', rus: 'бронировать (столик)' },
     { eng: 'charge', rus: 'заряжать' },
     { eng: 'watch', rus: 'смотреть' },
+    { eng: 'to cover', rus: 'закрывать' },
+    { eng: 'change', rus: 'изменения' },
 ];
 
 

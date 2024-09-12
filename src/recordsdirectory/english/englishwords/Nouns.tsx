@@ -87,6 +87,11 @@ const arrNouns = [
     {eng: 'scarf', rus: 'шарф'},
     {eng: 'mug', rus: 'кружка'},
     {eng: 'plate', rus: 'тарелка'},
+    {eng: 'pie', rus: 'пирог'},
+    {eng: 'pounds', rus: 'ценник, валюта'},
+    {eng: 'plural', rus: 'множественное число'},
+    {eng: 'singular', rus: 'единственное число'},
+    {eng: 'retired', rus: 'пенсия'},
 ];
 
 

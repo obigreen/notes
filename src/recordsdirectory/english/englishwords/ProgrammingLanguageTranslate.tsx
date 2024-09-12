@@ -17,6 +17,7 @@ const arrProgrammingLanguage = [
     { eng: 'Join', rus: 'Присоединиться' },
     { eng: 'Current', rus: 'Текущий' },
     { eng: 'Event', rus: 'Событие' },
+    { eng: 'Сhange', rus: 'Изменения' },
 ];
 
 

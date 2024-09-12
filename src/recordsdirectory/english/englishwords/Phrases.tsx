@@ -63,6 +63,12 @@ const arrPhrases = [
     {eng: "The same story", rus: "Та же история"},
     {eng: "My pleasure", rus: "Благодарю (формально)"},
     {eng: "Almost everything", rus: "Почти все"},
+    {eng: "Five oh or one five", rus: "50 или 15"},
+    {eng: "Here you are/go", rus: "Вот возьми/возьмите/держите"},
+    {eng: "The rest of", rus: "До конца, остальная часть"},
+    {eng: "I'll have", rus: "Я хотел бы (заказать) (not i wont)"},
+    {eng: "Wait for me", rus: "Подождите меня"},
+    {eng: "It runs in my family", rus: "Это у нас семейное"},
 ];
 
 export const Phrases = () => {

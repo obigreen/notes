@@ -37,6 +37,12 @@ const arrAdjectives = [
     { eng: 'tall', rus: 'высокий' },
     { eng: 'cheap', rus: 'дешевый' },
     { eng: 'silly', rus: 'глупенький' },
+    { eng: 'the whole', rus: 'целый, весь/всю' },
+    { eng: 'brown', rus: 'коричневый' },
+    { eng: 'few', rus: 'мало (исчисл.)' },
+    { eng: 'a few', rus: 'несколько (не мало)' },
+    { eng: 'little', rus: 'мало (исчисл.)' },
+    { eng: 'a little', rus: 'несколько (не мало)' },
 ];
 
 
