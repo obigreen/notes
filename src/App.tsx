@@ -1,47 +1,40 @@
 import React from "react";
-import Modal from 'react-modal';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import styled from "styled-components";
-import {MrEye} from "./components/mreye/MrEye";
-import {English} from "./recordsdirectory/english/English";
-import {WrappUse} from "./components/use/WrappUse";
-import {Methods} from "./recordsdirectory/methods/Methods";
-import {Propertys} from "./recordsdirectory/propertys/Propertys";
-import {Hooks} from "./recordsdirectory/hooks/Hooks";
-import {BotQuestions} from "./recordsdirectory/bot_And_InterviewQuestions/BotQuestions";
-import {InterviewQuestions} from "./recordsdirectory/bot_And_InterviewQuestions/InterviewQuestions";
-import {MyList} from "./recordsdirectory/mylist/MyList";
-
+import { MrEye } from "./components/mreye/MrEye";
+import { Methods } from "./recordsdirectory/methods/Methods";
+import { Propertys } from "./recordsdirectory/propertys/Propertys";
+import { Hooks } from "./recordsdirectory/hooks/Hooks";
+import { BotQuestions } from "./recordsdirectory/bot_And_InterviewQuestions/BotQuestions";
+import { InterviewQuestions } from "./recordsdirectory/bot_And_InterviewQuestions/InterviewQuestions";
+import { MyList } from "./recordsdirectory/mylist/MyList";
+import { NavBar } from "./components/navbar/NavBar";
 
 const App = () => {
     return (
-        <main>
+        <Router>
+
             <Container>
-                <MrEye/>
+                <MrEye />
 
                 <TitleWrapper>
                     <MainTitle>Notes</MainTitle>
                 </TitleWrapper>
 
+                <NavBar />
                 <Article>
-                    {/*English*/}
-                    <WrappUse/>
-                    <English/>
-                    {/*English*/}
-
-
-
-                    <Methods/>
-                    {/*<Hooks/>*/}
-                    {/*<Propertys/>*/}
-                    {/*<BotQuestions/>*/}
-                    {/*<InterviewQuestions/>*/}
-
-                    {/*<MyList/>*/}
+                    <Routes>
+                        <Route path="/methods" element={<Methods />} />
+                        <Route path="/hooks" element={<Hooks />} />
+                        <Route path="/propertys" element={<Propertys />} />
+                        <Route path="/bot-questions" element={<BotQuestions />} />
+                        <Route path="/interview-questions" element={<InterviewQuestions />} />
+                        <Route path="/my-list" element={<MyList />} />
+                    </Routes>
                 </Article>
-
             </Container>
-        </main>
+        </Router>
     );
 };
 
@@ -58,6 +51,7 @@ const TitleWrapper = styled.div`
     max-width: 900px;
     margin: 0 auto 100px auto;
 `
+
 const MainTitle = styled.h1`
     font-weight: 600;
     font-size: 32px;
@@ -75,5 +69,5 @@ const Article = styled.article`
     }
 `
 
-
 export default App;
+

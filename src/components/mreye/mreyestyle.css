@@ -255,3 +255,14 @@
     right: -18px;
     box-shadow: 3px 9px 11px 2px #00000091;
 }
+
+@media screen and (max-width: 876px) {
+    .boogie-wrapp-main {
+        height: 410px;
+    }
+
+    .eye .pupil {
+        top: 44%;
+        left: 28.7%;
+    }
+}

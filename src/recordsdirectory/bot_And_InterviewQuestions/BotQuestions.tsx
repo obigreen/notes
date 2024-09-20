@@ -7,7 +7,7 @@ import {
     ButtonCopy,
     CodeBlockWrapp, Marker,
     NoteBlock, NoteLi, NoteUl,
-    Text, TextP, BookTitle, Section
+    Text, TextP, BookTitle, Section, TypeTitle
 } from "../RecordsDirectory_Style";
 import Copy from '../../accets/img/all/copy.png'
 
@@ -71,8 +71,8 @@ export const BotQuestions = () => {
 
     return (
         <NoteBlock>
+            <TypeTitle>Bot questions</TypeTitle>
             <Text>
-                <BookTitle>Bot questions</BookTitle>
                 {/*Во что Babel превращает JSX?*/}
                 <Section>
                     <ParagraphTitle>Во что Babel превращает JSX?</ParagraphTitle>

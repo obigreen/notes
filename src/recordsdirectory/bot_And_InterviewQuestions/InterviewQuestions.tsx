@@ -6,7 +6,7 @@ import {
     ParagraphTitle,
     ButtonCopy,
     CodeBlockWrapp, Marker,
-    NoteBlock, Text, TextP, BookTitle, Section
+    NoteBlock, Text, TextP, BookTitle, Section, TypeTitle
 } from "../RecordsDirectory_Style";
 import Copy from '../../accets/img/all/copy.png'
 
@@ -69,8 +69,8 @@ export const InterviewQuestions = () => {
 
     return (
         <NoteBlock>
+            <TypeTitle>Interview Questions</TypeTitle>
             <Text>
-                <BookTitle>Interview Questions</BookTitle>
                 <Section>
                     <ParagraphTitle>Who is <Marker>Front-end</Marker> developer?</ParagraphTitle>
                     <TextP>Базовая задаче Front-end разработчика, связать tag с function</TextP>
