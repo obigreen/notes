@@ -11,6 +11,7 @@ import { InterviewQuestions } from "./recordsdirectory/bot_And_InterviewQuestion
 import { MyList } from "./recordsdirectory/mylist/MyList";
 import { NavBar } from "./components/navbar/NavBar";
 import { Events } from "./recordsdirectory/events/Events";
+import { Notes } from "./recordsdirectory/notes/Events";
 
 const App = () => {
     return (
@@ -30,6 +31,7 @@ const App = () => {
                         <Route path="/hooks" element={<Hooks />} />
                         <Route path="/propertys" element={<Propertys />} />
                         <Route path="/events" element={<Events />} />
+                        <Route path="/notes" element={<Notes />} />
                         <Route path="/bot-questions" element={<BotQuestions />} />
                         <Route path="/interview-questions" element={<InterviewQuestions />} />
                         <Route path="/my-list" element={<MyList />} />
