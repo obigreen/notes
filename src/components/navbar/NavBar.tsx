@@ -10,6 +10,7 @@ export const NavBar = () => {
                     <Li><Link to="/methods">Methods</Link></Li>
                     <Li><Link to="/hooks">Hooks</Link></Li>
                     <Li><Link to="/propertys">Properties</Link></Li>
+                    <Li><Link to="/events">Events</Link></Li>
                     <Li><Link to="/bot-questions">Bot Questions</Link></Li>
                     <Li><Link to="/interview-questions">Interview Questions</Link></Li>
                     <Li><Link to="/my-list">My List</Link></Li>

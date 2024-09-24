@@ -10,6 +10,7 @@ import { BotQuestions } from "./recordsdirectory/bot_And_InterviewQuestions/BotQ
 import { InterviewQuestions } from "./recordsdirectory/bot_And_InterviewQuestions/InterviewQuestions";
 import { MyList } from "./recordsdirectory/mylist/MyList";
 import { NavBar } from "./components/navbar/NavBar";
+import { Events } from "./recordsdirectory/events/Events";
 
 const App = () => {
     return (
@@ -28,6 +29,7 @@ const App = () => {
                         <Route path="/methods" element={<Methods />} />
                         <Route path="/hooks" element={<Hooks />} />
                         <Route path="/propertys" element={<Propertys />} />
+                        <Route path="/events" element={<Events />} />
                         <Route path="/bot-questions" element={<BotQuestions />} />
                         <Route path="/interview-questions" element={<InterviewQuestions />} />
                         <Route path="/my-list" element={<MyList />} />
