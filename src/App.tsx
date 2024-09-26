@@ -6,17 +6,12 @@ import { MrEye } from "./components/mreye/MrEye";
 import { Methods } from "./recordsdirectory/methods/Methods";
 import { Propertys } from "./recordsdirectory/propertys/Propertys";
 import { Hooks } from "./recordsdirectory/hooks/Hooks";
-import { BotQuestions } from "./recordsdirectory/bot_And_InterviewQuestions/BotQuestions";
-import { InterviewQuestions } from "./recordsdirectory/bot_And_InterviewQuestions/InterviewQuestions";
-import { MyList } from "./recordsdirectory/mylist/MyList";
 import { NavBar } from "./components/navbar/NavBar";
-import { Events } from "./recordsdirectory/events/Events";
-import { Notes } from "./recordsdirectory/notes/Events";
+import {Events} from "./recordsdirectory/events/Events";
 
 const App = () => {
     return (
         <Router>
-
             <Container>
                 <MrEye />
 
@@ -27,14 +22,10 @@ const App = () => {
                 <NavBar />
                 <Article>
                     <Routes>
-                        <Route path="/methods" element={<Methods />} />
                         <Route path="/hooks" element={<Hooks />} />
+                        <Route path="/methods" element={<Methods />} />
                         <Route path="/propertys" element={<Propertys />} />
                         <Route path="/events" element={<Events />} />
-                        <Route path="/notes" element={<Notes />} />
-                        <Route path="/bot-questions" element={<BotQuestions />} />
-                        <Route path="/interview-questions" element={<InterviewQuestions />} />
-                        <Route path="/my-list" element={<MyList />} />
                     </Routes>
                 </Article>
             </Container>

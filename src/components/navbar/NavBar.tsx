@@ -1,20 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
+import {Events} from "../../recordsdirectory/events/Events";
 
 export const NavBar = () => {
     return (
         <Header>
             <Nav>
                 <Ul>
-                    <Li><Link to="/methods">Methods</Link></Li>
                     <Li><Link to="/hooks">Hooks</Link></Li>
+                    <Li><Link to="/methods">Methods</Link></Li>
                     <Li><Link to="/propertys">Properties</Link></Li>
                     <Li><Link to="/events">Events</Link></Li>
-                    <Li><Link to="/notes">Notes</Link></Li>
-                    <Li><Link to="/bot-questions">Bot Questions</Link></Li>
-                    <Li><Link to="/interview-questions">Interview Questions</Link></Li>
-                    <Li><Link to="/my-list">My List</Link></Li>
                 </Ul>
             </Nav>
         </Header>
