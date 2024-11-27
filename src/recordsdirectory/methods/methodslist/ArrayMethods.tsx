@@ -347,10 +347,40 @@ export const arrayItems = [
 
         code:
             `
-        //code    
+        //code   
+        //иммутабельный 
         let numbers = [1, 2, 3, 4, 5];
         let sum = numbers.reduce((total, number) => total + number, 0);
         console.log(sum); // 15
+        
+        //есть массив объектов
+        const users = [
+            { id: 1, name: "Alice" },
+            { id: 2, name: "Bob" },
+            { id: 3, name: "Charlie" }
+        ];
+        
+        //ожидаем получить
+        {
+            1: "Alice",
+            2: "Bob",
+            3: "Charlie"
+        }
+        
+        //шаг 1
+        const userObject = users.reduce((acc, user) => {
+            // Коллбэк принимает два параметра:
+            // acc — аккумулятор (то, что возвращается после каждой итерации)
+            // user — текущий элемент массива
+        }, {}); // {} — начальное значение аккумулятора
+        // шаг 2
+        const userObject = users.reduce((acc, user) => {
+            acc[user.id] = user.name; // Добавляем пару ID: name в объект
+            return acc; // Возвращаем обновленный аккумулятор
+        }, {});
+        //выводим результат
+        console.log(userObject);
+        // { 1: "Alice", 2: "Bob", 3: "Charlie" }
             `
     },
     {
