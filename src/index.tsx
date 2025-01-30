@@ -4,15 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {GlobalStyles} from "./styles/GlobalStyles";
+import {HashRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-      <GlobalStyles/>
-  </React.StrictMode>
+    <React.StrictMode>
+        <HashRouter>
+            <App/>
+            <GlobalStyles/>
+        </HashRouter>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

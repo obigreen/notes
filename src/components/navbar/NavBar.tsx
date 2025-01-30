@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
-import {Events} from "../../recordsdirectory/events/Events";
 
 export const NavBar = () => {
     return (
@@ -10,7 +9,7 @@ export const NavBar = () => {
                 <Ul>
                     <Li><Link to="/hooks">Hooks</Link></Li>
                     <Li><Link to="/methods">Methods</Link></Li>
-                    <Li><Link to="/propertys">Properties</Link></Li>
+                    <Li><Link to="/properties">Properties</Link></Li>
                     <Li><Link to="/events">Events</Link></Li>
                 </Ul>
             </Nav>

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {Navigate, Route, Routes} from "react-router-dom";
 import './App.css';
 import styled from "styled-components";
 import { MrEye } from "./components/mreye/MrEye";
@@ -11,7 +11,7 @@ import {Events} from "./recordsdirectory/events/Events";
 
 const App = () => {
     return (
-        <Router>
+        <>
             <Container>
                 <MrEye />
 
@@ -22,14 +22,15 @@ const App = () => {
                 <NavBar />
                 <Article>
                     <Routes>
-                        <Route path="/hooks" element={<Hooks />} />
-                        <Route path="/methods" element={<Methods />} />
-                        <Route path="/propertys" element={<Propertys />} />
-                        <Route path="/events" element={<Events />} />
+                        <Route path={"/"} element={<Navigate to={"start"}/>}/>
+                        <Route path={"hooks"} element={<Hooks />} />
+                        <Route path={"methods"} element={<Methods />} />
+                        <Route path={"properties"} element={<Propertys />} />
+                        <Route path={"events"} element={<Events />} />
                     </Routes>
                 </Article>
             </Container>
-        </Router>
+        </>
     );
 };
 
