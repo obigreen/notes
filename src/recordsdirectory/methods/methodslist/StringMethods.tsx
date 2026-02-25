@@ -159,12 +159,41 @@ export const stringItems = [
     },
     {
         highlight: ".replace()",
-        content: "Возвращает новую строку с некоторыми или всеми совпадениями с шаблоном, замененными на заменитель",
+        content: "Используется, когда нужно изменить часть строки по шаблону: исправить текст, нормализовать ввод пользователя или очистить строку перед проверками. Метод не изменяет исходную строку, а возвращает новую",
         code:
             `
         //code
-        let str = 'Привет, мир!';
-        console.log(str.replace('мир', 'JavaScript')); // 'Привет, JavaScript!'
+        //Не мутирующий
+
+        string.replace(pattern, replacement)
+        //pattern: строка или регулярное выражение
+        //replacement: строка или функция, которая формирует замену
+
+        //1) Базовая замена (если pattern - строка, заменится только первое совпадение)
+        const text = 'Привет, мир! Мир большой.';
+        console.log(text.replace('мир', 'JavaScript')); // 'Привет, JavaScript! Мир большой.'
+
+        //2) Замена всех вхождений через регулярное выражение + флаг g
+        const message = 'cat and dog and cat';
+        console.log(message.replace(/cat/g, 'fox')); // 'fox and dog and fox'
+
+        //3) Замена без учета регистра (флаг i)
+        const title = 'JavaScript и javascript';
+        console.log(title.replace(/javascript/gi, 'JS')); // 'JS и JS'
+
+        //4) Очистка строки от лишних символов (полезно для валидации и алгоритмов)
+        const raw = 'A man, a plan, a canal: Panama!';
+        const normalized = raw.replace(/[^a-z0-9]/gi, '').toLowerCase();
+        console.log(normalized); // 'amanaplanacanalpanama'
+
+        //5) Замена через функцию (когда логика зависит от найденного значения)
+        const prices = 'apple 10, banana 25';
+        const updated = prices.replace(/\\d+/g, (num) => String(Number(num) * 2));
+        console.log(updated); // 'apple 20, banana 50'
+
+        //Итог:
+        //.replace() помогает не только "поменять слово", но и подготовить строку к сравнению,
+        //поиску, валидации и другим преобразованиям текста.
             `
     },
     {
@@ -322,6 +351,5 @@ export const SrtingMethods: React.FC<MethodProps> = ({stringItems = []}) => {
         </NoteBlock>
     );
 };
-
 
 
