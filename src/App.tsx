@@ -8,6 +8,7 @@ import { Propertys } from "./recordsdirectory/propertys/Propertys";
 import { Hooks } from "./recordsdirectory/hooks/Hooks";
 import { NavBar } from "./components/navbar/NavBar";
 import {Events} from "./recordsdirectory/events/Events";
+import {Regex} from "./recordsdirectory/regex/Regex";
 
 const App = () => {
     return (
@@ -27,6 +28,7 @@ const App = () => {
                         <Route path={"methods"} element={<Methods />} />
                         <Route path={"properties"} element={<Propertys />} />
                         <Route path={"events"} element={<Events />} />
+                        <Route path={"regex"} element={<Regex />} />
                     </Routes>
                 </Article>
             </Container>
@@ -66,4 +68,3 @@ const Article = styled.article`
 `
 
 export default App;
-

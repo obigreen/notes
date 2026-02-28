@@ -5,275 +5,681 @@ import {NoteBlock, Text} from '../../RecordsDirectory_Style';
 
 import {S} from '../Property_Styles'
 
+type PropertyItem = {
+    highlight: string;
+    content: string;
+    code: string;
+    isTop?: boolean;
+};
 
-export const propertys = [
+export const propertys: PropertyItem[] = [
 
     {
         highlight: ".length",
-        content: "Возвращает длину строки или количество элементов в массиве.",
+        content: "Возвращает длину строки, массива или количество аргументов функции.",
+        isTop: true,
         code: `
-    // Пример 1: Длина строки
-    let greeting = 'Здравствуй, мир!';
-    console.log(greeting.length); // 14
-    
-    // Пример 2: Количество элементов в массиве
-    let fruits = ['Яблоко', 'Банан', 'Груша'];
+    // Примеры для .length
+
+    // 1) Длина строки
+    const greeting = 'Здравствуй, мир!';
+    console.log(greeting.length); // 16
+
+    // 2) Количество элементов в массиве
+    const fruits = ['Яблоко', 'Банан', 'Груша'];
     console.log(fruits.length); // 3
-    
-    // Пример 3: Длина пустой строки
-    let emptyString = '';
-    console.log(emptyString.length); // 0
+
+    // 3) Последний элемент массива
+    const lastFruit = fruits[fruits.length - 1];
+    console.log(lastFruit); // 'Груша'
+
+    // 4) Реальный кейс: ограничение ввода по длине
+    const userName = 'Sergey';
+    if (userName.length >= 3) {
+      console.log('Имя валидно');
+    }
         `
     },
 
     {
         highlight: ".current",
-        content: "Свойство 'current' часто встречается в контексте React, особенно в связке с useRef Hook. Оно содержит текущее значение ссылки на элемент DOM или компонент, к которому привязан ref.",
+        content: "Содержит текущее значение ref (часто используется с useRef в React).",
+        isTop: true,
         code: `
-    // Пример использования свойства 'current' с useRef в React
+    // Пример свойства .current в React
     import React, { useRef, useEffect } from 'react';
-    
-    function MyComponent() {
-      // Создаем ref объект с начальным значением null
-      const myElementRef = useRef(null);
-    
+
+    function SearchInput() {
+      const inputRef = useRef<HTMLInputElement | null>(null);
+
       useEffect(() => {
-        // 'current' содержит текущее значение привязанного элемента
-        if (myElementRef.current) {
-          console.log(myElementRef.current); // доступ к DOM-элементу
+        // После монтирования .current содержит DOM-элемент input
+        inputRef.current?.focus();
+      }, []);
+
+      const clear = () => {
+        if (inputRef.current) {
+          inputRef.current.value = '';
         }
-      }, []); // Пустой массив зависимостей, чтобы effect запустился один раз после монтирования компонента
-    
-      // Привязываем ref к элементу DOM
-      return <div ref={myElementRef}>Привет, мир!</div>;
+      };
+
+      return (
+        <div>
+          <input ref={inputRef} placeholder='Поиск...' />
+          <button onClick={clear}>Очистить</button>
+        </div>
+      );
     }
-    
-    export default MyComponent;
-    
-    // В этом примере компонент MyComponent использует useRef для создания ссылки на div элемент.
-    // Свойство 'current' этой ссылки будет указывать на соответствующий DOM-элемент после монтирования компонента.
-    // Использование useEffect с пустым массивом зависимостей гарантирует, что доступ к элементу через 'current' произойдет после монтирования компонента.
-    `
+
+    // Важно: изменение ref.current НЕ вызывает ререндер.
+        `
     },
 
     {
         highlight: ".prototype",
-        content: "Позволяет добавлять новые свойства и методы к конструкторам объектов.",
+        content: "Позволяет добавлять свойства и методы в прототип функции-конструктора.",
         code: `
-    // Пример 1: Добавление метода к конструктору
+    // 1) Добавление метода в prototype
     function Person(name) {
       this.name = name;
     }
-    Person.prototype.greet = function() {
-      console.log('Привет, ' + this.name);
+
+    Person.prototype.greet = function () {
+      return 'Привет, ' + this.name;
     };
-    let person = new Person('Анна');
-    person.greet(); // Привет, Анна
-    
-    // Пример 2: Добавление свойства через prototype
-    function Animal(name) {
-      this.name = name;
-    }
-    Animal.prototype.numberOfLegs = 4;
-    let dog = new Animal('Собака');
-    console.log(dog.numberOfLegs); // 4
-    
-    // Пример 3: Расширение встроенных объектов
-    String.prototype.sayHello = function() {
-      return 'Привет, ' + this + '!';
-    };
-    console.log('мир'.sayHello()); // Привет, мир!
+
+    const p = new Person('Анна');
+    console.log(p.greet()); // 'Привет, Анна'
+
+    // 2) Общее свойство для всех экземпляров
+    Person.prototype.role = 'student';
+    console.log(p.role); // 'student'
+
+    // 3) Практика: если метод общий, лучше класть в prototype,
+    // а не создавать функцию заново в каждом объекте.
         `
     },
+
     {
         highlight: ".constructor",
-        content: "Содержит функцию-конструктор для создания объекта.",
+        content: "Ссылается на функцию-конструктор, создавшую объект.",
         code: `
-    // Пример 1: Получение конструктора объекта
-    let numbers = [1, 2, 3];
+    // 1) Проверка конструктора
+    const numbers = [1, 2, 3];
     console.log(numbers.constructor === Array); // true
-    
-    // Пример 2: Создание экземпляра через constructor
-    let original = new Date();
-    let copy = new original.constructor();
-    console.log(copy instanceof Date); // true
-    
-    // Пример 3: Использование constructor для проверки типа
-    function isInstanceOfArray(obj) {
-      return obj.constructor === Array;
-    }
-    console.log(isInstanceOfArray([1, 2, 3])); // true
-    console.log(isInstanceOfArray({key: 'value'})); // false
+
+    // 2) Создание копии через constructor
+    const originalDate = new Date();
+    const copyDate = new originalDate.constructor(originalDate.getTime());
+    console.log(copyDate instanceof Date); // true
+
+    // 3) Осторожно: constructor можно переопределить,
+    // поэтому для точных проверок часто используют Array.isArray и instanceof.
         `
     },
+
     {
         highlight: ".innerHTML",
         content: "Получает или задает HTML-содержимое элемента.",
+        isTop: true,
         code: `
-    // Пример 1: Получение HTML-содержимого
-    let div = document.createElement('div');
-    div.innerHTML = '<p>Это параграф.</p>';
-    console.log(div.innerHTML); // <p>Это параграф.</p>
-    
-    // Пример 2: Изменение HTML-содержимого
-    let container = document.createElement('div');
-    container.innerHTML = '<p>Старое содержимое</p>';
-    container.innerHTML = '<p>Новое содержимое</p>';
-    console.log(container.innerHTML); // <p>Новое содержимое</p>
-    
-    // Пример 3: Добавление HTML-элементов
-    let list = document.createElement('ul');
-    list.innerHTML += '<li>Первый элемент</li>';
-    list.innerHTML += '<li>Второй элемент</li>';
+    // 1) Чтение HTML содержимого
+    const card = document.createElement('div');
+    card.innerHTML = '<h3>Заголовок</h3><p>Описание</p>';
+    console.log(card.innerHTML);
+
+    // 2) Полная перезапись содержимого
+    card.innerHTML = '<button>Купить</button>';
+
+    // 3) Добавление фрагмента
+    card.innerHTML += '<span class="badge">NEW</span>';
+
+    // 4) Реальный кейс: рендер списка из API
+    const users = ['Ann', 'Bob', 'Kate'];
+    const list = document.createElement('ul');
+    list.innerHTML = users.map(u => '<li>' + u + '</li>').join('');
     document.body.appendChild(list);
+
+    // Важно: innerHTML может быть опасен при вставке непроверенных данных (XSS).
+        `
+    },
+
+    {
+        highlight: ".textContent",
+        content: "Получает или задает текстовое содержимое без HTML-разметки.",
+        isTop: true,
+        code: `
+    // 1) Установка текста
+    const title = document.createElement('h2');
+    title.textContent = 'Новости';
+
+    // 2) textContent экранирует HTML как обычный текст
+    const msg = document.createElement('p');
+    msg.textContent = '<b>Не жирный текст</b>';
+    console.log(msg.textContent); // '<b>Не жирный текст</b>'
+
+    // 3) Реальный кейс: безопасный вывод пользовательского ввода
+    const userInput = '<script>alert(1)</script>';
+    const output = document.createElement('div');
+    output.textContent = userInput;
+    document.body.appendChild(output);
         `
     },
 
     {
         highlight: ".value",
-        content: "Используется для получения или установки значения элементов формы.",
+        content: "Используется для чтения/записи значения элементов формы.",
+        isTop: true,
         code: `
-    // Пример 1: Получение значения input
-    let input = document.createElement('input');
+    // 1) Input value
+    const input = document.createElement('input');
     input.type = 'text';
     input.value = 'Привет';
-    console.log(input.value); // Привет
-    
-    // Пример 2: Изменение значения
-    input.value = 'Новое приветствие';
-    console.log(input.value); // Новое приветствие
-    
-    // Пример 3: Использование значения из формы
-    input.addEventListener('change', function() {
-      console.log('Новое значение: ', this.value); // Выводит новое значение при его изменении
-    });
-    document.body.appendChild(input);
+    console.log(input.value); // 'Привет'
+
+    // 2) Изменение значения
+    input.value = 'Новое значение';
+
+    // 3) Textarea value
+    const textarea = document.createElement('textarea');
+    textarea.value = 'Комментарий';
+
+    // 4) Реальный кейс: валидация формы
+    function validateEmail(emailInput) {
+      const email = emailInput.value.trim();
+      return email.includes('@') && email.includes('.');
+    }
         `
     },
+
+    {
+        highlight: ".checked",
+        content: "Показывает состояние checkbox/radio: отмечен или нет.",
+        isTop: true,
+        code: `
+    // 1) Проверка checkbox
+    const agree = document.createElement('input');
+    agree.type = 'checkbox';
+    agree.checked = true;
+    console.log(agree.checked); // true
+
+    // 2) Toggle по клику
+    agree.addEventListener('change', () => {
+      console.log('Состояние:', agree.checked);
+    });
+
+    // 3) Реальный кейс: блокировать submit, пока не принято соглашение
+    const submitBtn = document.createElement('button');
+    submitBtn.textContent = 'Отправить';
+    submitBtn.disabled = !agree.checked;
+
+    agree.addEventListener('change', () => {
+      submitBtn.disabled = !agree.checked;
+    });
+        `
+    },
+
+    {
+        highlight: ".disabled",
+        content: "Отключает интерактивность элементов формы (button/input/select).",
+        isTop: true,
+        code: `
+    // 1) Отключение кнопки
+    const btn = document.createElement('button');
+    btn.textContent = 'Сохранить';
+    btn.disabled = true;
+
+    // 2) Включение обратно
+    btn.disabled = false;
+
+    // 3) Отключение инпута
+    const phone = document.createElement('input');
+    phone.disabled = true;
+
+    // 4) Реальный кейс: запретить повторную отправку формы
+    async function handleSubmit() {
+      btn.disabled = true;
+      try {
+        // await api.save(...)
+      } finally {
+        btn.disabled = false;
+      }
+    }
+        `
+    },
+
     {
         highlight: ".src",
-        content: "Получает или устанавливает значение атрибута src для элементов, таких как img или script.",
+        content: "Получает или устанавливает путь к ресурсу (img, script, iframe).",
+        isTop: true,
         code: `
-    // Пример 1: Установка пути к изображению
-    let image = document.createElement('img');
-    image.src = 'image-path.jpg';
-    console.log(image.src); // image-path.jpg
-    
-    // Пример 2: Смена источника изображения
-    image.src = 'another-image-path.jpg';
-    console.log(image.src); // another-image-path.jpg
-    
-    // Пример 3: Загрузка скрипта
-    let script = document.createElement('script');
-    script.src = 'script.js';
+    // 1) Установка изображения
+    const image = document.createElement('img');
+    image.src = '/assets/banner.jpg';
+
+    // 2) Смена источника изображения
+    image.src = '/assets/banner-2.jpg';
+
+    // 3) Подключение скрипта
+    const script = document.createElement('script');
+    script.src = '/widgets/chat.js';
     document.head.appendChild(script);
+
+    // 4) Реальный кейс: fallback если картинка не загрузилась
+    image.onerror = () => {
+      image.src = '/assets/placeholder.png';
+    };
         `
     },
-    {
-        highlight: ".style",
-        content: "Позволяет получить или установить стиль элемента CSS.",
-        code: `
-    // Пример 1: Изменение цвета фона
-    let box = document.createElement('div');
-    box.style.backgroundColor = 'blue';
-    
-    // Пример 2: Установка ширины и высоты
-    box.style.width = '100px';
-    box.style.height = '100px';
-    
-    // Пример 3: Добавление нескольких стилей сразу
-    box.style.cssText = 'border: 1px solid black; padding: 10px;';
-    `
-    },
+
     {
         highlight: ".href",
-        content: "Получает или устанавливает значение атрибута href для ссылок.",
+        content: "Получает или устанавливает адрес ссылки.",
         code: `
-    // Пример 1: Установка атрибута href у ссылки
-    let link = document.createElement('a');
-    link.href = 'http://example.com';
-    console.log(link.href); // http://example.com
-    
-    // Пример 2: Изменение атрибута href
-    link.href = 'http://example.org';
-    console.log(link.href); // http://example.org
-    
-    // Пример 3: Получение атрибута href
-    let currentHref = link.getAttribute('href');
-    console.log(currentHref); // http://example.org
-    `
+    // 1) Создание ссылки
+    const link = document.createElement('a');
+    link.href = 'https://example.com';
+    link.textContent = 'Открыть сайт';
+
+    // 2) Чтение href
+    console.log(link.href);
+
+    // 3) Реальный кейс: добавить UTM-метку
+    const url = new URL(link.href);
+    url.searchParams.set('utm_source', 'notes_app');
+    link.href = url.toString();
+    console.log(link.href);
+        `
     },
+
+    {
+        highlight: ".style",
+        content: "Позволяет читать/изменять inline-стили элемента.",
+        isTop: true,
+        code: `
+    // 1) Базовые стили
+    const box = document.createElement('div');
+    box.style.backgroundColor = 'royalblue';
+    box.style.width = '120px';
+    box.style.height = '60px';
+
+    // 2) Пакетная установка
+    box.style.cssText = 'border-radius: 12px; color: white; padding: 10px;';
+
+    // 3) Чтение стиля
+    console.log(box.style.width); // '120px'
+
+    // 4) Реальный кейс: показать/скрыть блок
+    const panel = document.createElement('div');
+    panel.style.display = 'none';
+
+    function togglePanel(isOpen) {
+      panel.style.display = isOpen ? 'block' : 'none';
+    }
+        `
+    },
+
     {
         highlight: ".classList",
-        content: "Позволяет работать с классами элемента. Добавлять, удалять и проверять наличие.",
+        content: "Добавляет, удаляет, проверяет и переключает CSS-классы.",
+        isTop: true,
         code: `
-    // Пример 1: Добавление класса
-    let button = document.createElement('button');
+    // 1) Добавление класса
+    const button = document.createElement('button');
     button.classList.add('btn');
     button.classList.add('btn-primary');
-    
-    // Пример 2: Удаление класса
+
+    // 2) Удаление
     button.classList.remove('btn-primary');
-    
-    // Пример 3: Переключение класса
-    button.classList.toggle('btn-active');
-    `
+
+    // 3) Переключение
+    button.classList.toggle('is-active');
+
+    // 4) Проверка
+    console.log(button.classList.contains('btn')); // true
+
+    // 5) Реальный кейс: подсветка выбранного пункта меню
+    function selectTab(tab) {
+      document.querySelectorAll('.tab').forEach(el => el.classList.remove('tab--active'));
+      tab.classList.add('tab--active');
+    }
+        `
     },
+
+    {
+        highlight: ".id",
+        content: "Идентификатор элемента (должен быть уникальным в документе).",
+        isTop: true,
+        code: `
+    // 1) Установка id
+    const section = document.createElement('section');
+    section.id = 'profile';
+
+    // 2) Поиск по id
+    document.body.appendChild(section);
+    const found = document.getElementById('profile');
+    console.log(found === section); // true
+
+    // 3) Реальный кейс: якорная навигация
+    const link = document.createElement('a');
+    link.href = '#profile';
+    link.textContent = 'К профилю';
+        `
+    },
+
+    {
+        highlight: ".className",
+        content: "Строка со всеми классами элемента (альтернатива classList).",
+        code: `
+    // 1) Назначение нескольких классов сразу
+    const card = document.createElement('div');
+    card.className = 'card card--shadow card--padded';
+
+    // 2) Перезапись className
+    card.className = 'card card--compact';
+
+    // 3) Получение
+    console.log(card.className); // 'card card--compact'
+
+    // На практике чаще удобнее classList, когда надо добавлять/удалять точечно.
+        `
+    },
+
+    {
+        highlight: ".dataset",
+        content: "Доступ к data-атрибутам элемента через объект dataset.",
+        isTop: true,
+        code: `
+    // 1) Запись data-* атрибутов
+    const item = document.createElement('div');
+    item.dataset.userId = '42';
+    item.dataset.role = 'admin';
+
+    // 2) Чтение
+    console.log(item.dataset.userId); // '42'
+
+    // 3) То же значение через getAttribute
+    console.log(item.getAttribute('data-user-id')); // '42'
+
+    // 4) Реальный кейс: делегирование кликов по карточкам
+    function onCardClick(event) {
+      const target = event.target.closest('[data-user-id]');
+      if (!target) return;
+      console.log('Открываем пользователя:', target.dataset.userId);
+    }
+        `
+    },
+
     {
         highlight: ".parentNode",
         content: "Возвращает родительский узел элемента.",
         code: `
-    // Пример 1: Получение родителя элемента
-    let child = document.createElement('span');
-    let parent = document.createElement('div');
+    // 1) Получение родителя
+    const child = document.createElement('span');
+    const parent = document.createElement('div');
     parent.appendChild(child);
+
     console.log(child.parentNode === parent); // true
-    
-    // Пример 2: Удаление элемента через его родителя
+
+    // 2) Удаление через родителя
     parent.removeChild(child);
-    
-    // Пример 3: Использование parentNode для вставки элемента перед другим элементом
-    let sibling = document.createElement('p');
-    parent.appendChild(sibling);
-    parent.insertBefore(child, sibling);
-    `
+
+    // 3) Реальный кейс: удалить текущий элемент списка
+    const li = document.createElement('li');
+    li.textContent = 'Задача';
+    const ul = document.createElement('ul');
+    ul.appendChild(li);
+    li.parentNode?.removeChild(li);
+        `
     },
+
     {
         highlight: ".children",
-        content: "Возвращает коллекцию дочерних элементов.",
+        content: "Коллекция дочерних HTML-элементов без текстовых узлов.",
+        isTop: true,
         code: `
-    // Пример 1: Получение дочерних элементов
-    let itemList = document.createElement('ul');
-    itemList.innerHTML = '<li>Первый элемент</li><li>Второй элемент</li>';
-    console.log(itemList.children.length); // 2
-    
-    // Пример 2: Доступ к определенному дочернему элементу
-    let firstChild = itemList.children[0];
-    console.log(firstChild.innerHTML); // Первый элемент
-    
-    // Пример 3: Перебор всех дочерних элементов
-    Array.from(itemList.children).forEach(child => {
-      console.log(child.innerHTML);
+    // 1) Получение дочерних элементов
+    const list = document.createElement('ul');
+    list.innerHTML = '<li>Первый</li><li>Второй</li><li>Третий</li>';
+
+    console.log(list.children.length); // 3
+    console.log(list.children[0].textContent); // 'Первый'
+
+    // 2) Преобразование в массив для map/filter
+    const labels = Array.from(list.children).map((el) => el.textContent);
+    console.log(labels); // ['Первый', 'Второй', 'Третий']
+
+    // 3) Реальный кейс: пронумеровать пункты меню
+    Array.from(list.children).forEach((el, index) => {
+      el.setAttribute('data-index', String(index + 1));
     });
-    `
+        `
     },
+
+    {
+        highlight: ".firstElementChild",
+        content: "Возвращает первый дочерний HTML-элемент или null.",
+        code: `
+    const container = document.createElement('div');
+    container.innerHTML = '<p>Первый</p><p>Второй</p>';
+
+    const first = container.firstElementChild;
+    console.log(first?.textContent); // 'Первый'
+
+    // Реальный кейс: добавить класс первому элементу
+    first?.classList.add('is-first');
+        `
+    },
+
+    {
+        highlight: ".lastElementChild",
+        content: "Возвращает последний дочерний HTML-элемент или null.",
+        code: `
+    const container = document.createElement('div');
+    container.innerHTML = '<p>Первый</p><p>Второй</p>';
+
+    const last = container.lastElementChild;
+    console.log(last?.textContent); // 'Второй'
+
+    // Реальный кейс: выделить последний добавленный элемент
+    last?.classList.add('is-last');
+        `
+    },
+
+    {
+        highlight: ".nextElementSibling",
+        content: "Возвращает следующий соседний HTML-элемент.",
+        code: `
+    const wrap = document.createElement('div');
+    wrap.innerHTML = '<span id="a">A</span><span id="b">B</span><span id="c">C</span>';
+
+    const a = wrap.querySelector('#a');
+    const next = a?.nextElementSibling;
+    console.log(next?.id); // 'b'
+
+    // Реальный кейс: перейти к следующему шагу в wizard
+    next?.classList.add('step--active');
+        `
+    },
+
+    {
+        highlight: ".previousElementSibling",
+        content: "Возвращает предыдущий соседний HTML-элемент.",
+        code: `
+    const wrap = document.createElement('div');
+    wrap.innerHTML = '<span id="a">A</span><span id="b">B</span><span id="c">C</span>';
+
+    const c = wrap.querySelector('#c');
+    const prev = c?.previousElementSibling;
+    console.log(prev?.id); // 'b'
+
+    // Реальный кейс: вернуться к прошлому шагу
+    prev?.classList.add('step--active');
+        `
+    },
+
     {
         highlight: ".attributes",
-        content: "Позволяет получить доступ ко всем атрибутам элемента.",
+        content: "Возвращает коллекцию всех атрибутов элемента.",
         code: `
-    // Пример 1: Получение всех атрибутов элемента
-    let inputField = document.createElement('input');
+    const inputField = document.createElement('input');
     inputField.setAttribute('type', 'text');
     inputField.setAttribute('placeholder', 'Введите имя');
-    console.log(inputField.attributes.length); // 2
-    
-    // Пример 2: Доступ к конкретному атрибуту
-    let typeAttribute = inputField.attributes.getNamedItem('type');
-    console.log(typeAttribute.value); // text
-    
-    // Пример 3: Удаление атрибута
-    inputField.removeAttribute('placeholder');
-    `
+    inputField.setAttribute('data-track', 'name-input');
+
+    console.log(inputField.attributes.length); // 3
+
+    const typeAttribute = inputField.attributes.getNamedItem('type');
+    console.log(typeAttribute?.value); // 'text'
+
+    // Реальный кейс: вывести все атрибуты элемента
+    Array.from(inputField.attributes).forEach((attr) => {
+      console.log(attr.name + ': ' + attr.value);
+    });
+        `
+    },
+
+    {
+        highlight: ".clientWidth",
+        content: "Внутренняя ширина элемента (контент + padding, без border/scrollbar).",
+        code: `
+    const box = document.createElement('div');
+    box.style.width = '200px';
+    box.style.padding = '20px';
+    box.style.boxSizing = 'content-box';
+    document.body.appendChild(box);
+
+    console.log(box.clientWidth); // примерно 240 (зависит от браузера/стилей)
+
+    // Реальный кейс: адаптация компонента по ширине контейнера
+    if (box.clientWidth < 400) {
+      box.classList.add('layout-mobile');
+    }
+        `
+    },
+
+    {
+        highlight: ".clientHeight",
+        content: "Внутренняя высота элемента (контент + padding, без border/scrollbar).",
+        code: `
+    const panel = document.createElement('div');
+    panel.style.height = '220px';
+    panel.style.padding = '20px';
+    panel.style.overflow = 'auto';
+    panel.innerHTML = '<div style="height: 1200px"></div>';
+    document.body.appendChild(panel);
+
+    console.log(panel.clientHeight); // зависит от стилей и box-model
+
+    // Реальный кейс: вычислить доступное место для списка
+    const list = document.createElement('ul');
+    list.style.maxHeight = panel.clientHeight - 40 + 'px';
+        `
+    },
+
+    {
+        highlight: ".scrollHeight",
+        content: "Полная высота прокручиваемого содержимого элемента.",
+        isTop: true,
+        code: `
+    const box = document.createElement('div');
+    box.style.height = '100px';
+    box.style.overflow = 'auto';
+    box.innerHTML = '<p>Строка 1</p><p>Строка 2</p><p>Строка 3</p><p>Строка 4</p><p>Строка 5</p>';
+    document.body.appendChild(box);
+
+    console.log(box.clientHeight); // видимая высота
+    console.log(box.scrollHeight); // полная высота контента
+
+    // Реальный кейс: проверка "доскроллил ли пользователь до конца"
+    const isAtBottom = box.scrollTop + box.clientHeight >= box.scrollHeight;
+    console.log(isAtBottom);
+        `
+    },
+
+    {
+        highlight: ".offsetWidth",
+        content: "Ширина элемента с учетом padding и border.",
+        code: `
+    const card = document.createElement('div');
+    card.style.width = '200px';
+    card.style.padding = '20px';
+    card.style.border = '2px solid #000';
+    document.body.appendChild(card);
+
+    console.log(card.clientWidth); // без border
+    console.log(card.offsetWidth); // с border
+
+    // Реальный кейс: вычисление позиции popover относительно ширины блока
+    const popoverX = card.offsetWidth - 12;
+    console.log(popoverX);
+        `
+    },
+
+    {
+        highlight: ".offsetTop",
+        content: "Расстояние от верхней границы элемента до верхней границы offsetParent.",
+        code: `
+    const section = document.createElement('section');
+    section.style.marginTop = '300px';
+    section.textContent = 'Секция';
+    document.body.appendChild(section);
+
+    console.log(section.offsetTop); // примерно 300+ (зависит от верстки)
+
+    // Реальный кейс: скролл к блоку с небольшим отступом
+    window.scrollTo({
+      top: section.offsetTop - 16,
+      behavior: 'smooth'
+    });
+        `
+    },
+
+    {
+        highlight: ".scrollTop",
+        content: "Текущая позиция вертикального скролла внутри элемента.",
+        isTop: true,
+        code: `
+    const panel = document.createElement('div');
+    panel.style.height = '120px';
+    panel.style.overflow = 'auto';
+    panel.innerHTML = '<div style="height: 1000px"></div>';
+    document.body.appendChild(panel);
+
+    // Прокрутить программно
+    panel.scrollTop = 200;
+    console.log(panel.scrollTop); // 200
+
+    // Реальный кейс: показать кнопку "Наверх"
+    panel.addEventListener('scroll', () => {
+      const showToTop = panel.scrollTop > 150;
+      console.log('Показывать кнопку вверх:', showToTop);
+    });
+        `
+    },
+
+    {
+        highlight: ".files",
+        content: "Список выбранных файлов в input[type='file'].",
+        code: `
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.multiple = true;
+
+    fileInput.addEventListener('change', () => {
+      const files = fileInput.files;
+      if (!files || files.length === 0) return;
+
+      console.log('Количество файлов:', files.length);
+      console.log('Первый файл:', files[0].name, files[0].size);
+    });
+
+    // Реальный кейс: ограничение размера файла
+    function isFileAllowed(file) {
+      const maxSizeMb = 5;
+      return file.size <= maxSizeMb * 1024 * 1024;
+    }
+        `
     }
 ];
 
@@ -296,6 +702,7 @@ export const Property = () => {
                     {propertys.map((item, index) => (
                         <S.Item key={index}>
                             <S.HighlightedText
+                                $isTop={item.isTop}
                                 onClick={() => item.code && setSelectedCode(item.code)}>
                                 {item.highlight}
                             </S.HighlightedText>: {item.content}
@@ -317,6 +724,3 @@ export const Property = () => {
         </NoteBlock>
     );
 };
-
-
-

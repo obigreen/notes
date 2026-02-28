@@ -22,8 +22,20 @@ export const stringItems = [
         code:
             `
         //code
-        let str = 'Привет, мир!';
+        //Не мутирующий
+        //str.charAt(index)
+
+        const str = 'Привет, мир!';
         console.log(str.charAt(0)); // 'П'
+        console.log(str.charAt(8)); // 'м'
+
+        //Если индекс вне диапазона - вернется пустая строка
+        console.log(str.charAt(999)); // ''
+
+        //Полезно, когда нужен первый символ:
+        const name = 'sergey';
+        const upperFirst = name.charAt(0).toUpperCase() + name.slice(1);
+        console.log(upperFirst); // 'Sergey'
             `
     },
     {
@@ -132,8 +144,18 @@ export const stringItems = [
         code:
             `
         //code
-        let str = 'Привет, мир!';
+        //Не мутирующий
+        //str.indexOf(searchValue[, fromIndex])
+
+        const str = 'Привет, мир! Мир большой.';
         console.log(str.indexOf('мир')); // 8
+        console.log(str.indexOf('Мир')); // 13 (чувствителен к регистру)
+
+        //Поиск начиная с конкретной позиции
+        console.log(str.indexOf('Мир', 14)); // -1
+
+        //Стандартная проверка наличия подстроки
+        console.log(str.indexOf('React') !== -1); // false
             `
     },
     {
@@ -142,8 +164,17 @@ export const stringItems = [
         code:
             `
         //code
-        let str = 'мир, мир, мир!';
+        //Не мутирующий
+        //str.lastIndexOf(searchValue[, fromIndex])
+
+        const str = 'мир, мир, мир!';
         console.log(str.lastIndexOf('мир')); // 10
+
+        //Ограничение справа через fromIndex
+        console.log(str.lastIndexOf('мир', 7)); // 5
+
+        //Если не найдено -1
+        console.log(str.lastIndexOf('react')); // -1
             `
     },
     {
@@ -152,9 +183,21 @@ export const stringItems = [
         code:
             `
         //code
-        let str = 'Привет, мир!';
-        let regex = /\\w+/g;
-        console.log(str.match(regex)); // ['Привет', 'мир']
+        //Не мутирующий
+        //str.match(regex)
+
+        const str = 'Привет, мир! JavaScript 2026';
+
+        //С флагом g - массив всех совпадений
+        console.log(str.match(/[A-Za-z]+/g)); // ['JavaScript']
+
+        //Без g - первое совпадение + служебные данные
+        const result = str.match(/\\d+/);
+        console.log(result?.[0]); // '2026'
+        console.log(result?.index); // индекс начала совпадения
+
+        //Если совпадений нет, вернется null
+        console.log(str.match(/React/)); // null
             `
     },
     {
@@ -202,9 +245,18 @@ export const stringItems = [
         code:
             `
         //code
-        let str = 'Привет, мир!';
-        let regex = /мир/;
-        console.log(str.search(regex)); // 8
+        //Не мутирующий
+        //str.search(regex)
+
+        const str = 'Привет, мир!';
+        console.log(str.search(/мир/)); // 8
+
+        //Удобно с регулярками
+        const message = 'Order #4821 created';
+        console.log(message.search(/#\\d+/)); // 6
+
+        //Если не найдено
+        console.log(message.search(/cancelled/)); // -1
             `
     },
     {
@@ -213,8 +265,16 @@ export const stringItems = [
         code:
             `
         //code
-        let str = 'Привет, мир!';
+        //Не мутирующий
+        //str.slice(beginIndex[, endIndex])
+
+        const str = 'Привет, мир!';
         console.log(str.slice(8)); // 'мир!'
+        console.log(str.slice(0, 6)); // 'Привет'
+
+        //Поддерживает отрицательные индексы
+        console.log(str.slice(-4)); // 'мир!'
+        console.log(str.slice(-4, -1)); // 'мир'
             `
     },
     {
@@ -265,8 +325,16 @@ export const stringItems = [
         code:
             `
         //code
-        let str = 'Привет, мир!';
+        //Не мутирующий
+        //str.substr(start[, length])
+        //Метод считается устаревающим, чаще используют slice/substring
+
+        const str = 'Привет, мир!';
         console.log(str.substr(8, 3)); // 'мир'
+        console.log(str.substr(8)); // 'мир!'
+
+        //Отрицательный start считается с конца
+        console.log(str.substr(-4, 3)); // 'мир'
             `
     },
     {
@@ -275,8 +343,18 @@ export const stringItems = [
         code:
             `
         //code
-        let str = 'Привет, мир!';
+        //Не мутирующий
+        //str.substring(startIndex[, endIndex])
+
+        const str = 'Привет, мир!';
         console.log(str.substring(8, 11)); // 'мир'
+        console.log(str.substring(8)); // 'мир!'
+
+        //Если start > end, JS поменяет их местами
+        console.log(str.substring(11, 8)); // 'мир'
+
+        //Отрицательные значения превращаются в 0
+        console.log(str.substring(-3, 6)); // 'Привет'
             `
     },
     {
@@ -285,8 +363,14 @@ export const stringItems = [
         code:
             `
         //code
-        let str = 'Привет, Мир!';
+        //Не мутирующий
+
+        const str = 'Привет, Мир!';
         console.log(str.toLowerCase()); // 'привет, мир!'
+
+        //Практика: регистронезависимый поиск
+        const input = 'JaVaScRiPt';
+        console.log(input.toLowerCase() === 'javascript'); // true
             `
     },
     {
@@ -295,8 +379,14 @@ export const stringItems = [
         code:
             `
         //code
-        let str = 'Привет, мир!';
+        //Не мутирующий
+
+        const str = 'Привет, мир!';
         console.log(str.toUpperCase()); // 'ПРИВЕТ, МИР!'
+
+        //Практика: нормализация перед сравнением
+        const role = 'admin';
+        console.log(role.toUpperCase() === 'ADMIN'); // true
             `
     },
     {
@@ -305,8 +395,18 @@ export const stringItems = [
         code:
             `
         //code
-        let str = '   Привет, мир!   ';
+        //Не мутирующий
+        //Удаляет пробелы/переводы строк/табуляцию по краям
+
+        const str = '   Привет, мир!   ';
         console.log(str.trim()); // 'Привет, мир!'
+
+        const withBreaks = '\\n\\t  text  \\t\\n';
+        console.log(withBreaks.trim()); // 'text'
+
+        //Частый кейс: подготовка пользовательского ввода
+        const emailInput = '  user@mail.com  ';
+        console.log(emailInput.trim()); // 'user@mail.com'
             `
     }
 ];
@@ -351,5 +451,4 @@ export const SrtingMethods: React.FC<MethodProps> = ({stringItems = []}) => {
         </NoteBlock>
     );
 };
-
 

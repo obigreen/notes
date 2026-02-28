@@ -11,6 +11,7 @@ export const NavBar = () => {
                     <Li><Link to="/methods">Methods</Link></Li>
                     <Li><Link to="/properties">Properties</Link></Li>
                     <Li><Link to="/events">Events</Link></Li>
+                    <Li><Link to="/regex">Regex</Link></Li>
                 </Ul>
             </Nav>
         </Header>

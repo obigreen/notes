@@ -299,9 +299,31 @@ export const arrayItems = [
         code:
             `
         //code    
-        let fruits = ['Яблоко', 'Банан', 'Апельсин'];
+        //Мутирующий
+        //arr.sort([compareFn])
+
+        const fruits = ['Яблоко', 'Банан', 'Апельсин'];
         fruits.sort();
         console.log(fruits); // ['Апельсин', 'Банан', 'Яблоко']
+
+        //Для чисел нужен compareFn, иначе сортировка будет как строки
+        const numbers = [10, 2, 100, 5];
+        numbers.sort((a, b) => a - b);
+        console.log(numbers); // [2, 5, 10, 100]
+
+        //Сортировка объектов
+        const users = [
+            { name: 'Alice', age: 25 },
+            { name: 'Bob', age: 20 }
+        ];
+        users.sort((a, b) => a.age - b.age);
+        console.log(users); // Bob, Alice
+
+        //Если нужно без мутации:
+        const original = [3, 1, 2];
+        const sortedCopy = [...original].sort((a, b) => a - b);
+        console.log(original); // [3, 1, 2]
+        console.log(sortedCopy); // [1, 2, 3]
             `
     },
     {
@@ -311,22 +333,27 @@ export const arrayItems = [
         code:
             `
         //code    
-        let numbers = [1, 2, 3, 4, 5, 6];
-        let evenNumbers = numbers.filter(number => number % 2 === 0);
+        //Не мутирующий
+        //arr.filter(callback)
+
+        const numbers = [1, 2, 3, 4, 5, 6];
+        const evenNumbers = numbers.filter((number) => number % 2 === 0);
         console.log(evenNumbers); // [2, 4, 6]
-        
-        
-        //---
-        let [tasks, setTasks] = useState([
-        {id: 1, title: "HTML & CSS", isDone: true},
-        {id: 2, title: "JS & TS", isDone: true},
-        {id: 3, title: "REACT", isDone: false}
-        ]);
-        
-        function removeTasak(taskId: number) {
-        let resutlTasks = tasks.filter(t => t.id !== taskId)
-        setTasks(resutlTasks)
-        } 
+        console.log(numbers); // [1, 2, 3, 4, 5, 6]
+
+        //Фильтрация массива объектов
+        const tasks = [
+            { id: 1, title: 'HTML & CSS', isDone: true },
+            { id: 2, title: 'JS & TS', isDone: true },
+            { id: 3, title: 'REACT', isDone: false }
+        ];
+        const completed = tasks.filter((task) => task.isDone);
+        console.log(completed); // первые 2 элемента
+
+        //Частый кейс в React: удалить элемент по id
+        const taskId = 2;
+        const updatedTasks = tasks.filter((task) => task.id !== taskId);
+        console.log(updatedTasks); // без task с id=2
             `
     },
     {
@@ -336,9 +363,24 @@ export const arrayItems = [
         code:
             `
         //code    
-        let numbers = [1, 2, 3, 4, 5];
-        let squares = numbers.map(number => number * number);
+        //Не мутирующий
+        //arr.map(callback)
+
+        const numbers = [1, 2, 3, 4, 5];
+        const squares = numbers.map((number) => number * number);
         console.log(squares); // [1, 4, 9, 16, 25]
+
+        //Преобразование массива объектов
+        const users = [
+            { id: 1, name: 'Alice' },
+            { id: 2, name: 'Bob' }
+        ];
+        const names = users.map((user) => user.name);
+        console.log(names); // ['Alice', 'Bob']
+
+        //Добавление поля в каждый объект
+        const usersWithRole = users.map((user) => ({ ...user, role: 'student' }));
+        console.log(usersWithRole);
             `
     },
     {
@@ -390,11 +432,21 @@ export const arrayItems = [
         code:
             `
         //code    
-        let fruits = ['Яблоко', 'Банан', 'Апельсин'];
-        fruits.forEach(fruit => console.log(fruit));
+        //Не возвращает новый массив (в отличие от map)
+        //arr.forEach(callback)
+
+        const fruits = ['Яблоко', 'Банан', 'Апельсин'];
+        fruits.forEach((fruit) => console.log(fruit));
         // 'Яблоко'
         // 'Банан'
         // 'Апельсин'
+
+        //Подсчет суммы через внешний аккумулятор
+        let sum = 0;
+        [1, 2, 3, 4].forEach((n) => {
+            sum += n;
+        });
+        console.log(sum); // 10
             `
     },
     {
@@ -404,9 +456,16 @@ export const arrayItems = [
         code:
             `
         //code    
-        let fruits = ['Яблоко', 'Банан', 'Апельсин'];
-        let index = fruits.indexOf('Банан');
-        console.log(index); // 1
+        //Не мутирующий
+        //arr.indexOf(searchElement[, fromIndex])
+
+        const fruits = ['Яблоко', 'Банан', 'Апельсин', 'Банан'];
+        console.log(fruits.indexOf('Банан')); // 1
+        console.log(fruits.indexOf('Банан', 2)); // 3
+        console.log(fruits.indexOf('Манго')); // -1
+
+        //Проверка наличия (альтернатива includes)
+        console.log(fruits.indexOf('Апельсин') !== -1); // true
             `
     },
     {
@@ -490,9 +549,21 @@ export const arrayItems = [
         code:
             `
         //code    
-        let numbers = [1, 2, 3, 4, 5];
-        let firstEvenNumberIndex = numbers.findIndex(number => number % 2 === 0);
-        console.log(firstEvenNumberIndex); // 1
+        //Не мутирующий
+        //arr.findIndex(callback)
+
+        const numbers = [1, 3, 7, 8, 10];
+        const firstEvenNumberIndex = numbers.findIndex((number) => number % 2 === 0);
+        console.log(firstEvenNumberIndex); // 3
+
+        const users = [
+            { id: 1, name: 'Alice' },
+            { id: 2, name: 'Bob' }
+        ];
+        const indexById = users.findIndex((user) => user.id === 2);
+        console.log(indexById); // 1
+
+        console.log(users.findIndex((user) => user.id === 999)); // -1
             `
     },
     {
@@ -502,9 +573,18 @@ export const arrayItems = [
         code:
             `
         //code    
-        let numbers = [2, 4, 6, 8, 10];
-        let areAllEven = numbers.every(number => number % 2 === 0);
+        //Не мутирующий
+        //arr.every(callback)
+
+        const numbers = [2, 4, 6, 8, 10];
+        const areAllEven = numbers.every((number) => number % 2 === 0);
         console.log(areAllEven); // true
+
+        const mixed = [2, 4, 5];
+        console.log(mixed.every((number) => number % 2 === 0)); // false
+
+        //Для пустого массива вернет true
+        console.log([].every((item) => item > 0)); // true
             `
     },
     {
@@ -514,9 +594,18 @@ export const arrayItems = [
         code:
             `
         //code    
-        let numbers = [1, 2, 3, 4, 5];
-        let isThereAnEvenNumber = numbers.some(number => number % 2 === 0);
+        //Не мутирующий
+        //arr.some(callback)
+
+        const numbers = [1, 2, 3, 4, 5];
+        const isThereAnEvenNumber = numbers.some((number) => number % 2 === 0);
         console.log(isThereAnEvenNumber); // true
+
+        const oddOnly = [1, 3, 5];
+        console.log(oddOnly.some((number) => number % 2 === 0)); // false
+
+        //Для пустого массива вернет false
+        console.log([].some((item) => item > 0)); // false
             `
     },
     {
@@ -606,6 +695,5 @@ export const ArrayMethods: React.FC<MethodProps> = ({arrayItems = []}) => {
         </NoteBlock>
     );
 };
-
 
 

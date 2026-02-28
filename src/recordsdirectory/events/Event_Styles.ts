@@ -11,9 +11,10 @@ const HighlightedText = styled.span<{ $isTop?: boolean }>`
 `;
 
 const List = styled.ul`
-    list-style-type: none; // Убираем маркеры списка
-    padding: 0; // Сбрасываем внутренние отступы
+    list-style-type: none;
+    padding: 0;
 `;
+
 const Item = styled.li`
     position: relative;
     line-height: 1.8;
@@ -25,7 +26,7 @@ const Item = styled.li`
 `;
 
 const PopupWrapper = styled.div`
-    position: absolute;
+    position: fixed;
     max-width: 900px;
     width: 100%;
     top: 50%;
@@ -34,6 +35,8 @@ const PopupWrapper = styled.div`
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 10;
+    max-height: 90vh;
+    overflow-y: auto;
 `;
 
 const Overlay = styled.div`

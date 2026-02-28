@@ -21,9 +21,14 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry', year: 2020};
-        let keys = Object.keys(car);
+        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
+        const keys = Object.keys(car);
         console.log(keys); // ['make', 'model', 'year']
+
+        //Удобно для перебора
+        keys.forEach((key) => {
+            console.log(key, car[key]);
+        });
             `
     },
     {
@@ -32,9 +37,14 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry', year: 2020};
-        let values = Object.values(car);
+        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
+        const values = Object.values(car);
         console.log(values); // ['Toyota', 'Camry', 2020]
+
+        //Можно, например, суммировать числовые значения
+        const stats = { a: 10, b: 20, c: 5 };
+        const total = Object.values(stats).reduce((sum, n) => sum + n, 0);
+        console.log(total); // 35
             `
     },
     {
@@ -43,9 +53,15 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry', year: 2020};
-        let entries = Object.entries(car);
+        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
+        const entries = Object.entries(car);
         console.log(entries); // [['make', 'Toyota'], ['model', 'Camry'], ['year', 2020]]
+
+        //Частый кейс - обратно собрать объект после фильтрации
+        const filtered = Object.fromEntries(
+            entries.filter(([key]) => key !== 'year')
+        );
+        console.log(filtered); // { make: 'Toyota', model: 'Camry' }
             `
     },
     {
@@ -54,9 +70,21 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry'};
-        let newCar = Object.assign({}, car, {year: 2020});
-        console.log(newCar); // {make: 'Toyota', model: 'Camry', year: 2020}
+        const car = { make: 'Toyota', model: 'Camry' };
+        const newCar = Object.assign({}, car, { year: 2020 });
+        console.log(newCar); // { make: 'Toyota', model: 'Camry', year: 2020 }
+
+        //Merge нескольких источников (справа приоритет)
+        const defaults = { theme: 'light', lang: 'ru' };
+        const user = { lang: 'en' };
+        const settings = Object.assign({}, defaults, user);
+        console.log(settings); // { theme: 'light', lang: 'en' }
+
+        //Важно: копия поверхностная
+        const source = { profile: { name: 'Ann' } };
+        const copy = Object.assign({}, source);
+        copy.profile.name = 'Kate';
+        console.log(source.profile.name); // 'Kate'
             `
     },
     {
@@ -65,11 +93,18 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {wheels: 4};
-        let toyota = Object.create(car);
+        const vehicle = { wheels: 4 };
+        const toyota = Object.create(vehicle);
         toyota.make = 'Toyota';
-        console.log(toyota.wheels); // 4
+
+        console.log(toyota.wheels); // 4 (из прототипа)
         console.log(toyota.make); // 'Toyota'
+        console.log(Object.getPrototypeOf(toyota) === vehicle); // true
+
+        //Создание "чистого" объекта без прототипа
+        const dict = Object.create(null);
+        dict.key = 'value';
+        console.log(dict.key); // 'value'
             `
     },
     {
@@ -78,10 +113,21 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry', year: 2020};
+        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
         Object.freeze(car);
-        car.color = 'Red'; // будет проигнорировано, потому что объект заморожен
-        console.log(car); // {make: 'Toyota', model: 'Camry', year: 2020}
+
+        car.year = 2025; // игнорируется
+        car.color = 'Red'; // игнорируется
+        delete car.model; // игнорируется
+
+        console.log(car); // { make: 'Toyota', model: 'Camry', year: 2020 }
+        console.log(Object.isFrozen(car)); // true
+
+        //Важно: freeze не делает deep freeze
+        const user = { profile: { name: 'Ann' } };
+        Object.freeze(user);
+        user.profile.name = 'Kate';
+        console.log(user.profile.name); // 'Kate'
             `
     },
     {
@@ -90,11 +136,15 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry', year: 2020};
+        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
         Object.seal(car);
-        car.year = 2021; // допустимо, потому что свойство уже существует в объекте
-        car.color = 'Red'; // будет проигнорировано, потому что новые свойства нельзя добавить
-        console.log(car); // {make: 'Toyota', model: 'Camry', year: 2021}
+
+        car.year = 2021; // можно
+        car.color = 'Red'; // нельзя добавить
+        delete car.model; // нельзя удалить
+
+        console.log(car); // { make: 'Toyota', model: 'Camry', year: 2021 }
+        console.log(Object.isSealed(car)); // true
             `
     },
     {
@@ -103,7 +153,9 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry', year: 2020};
+        const car = { make: 'Toyota', model: 'Camry' };
+        console.log(Object.isFrozen(car)); // false
+
         Object.freeze(car);
         console.log(Object.isFrozen(car)); // true
             `
@@ -114,7 +166,9 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry', year: 2020};
+        const car = { make: 'Toyota', model: 'Camry' };
+        console.log(Object.isSealed(car)); // false
+
         Object.seal(car);
         console.log(Object.isSealed(car)); // true
             `
@@ -125,9 +179,12 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry', year: 2020};
+        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
         console.log(car.hasOwnProperty('make')); // true
-        console.log(car.hasOwnProperty('color')); // false
+        console.log(car.hasOwnProperty('toString')); // false (это из прототипа)
+
+        //Безопасный вариант:
+        console.log(Object.prototype.hasOwnProperty.call(car, 'model')); // true
             `
     },
     {
@@ -136,10 +193,16 @@ export const objectItems = [
         code: 
             `
         //code
-        console.log(Object.is('foo', 'foo'));     // true
-        console.log(Object.is(window, window));   // true
-        console.log(Object.is('foo', 'bar'));     // false
-        console.log(Object.is([], []));           // false
+        console.log(Object.is('foo', 'foo')); // true
+        console.log(Object.is('foo', 'bar')); // false
+        console.log(Object.is([], [])); // false
+
+        //Отличия от ===
+        console.log(Object.is(NaN, NaN)); // true
+        console.log(NaN === NaN); // false
+
+        console.log(Object.is(+0, -0)); // false
+        console.log(+0 === -0); // true
             `
     },
     {
@@ -148,8 +211,9 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry', year: 2020};
+        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
         console.log(Object.isExtensible(car)); // true
+
         Object.preventExtensions(car);
         console.log(Object.isExtensible(car)); // false
             `
@@ -160,10 +224,15 @@ export const objectItems = [
         code: 
             `
         //code
-        let car = {make: 'Toyota', model: 'Camry', year: 2020};
+        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
         Object.preventExtensions(car);
-        car.color = 'Red'; // будет проигнорировано, потому что объект не расширяем
-        console.log(car); // {make: 'Toyota', model: 'Camry', year: 2020}
+
+        car.color = 'Red'; // не добавится
+        car.year = 2025; // менять существующее можно
+        delete car.model; // удалять существующее можно
+
+        console.log(car); // { make: 'Toyota', year: 2025 }
+        console.log(Object.isExtensible(car)); // false
             `
     }
 ];
@@ -210,6 +279,5 @@ export const ObjectMethods: React.FC<MethodProps> = ({objectItems = []}) => {
         </NoteBlock>
     );
 };
-
 
 

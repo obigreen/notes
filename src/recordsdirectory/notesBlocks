@@ -32,3 +32,40 @@ detals:
     <iframe src="https://www.youtube.com/embed/84wKkCVqEnk"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
 </VideoContainer>
+
+
+// NEW: table block for cheatsheets
+<TableWrap>
+    <NoteTable>
+        <thead>
+        <tr>
+            <TableHeadCell>Token</TableHeadCell>
+            <TableHeadCell>Meaning</TableHeadCell>
+            <TableHeadCell>Example</TableHeadCell>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <TableCell>
+                <TableToken>\d</TableToken>
+            </TableCell>
+            <TableCell>digit [0-9]</TableCell>
+            <TableCell>
+                <TableToken>/\d+/</TableToken>
+            </TableCell>
+        </tr>
+        </tbody>
+    </NoteTable>
+</TableWrap>
+
+
+// NEW: clickable template list (methods/events style)
+<S.List>
+    {items.map((item, index) => (
+        <S.Item key={index}>
+            <S.HighlightedText onClick={() => setSelectedCode(item.code)}>
+                {item.pattern}
+            </S.HighlightedText>: {item.content}
+        </S.Item>
+    ))}
+</S.List>

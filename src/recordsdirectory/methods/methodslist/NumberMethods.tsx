@@ -21,8 +21,21 @@ export const numberItems = [
         code:
             `
         //code
-        let num = 10.12345;
-        console.log(num.toFixed(2)); // '10.12'
+        //.toFixed(digits)
+        //Возвращает строку (не число)
+
+        const price = 10.12345;
+        console.log(price.toFixed(2)); // '10.12'
+
+        const rounded = 10.999;
+        console.log(rounded.toFixed(2)); // '11.00'
+
+        const whole = 15;
+        console.log(whole.toFixed(3)); // '15.000'
+
+        //Если нужно обратно число:
+        const normalized = Number(price.toFixed(2));
+        console.log(normalized); // 10.12
             `
     },
     {
@@ -31,8 +44,18 @@ export const numberItems = [
         code:
             `
         //code
-        let num = 10.12345;
+        //.toPrecision(precision)
+        //precision - общее количество значащих цифр
+
+        const num = 10.12345;
         console.log(num.toPrecision(3)); // '10.1'
+        console.log(num.toPrecision(5)); // '10.123'
+
+        const small = 0.000123456;
+        console.log(small.toPrecision(2)); // '0.00012'
+
+        const big = 123456;
+        console.log(big.toPrecision(3)); // '1.23e+5'
             `
     },
     {
@@ -41,8 +64,17 @@ export const numberItems = [
         code:
             `
         //code
-        let num = 123;
+        //.toString([radix])
+        //radix - основание системы счисления от 2 до 36
+
+        const num = 123;
         console.log(num.toString()); // '123'
+
+        console.log(num.toString(2)); // '1111011'
+        console.log(num.toString(16)); // '7b'
+
+        const floatNum = 12.5;
+        console.log(floatNum.toString()); // '12.5'
             `
     },
     {
@@ -51,8 +83,17 @@ export const numberItems = [
         code:
             `
         //code
-        let num = new Number(123);
-        console.log(num.valueOf()); // 123
+        //Полезен, когда работаем с объектом-оберткой Number
+
+        const wrapped = new Number(123);
+        console.log(wrapped.valueOf()); // 123
+        console.log(typeof wrapped); // 'object'
+        console.log(typeof wrapped.valueOf()); // 'number'
+
+        //В арифметике JS и так неявно приведет:
+        console.log(wrapped + 7); // 130
+        //Но valueOf() делает это явно:
+        console.log(wrapped.valueOf() + 7); // 130
             `
     }
 ];
@@ -98,6 +139,5 @@ export const NumberMethods: React.FC<MethodProps> = ({numberItems = []}) => {
         </NoteBlock>
     );
 };
-
 
 
