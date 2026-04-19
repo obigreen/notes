@@ -96,7 +96,7 @@ const renderTable = (rows: TableRow[]) => {
 export const Regex = () => {
     return (
         <>
-            <TypeTitle>Regex</TypeTitle>
+            <TypeTitle>Regex (Регулярные выражения)</TypeTitle>
 
             <NoteBlock>
                 <Text>

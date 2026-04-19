@@ -6,10 +6,9 @@ import {TypeTitle} from "../RecordsDirectory_Style";
 export const Hooks = () => {
     return (
         <>
-            <TypeTitle>Hooks</TypeTitle>
+            <TypeTitle>Hooks (Хуки React)</TypeTitle>
            <HookUseState/>
             <HookUseRef/>
         </>
     );
 };
-

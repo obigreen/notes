@@ -193,6 +193,54 @@ export const propertys: PropertyItem[] = [
     },
 
     {
+        highlight: ".selectedIndex",
+        content: "Текущий индекс выбранного option в select (или -1, если ничего не выбрано).",
+        isTop: true,
+        code: `
+    const select = document.createElement('select');
+    select.innerHTML = '<option>ru</option><option>en</option><option>de</option>';
+    select.selectedIndex = 1;
+
+    console.log(select.value); // 'en'
+    console.log(select.selectedIndex); // 1
+
+    // Реальный кейс: синхронизация языка интерфейса
+    select.addEventListener('change', () => {
+      const locale = select.value;
+      document.documentElement.lang = locale;
+    });
+        `
+    },
+
+    {
+        highlight: ".files",
+        content: "Список выбранных файлов у input[type=file]. Используется для валидации и загрузки.",
+        isTop: true,
+        code: `
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.multiple = true;
+
+    fileInput.addEventListener('change', () => {
+      const files = fileInput.files; // FileList
+      if (!files?.length) return;
+
+      // 1) Базовая проверка размеров
+      const tooBig = Array.from(files).find((file) => file.size > 5 * 1024 * 1024);
+      if (tooBig) {
+        console.log('Файл слишком большой:', tooBig.name);
+        return;
+      }
+
+      // 2) Формирование FormData для отправки
+      const formData = new FormData();
+      Array.from(files).forEach((file) => formData.append('files', file));
+      console.log('Готово к upload');
+    });
+        `
+    },
+
+    {
         highlight: ".checked",
         content: "Показывает состояние checkbox/radio: отмечен или нет.",
         isTop: true,

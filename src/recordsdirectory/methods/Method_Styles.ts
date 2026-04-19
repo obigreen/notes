@@ -1,11 +1,13 @@
 import styled from "styled-components";
 
-const HighlightedText = styled.span`
-    background-color: #e8e8e8;
+const HighlightedText = styled.span<{ $isTop?: boolean }>`
+    background-color: ${({$isTop}) => ($isTop ? "#ffd9d9" : "#e8e8e8")};
     border-radius: 5px;
     padding: 2px 5px;
     cursor: pointer;
-    color: #1e1f22;
+    color: ${({$isTop}) => ($isTop ? "#b30a0a" : "#1e1f22")};
+    border: 1px solid ${({$isTop}) => ($isTop ? "#ff9a9a" : "transparent")};
+    font-weight: ${({$isTop}) => ($isTop ? 700 : 500)};
 `;
 
 const List = styled.ul`

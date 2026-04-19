@@ -11,6 +11,7 @@ type MethodProps = {
         highlight: string;
         content: string;
         code: string;
+        isTop?: boolean;
     }>;
 };
 
@@ -40,6 +41,7 @@ export const stringItems = [
     },
     {
         highlight: ".concat()",
+        isTop: true,
         content: "Используется для объединения двух или более строк в одну новую строку. Этот метод не изменяет исходные строки и возвращает новую строку",
         code:
             `
@@ -82,64 +84,36 @@ export const stringItems = [
     },
     {
         highlight: ".includes()",
+        isTop: true,
         content: "Используется для проверки наличия подстроки в строке. Этот метод возвращает true, если подстрока найдена, и false в противном случае. Метод не изменяет исходную строку",
         code:
             `
         //code
         //Не мутирующий
-        
-        string.includes(searchString[, position])
-        //searchString: Строка, которую необходимо найти в исходной строке.
-        //position (необязательный): Позиция, с которой начинать поиск подстроки. По умолчанию равна 0.
-        
-        //Поиск подстроки в строке
-        const str = "Hello, world!";
-        const containsHello = str.includes("Hello");
-        console.log(containsHello); // true
-        
-        //Поиск отсутствующей подстроки
-        const str = "Hello, world!";
-        const containsHi = str.includes("Hi");
-        console.log(containsHi); // false
-        
-        //Поиск подстроки с указанием позиции
-        const str = "Hello, world!";
-        const containsWorld = str.includes("world", 7);
-        
-        console.log(containsWorld); // true
-        //В этом примере метод includes() начинает поиск подстроки "world" с позиции 7. Результат: true.
-        
-        //Поиск подстроки с учетом регистра
-        const str = "Hello, world!";
-        const containshello = str.includes("hello");
-        
-        console.log(containshello); // false
-        //Метод includes() чувствителен к регистру, поэтому в этом примере поиск подстроки "hello" вернет false, так как исходная строка содержит "Hello" с заглавной буквы.
-        
-        //Нюансы использования для фронтенд-разработчиков
-        //Метод includes() полезен для проверки наличия подстрок в текстовых данных, например, для валидации ввода пользователя или поиска в текстовых данных.
-        
-        //Проверка ввода пользователя
-        const userInput = "I love JavaScript!";
-        const keyword = "JavaScript";
-        if (userInput.includes(keyword)) {
-            console.log("Keyword found!"); // Keyword found!
-        } else {
-            console.log("Keyword not found.");
-        }
-        
-        //Проверка существования слова в предложении
-        const sentence = "The quick brown fox jumps over the lazy dog.";
-        const word = "fox";
-        if (sentence.includes(word)) {
-            console.log("The word exists in the sentence."); // The word exists in the sentence.
-        } else {
-            console.log("The word does not exist in the sentence.");
-        }
+
+        //1) Базовый поиск
+        const text = 'Hello, world!';
+        console.log(text.includes('world')); // true
+        console.log(text.includes('react')); // false
+
+        //2) Поиск с позиции
+        console.log(text.includes('o', 5)); // true
+
+        //3) Чувствительно к регистру
+        console.log(text.includes('hello')); // false
+
+        //4) Практика: мягкий поиск по вводу пользователя
+        const query = '  JAVASCRIPT  '.trim().toLowerCase();
+        const title = 'JavaScript Handbook'.toLowerCase();
+        console.log(title.includes(query)); // true
+
+        //Почему так:
+        //trim + toLowerCase убирают "шум" ввода и делают поиск предсказуемым.
             `
     },
     {
         highlight: ".indexOf()",
+        isTop: true,
         content: "Возвращает индекс первого вхождения указанной подстроки, или -1, если подстрока не найдена",
         code:
             `
@@ -179,6 +153,7 @@ export const stringItems = [
     },
     {
         highlight: ".match()",
+        isTop: true,
         content: "Используется для поиска совпадений с регулярным выражением",
         code:
             `
@@ -202,6 +177,7 @@ export const stringItems = [
     },
     {
         highlight: ".replace()",
+        isTop: true,
         content: "Используется, когда нужно изменить часть строки по шаблону: исправить текст, нормализовать ввод пользователя или очистить строку перед проверками. Метод не изменяет исходную строку, а возвращает новую",
         code:
             `
@@ -240,6 +216,31 @@ export const stringItems = [
             `
     },
     {
+        highlight: ".replaceAll()",
+        isTop: true,
+        content: "Заменяет все вхождения подстроки сразу. Удобнее, чем replace() со строкой, когда нужны именно все совпадения.",
+        code:
+            `
+        //code
+        //Не мутирующий
+        //str.replaceAll(searchValue, replaceValue)
+
+        //1) Базовый кейс
+        const text = 'js-js-js';
+        console.log(text.replaceAll('js', 'JavaScript')); // JavaScript-JavaScript-JavaScript
+
+        //2) Практика: нормализация slug
+        const title = 'my awesome article';
+        const slug = title.trim().toLowerCase().replaceAll(' ', '-');
+        console.log(slug); // my-awesome-article
+
+        //3) Когда нужен replace с regex:
+        //если замена по шаблону (например, все цифры), лучше replace(/\\d+/g, ...)
+        const sku = 'id-123-part-456';
+        console.log(sku.replace(/\\d+/g, '#')); // id-#-part-#
+            `
+    },
+    {
         highlight: ".search()",
         content: "Выполняет поиск совпадения между регулярным выражением и этой строкой",
         code:
@@ -261,6 +262,7 @@ export const stringItems = [
     },
     {
         highlight: ".slice()",
+        isTop: true,
         content: "Извлекает часть строки и возвращает новую строку",
         code:
             `
@@ -279,44 +281,36 @@ export const stringItems = [
     },
     {
         highlight: ".split()",
+        isTop: true,
         content: "Разбивает строку по указанному разделителю и возвращает массив подстрок",
         code:
             `
         //code
         //Не мутирующий
-        
-        string.split([separator[, limit]]) 
-        //separator (необязательный): Символ или регулярное выражение, используемое для разделения строки.
-        //Если разделитель не указан, возвращается массив, содержащий всю строку
-        //limit (необязательный): Целое число, ограничивающее количество найденных подстрок. 
-        //Если указано, разделение выполняется не более чем указанное количество раз.
-        
-        
-        //Ориентируется по символу, ..ет,.. (', ') - 
-        //если был бы просто пробел то разделение по пробелу
-        let str = 'Привет, мир!';
-        console.log(str.split(', ')); // ['Привет', 'мир!']
-        //или
-        const str = "Hello world";
-        const words = str.split(" ");
-        console.log(words); // ["Hello", "world"]
-        
-        //Разделение строки с указанием ограничения
-        const str = "one, two, three, four, five";
-        const limitedSplit = str.split(", ", 3);
-        console.log(limitedSplit); // ["one", "two", "three"]
-        
-        //Разделение строки без указания разделителя
-        const str = "hello";
-        const chars = str.split("");
-        console.log(chars); // ["h", "e", "l", "l", "o"]
-        //Если разделитель не указан, метод split() разделяет строку по символам
-        
-        //Разделение строки по регулярному выражению
-        const str = "apple, banana; cherry|date";
-        const fruits = str.split(/[,;|]/);
-        console.log(fruits); // ["apple", "banana", "cherry", "date"]
-        //В этом примере строка разделяется на массив подстрок на основе нескольких разделителей, используя регулярное выражение.
+
+        //1) Базовое разделение
+        const fullName = 'Sergey Budyakin';
+        const parts = fullName.split(' ');
+        console.log(parts); // ['Sergey', 'Budyakin']
+
+        //2) Ограничение количества частей
+        const csv = 'one,two,three,four';
+        console.log(csv.split(',', 2)); // ['one', 'two']
+
+        //3) Разделение по разным разделителям через regex
+        const line = 'apple, banana; cherry | date';
+        const fruits = line.split(/[;,|]\\s*/);
+        console.log(fruits); // ['apple', 'banana', 'cherry', 'date']
+
+        //4) Практика: разбор query-подобной строки
+        const query = 'page=2&sort=price&view=grid';
+        const queryObj = Object.fromEntries(
+          query.split('&').map((pair) => pair.split('='))
+        );
+        console.log(queryObj.sort); // price
+
+        //Почему split важен:
+        //это быстрый "первый этап" парсинга строки перед map/filter/reduce.
             `
     },
     {
@@ -339,6 +333,7 @@ export const stringItems = [
     },
     {
         highlight: ".substring()",
+        isTop: true,
         content: "Возвращает часть строки между двумя индексами",
         code:
             `
@@ -359,6 +354,7 @@ export const stringItems = [
     },
     {
         highlight: ".toLowerCase()",
+        isTop: true,
         content: "Преобразует все символы строки в нижний регистр",
         code:
             `
@@ -375,6 +371,7 @@ export const stringItems = [
     },
     {
         highlight: ".toUpperCase()",
+        isTop: true,
         content: "Преобразует все символы строки в верхний регистр",
         code:
             `
@@ -391,6 +388,7 @@ export const stringItems = [
     },
     {
         highlight: ".trim()",
+        isTop: true,
         content: "Удаляет пробелы с обоих концов строки",
         code:
             `
@@ -424,12 +422,13 @@ export const SrtingMethods: React.FC<MethodProps> = ({stringItems = []}) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Method Srting</NotesTitle>
+            <NotesTitle>String methods (Методы строк)</NotesTitle>
             <Text>
                 <S.List>
                     {stringItems.map((item, index) => (
                         <S.Item key={index}>
                             <S.HighlightedText
+                                $isTop={item.isTop}
                                 onClick={() => item.code && setSelectedCode(item.code)}>
                                 {item.highlight}
                             </S.HighlightedText>: {item.content}
@@ -451,4 +450,3 @@ export const SrtingMethods: React.FC<MethodProps> = ({stringItems = []}) => {
         </NoteBlock>
     );
 };
-

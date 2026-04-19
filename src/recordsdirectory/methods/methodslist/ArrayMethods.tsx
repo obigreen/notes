@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from "react";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/default.css';
-import {NoteBlock, NotesTitle, ParagraphTitle, Text} from '../../RecordsDirectory_Style';
+import {NoteBlock, NotesTitle, Text} from '../../RecordsDirectory_Style';
 
 import {S} from '../Method_Styles'
 
@@ -11,6 +11,7 @@ type MethodProps = {
         highlight: string;
         content: string;
         code: string;
+        isTop?: boolean;
     }>;
 };
 
@@ -19,6 +20,7 @@ export const arrayItems = [
     {
         highlight: ".push()",
         content: "Добавляет один или несколько элементов в конец массива и возвращает новую длину массива",
+        isTop: true,
 
         code:
             `
@@ -54,6 +56,7 @@ export const arrayItems = [
     {
         highlight: ".pop()",
         content: "Удаляет последний элемент из массива и возвращает его. Этот метод изменяет длину массива",
+        isTop: true,
 
         code:
             `
@@ -78,6 +81,7 @@ export const arrayItems = [
     {
         highlight: ".shift()",
         content: "Удаляет первый элемент из массива и возвращает его. Этот метод изменяет длину массива",
+        isTop: true,
 
         code:
             `
@@ -99,6 +103,7 @@ export const arrayItems = [
     {
         highlight: ".unshift()",
         content: "Добавляет один или несколько элементов в начало массива и возвращает новую длину массива",
+        isTop: true,
 
         code:
             `
@@ -156,6 +161,7 @@ export const arrayItems = [
     {
         highlight: ".concat()",
         content: "Используется для объединения двух или более массивов. Этот метод не изменяет существующие массивы, а вместо этого возвращает новый массив",
+        isTop: true,
 
         code:
             `
@@ -194,6 +200,7 @@ export const arrayItems = [
     {
         highlight: ".join()",
         content: "Используется для объединения всех элементов массива в одну строку. Этот метод не изменяет исходный массив и возвращает новую строку.",
+        isTop: true,
 
         code:
             `
@@ -230,6 +237,7 @@ export const arrayItems = [
     {
         highlight: ".reverse()",
         content: "Используется для изменения порядка элементов массива на обратный. Этот метод изменяет исходный массив и возвращает его",
+        isTop: true,
 
         code:
             `
@@ -263,6 +271,7 @@ export const arrayItems = [
     {
         highlight: ".flat()",
         content: "Используется для “выравнивания” многомерных массивов, то есть для объединения элементов вложенных массивов в один одномерный массив. Этот метод возвращает новый массив и не изменяет исходный массив",
+        isTop: true,
 
         code:
             `
@@ -295,6 +304,7 @@ export const arrayItems = [
     {
         highlight: ".sort()",
         content: "Сортирует элементы массива на месте и возвращает массив.\n",
+        isTop: true,
 
         code:
             `
@@ -329,6 +339,7 @@ export const arrayItems = [
     {
         highlight: ".filter()",
         content: "Создает новый массив со всеми элементами, которые проходят условие, реализованное предоставленной функцией",
+        isTop: true,
 
         code:
             `
@@ -359,75 +370,116 @@ export const arrayItems = [
     {
         highlight: ".map()",
         content: "Создает новый массив с результатами вызова предоставленной функции для каждого элемента массива",
+        isTop: true,
 
         code:
             `
-        //code    
+        //code
         //Не мутирующий
         //arr.map(callback)
 
-        const numbers = [1, 2, 3, 4, 5];
-        const squares = numbers.map((number) => number * number);
-        console.log(squares); // [1, 4, 9, 16, 25]
+        //1) Базовое преобразование
+        const numbers = [1, 2, 3];
+        const doubled = numbers.map((n) => n * 2);
+        console.log(doubled); // [2, 4, 6]
 
-        //Преобразование массива объектов
+        //2) Преобразование структуры данных
         const users = [
-            { id: 1, name: 'Alice' },
-            { id: 2, name: 'Bob' }
+          { id: 1, name: 'Alice', points: 12 },
+          { id: 2, name: 'Bob', points: 5 }
         ];
-        const names = users.map((user) => user.name);
-        console.log(names); // ['Alice', 'Bob']
+        const preview = users.map((user) => ({
+          id: user.id,
+          label: user.name + ' (' + user.points + ')'
+        }));
+        console.log(preview);
 
-        //Добавление поля в каждый объект
-        const usersWithRole = users.map((user) => ({ ...user, role: 'student' }));
-        console.log(usersWithRole);
+        //3) Практика: подготовка данных для UI
+        //Почему map: UI часто рендерит "view-model", а не сырые данные API.
+        const cards = users.map((user) => ({
+          ...user,
+          isTop: user.points >= 10
+        }));
+        console.log(cards);
+            `
+    },
+    {
+        highlight: ".flatMap()",
+        content: "Комбинирует map + flat(1): удобно, когда один элемент превращается в 0, 1 или несколько элементов.",
+        isTop: true,
+
+        code:
+            `
+        //code
+        //Не мутирующий
+        //arr.flatMap(callback)
+
+        //1) Из каждого числа делаем пару [n, n*10]
+        const base = [1, 2, 3];
+        const expanded = base.flatMap((n) => [n, n * 10]);
+        console.log(expanded); // [1, 10, 2, 20, 3, 30]
+
+        //2) Фильтрация + преобразование в одном проходе
+        //Возвращаем [] чтобы "выкинуть" элемент
+        const words = ['ok', '', 'js'];
+        const normalized = words.flatMap((word) => {
+          if (!word) return [];
+          return [word.toUpperCase()];
+        });
+        console.log(normalized); // ['OK', 'JS']
+
+        //3) Практика: распаковать теги из массива статей
+        const posts = [
+          { id: 1, tags: ['js', 'react'] },
+          { id: 2, tags: ['js', 'css'] }
+        ];
+        const allTags = posts.flatMap((post) => post.tags);
+        console.log(allTags); // ['js', 'react', 'js', 'css']
             `
     },
     {
         highlight: ".reduce()",
         content: "Применяет функцию к аккумулятору и каждому значению массива (слева направо), чтобы свести его к одному значению",
+        isTop: true,
 
         code:
             `
-        //code   
-        //иммутабельный 
-        let numbers = [1, 2, 3, 4, 5];
-        let sum = numbers.reduce((total, number) => total + number, 0);
-        console.log(sum); // 15
-        
-        //есть массив объектов
+        //code
+        //Не мутирующий (если не мутировать accumulator вручную)
+        //arr.reduce((acc, item) => nextAcc, initialAcc)
+
+        //1) Базовый кейс: сумма
+        const numbers = [1, 2, 3, 4, 5];
+        const total = numbers.reduce((acc, n) => acc + n, 0);
+        console.log(total); // 15
+
+        //2) Группировка в объект
         const users = [
-            { id: 1, name: "Alice" },
-            { id: 2, name: "Bob" },
-            { id: 3, name: "Charlie" }
+          { id: 1, name: 'Alice', role: 'dev' },
+          { id: 2, name: 'Bob', role: 'qa' },
+          { id: 3, name: 'Kate', role: 'dev' }
         ];
-        
-        //ожидаем получить
-        {
-            1: "Alice",
-            2: "Bob",
-            3: "Charlie"
-        }
-        
-        //шаг 1
-        const userObject = users.reduce((acc, user) => {
-            // Коллбэк принимает два параметра:
-            // acc — аккумулятор (то, что возвращается после каждой итерации)
-            // user — текущий элемент массива
-        }, {}); // {} — начальное значение аккумулятора
-        // шаг 2
-        const userObject = users.reduce((acc, user) => {
-            acc[user.id] = user.name; // Добавляем пару ID: name в объект
-            return acc; // Возвращаем обновленный аккумулятор
+        const byRole = users.reduce((acc, user) => {
+          const list = acc[user.role] ?? [];
+          return { ...acc, [user.role]: [...list, user] };
         }, {});
-        //выводим результат
-        console.log(userObject);
-        // { 1: "Alice", 2: "Bob", 3: "Charlie" }
+        console.log(byRole.dev.length); // 2
+
+        //3) Реальный кейс: нормализация ответа API для O(1) доступа
+        const byId = users.reduce((acc, user) => {
+          acc[user.id] = user;
+          return acc;
+        }, {});
+        console.log(byId[2].name); // Bob
+
+        //Почему reduce полезен:
+        //когда нужно получить один итог: число, объект, Map, сложную агрегированную структуру.
             `
     },
     {
         highlight: ".forEach()",
         content: "Выполняет предоставленную функцию один раз для каждого элемента массива",
+        isTop: true,
 
         code:
             `
@@ -471,75 +523,38 @@ export const arrayItems = [
     {
         highlight: ".find()",
         content: "Используется для поиска первого элемента в массиве, который удовлетворяет предоставленному условию (функции). Этот метод возвращает первый найденный элемент или undefined, если ни один элемент не удовлетворяет условию",
+        isTop: true,
 
         code:
             `
-        //code 
-        //Не мутирующий   
-        
-        arr.find(callback(element[, index[, array]])[, thisArg])
-            //tcallback: Функция, которая выполняется для каждого элемента массива.
-            //element: Текущий элемент массива.
-            //index (необязательный): Индекс текущего элемента.
-            //tarray (необязательный): Сам массив, который проходит через метод find.
-            //thisArg (необязательный): Значение, используемое в качестве this при выполнении функции callback.
-            
-        //----------//    
-        //Поиск первого элемента больше 25    
-        const numbers = [10, 20, 30, 40, 50];
-        const firstNumberGreaterThan25 = numbers.find(num => num > 25);
-        console.log(firstNumberGreaterThan25); // Output: 30
-        
-        !!!!!!Универсальное решение без привязки к определенному массиву
-        const numbers = [10, 20, 30, 40, 50];
-        let firstNumberGreaterThan25 = findFirstElement(numbers, (num) => num > 25);
-        console.log(firstNumberGreaterThan25); // Output: 30
-        
-        //Разбор кода:
-        //Функция findFirstElement:
-        //Принимает два параметра: arr (массив) и condition (функция условия).
-        //Использует метод find для поиска первого элемента, который удовлетворяет условию.
-        //Использование функции:
-        //Определяем массив numbers.
-        //Вызываем findFirstElement с numbers и условием (num) => num > 25.
-        //Выводим результат.
-        //----------//
-        
-        //Поиск объекта в массиве объектов
+        //code
+        //Не мутирующий
+        //arr.find(predicate) -> первый найденный элемент или undefined
+
+        //1) Базовый поиск
+        const numbers = [10, 20, 30, 40];
+        const firstBig = numbers.find((n) => n > 25);
+        console.log(firstBig); // 30
+
+        //2) Поиск объекта
         const users = [
-          { name: 'Alice', age: 25 },
-          { name: 'Bob', age: 30 },
-          { name: 'Charlie', age: 35 }
+          { id: 1, name: 'Alice', active: false },
+          { id: 2, name: 'Bob', active: true }
         ];
-        const user = users.find(user => user.age > 28);
-        console.log(user); // Output: { name: 'Bob', age: 30 }
-        
-        //Поиск элемента по индексу
-        const numbers = [5, 12, 8, 130, 44];
-        const found = numbers.find((element, index) => index === 3);
-        console.log(found); // Output: 130
-        
-        //Поиск с использованием thisArg
-        const obj = { minAge: 18 };
-        const people = [
-          { name: 'Alice', age: 16 },
-          { name: 'Bob', age: 20 },
-          { name: 'Charlie', age: 15 }
-        ];
-        const adult = people.find(function(person) {
-          return person.age >= this.minAge;
-        }, obj);
-        console.log(adult); // Output: { name: 'Bob', age: 20 }
-        //В этом примере метод find() использует объект obj в качестве thisArg для проверки возраста людей в массиве people. Результат: { name: 'Bob', age: 20 }.
-        
-        //Работа с состоянием в React
-        //При работе с состоянием в компонентах React метод find() может быть полезен для поиска и обновления определенных элементов состояния:
-        const [items, setItems] = useState([
-          { id: 1, name: 'Item 1' },
-          { id: 2, name: 'Item 2' }
-        ]);
-        const item = items.find(item => item.id === 2);
-        console.log(item); // Output: { id: 2, name: 'Item 2' }
+        const activeUser = users.find((user) => user.active);
+        console.log(activeUser?.name); // Bob
+
+        //3) Практика: достать сущность по id перед обновлением
+        const targetId = 2;
+        const user = users.find((item) => item.id === targetId);
+        if (!user) {
+          console.log('Пользователь не найден');
+        } else {
+          console.log('Обновляем:', user.name);
+        }
+
+        //Почему не filter:
+        //find останавливается на первом совпадении и сразу возвращает элемент.
             `
     },
     {
@@ -609,47 +624,88 @@ export const arrayItems = [
             `
     },
     {
-        highlight: ".includes()",
-        content: "Используется для проверки наличия определенного элемента в массиве. Этот метод возвращает true, если элемент найден, и false в противном случае",
+        highlight: ".at()",
+        content: "Возвращает элемент массива по индексу, поддерживает отрицательные индексы (удобно для чтения конца массива).",
+        isTop: true,
 
         code:
             `
-        //code    
+        //code
         //Не мутирующий
-        arr.includes(valueToFind[, fromIndex])
+        //arr.at(index)
 
-        //valueToFind: Значение, которое необходимо найти в массиве.
-        //fromIndex (необязательный): Индекс, с которого начинать поиск. По умолчанию равен 0. Если указан отрицательный индекс, поиск начинается с конца массива.
-        
-        //Поиск элемента в массиве
-        const arr = [1, 2, 3, 4, 5];
-        const hasThree = arr.includes(3);
-        console.log(hasThree); // true
-        
-        //Поиск отсутствующего элемента
-        const arr = ['apple', 'banana', 'cherry'];
-        const hasOrange = arr.includes('orange');
-        console.log(hasOrange); // false
-        
-        //Поиск с указанием индекса начала
-        const arr = [1, 2, 3, 4, 5];
-        const hasTwoAfterIndexTwo = arr.includes(2, 2);
-        console.log(hasTwoAfterIndexTwo); // false
-        //В этом примере метод includes() начинает поиск элемента 2 с индекса 2. Поскольку 2 находится до индекса 2, результат: false.
-        
-        //Поиск с отрицательным индексом
-        const arr = [1, 2, 3, 4, 5];
-        const hasFourFromEnd = arr.includes(4, -2);
-        console.log(hasFourFromEnd); // true
-        //В этом примере метод includes() начинает поиск элемента 4 с индекса -2, что соответствует позиции второго элемента с конца. Результат: true.
-        
-        //Метод includes() использует строгую проверку (то есть такие же правила, как ===), поэтому различие между 0 и -0, а также false и 0 имеет значение.
-        
-        //!!!!!!! АЛЬТЕРНАТИВНЫЙ МЕТОД
-        //indexOf(): Возвращает индекс первого вхождения указанного элемента в массиве, или -1, если элемент не найден. Менее читаем в контексте проверки наличия элемента
-        const arr = [1, 2, 3, 4, 5];
-        const hasThree = arr.indexOf(3) !== -1;
-        console.log(hasThree); // true
+        const list = ['draft', 'review', 'published'];
+        console.log(list.at(0));  // 'draft'
+        console.log(list.at(-1)); // 'published'
+
+        //Сравнение с классикой:
+        console.log(list[list.length - 1]); // 'published'
+
+        //Практический кейс:
+        //берем последний лог в чате/истории событий
+        const logs = ['start', 'fetch', 'render'];
+        const lastLog = logs.at(-1);
+        console.log(lastLog); // render
+            `
+    },
+    {
+        highlight: ".toSorted()",
+        content: "Возвращает отсортированную копию массива без мутации исходного (современная иммутабельная альтернатива sort).",
+        isTop: true,
+
+        code:
+            `
+        //code
+        //Не мутирующий (ES2023)
+        //arr.toSorted(compareFn)
+
+        const numbers = [30, 5, 12];
+        const sorted = numbers.toSorted((a, b) => a - b);
+
+        console.log(numbers); // [30, 5, 12]
+        console.log(sorted);  // [5, 12, 30]
+
+        //Практический React-кейс:
+        //не мутируем state-массив перед рендером
+        const users = [
+          { id: 1, name: 'Bob' },
+          { id: 2, name: 'Alice' }
+        ];
+        const byName = users.toSorted((a, b) => a.name.localeCompare(b.name));
+        console.log(byName.map((u) => u.name)); // ['Alice', 'Bob']
+            `
+    },
+    {
+        highlight: ".includes()",
+        content: "Используется для проверки наличия определенного элемента в массиве. Этот метод возвращает true, если элемент найден, и false в противном случае",
+        isTop: true,
+
+        code:
+            `
+        //code
+        //Не мутирующий
+        //arr.includes(valueToFind[, fromIndex]) -> boolean
+
+        //1) Базовая проверка
+        const tech = ['html', 'css', 'js'];
+        console.log(tech.includes('js')); // true
+        console.log(tech.includes('node')); // false
+
+        //2) Поиск с позиции
+        const ids = [10, 20, 30, 20];
+        console.log(ids.includes(20, 2)); // true (ищем начиная с индекса 2)
+
+        //3) Важный нюанс: includes умеет находить NaN
+        const values = [1, NaN, 3];
+        console.log(values.includes(NaN)); // true
+        console.log(values.indexOf(NaN)); // -1
+
+        //4) Практика: простая валидация входного значения
+        const allowedRoles = ['admin', 'editor', 'viewer'];
+        const role = 'editor';
+        if (!allowedRoles.includes(role)) {
+          throw new Error('Недопустимая роль');
+        }
             `
     }
 ];
@@ -667,12 +723,13 @@ export const ArrayMethods: React.FC<MethodProps> = ({arrayItems = []}) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Method Array</NotesTitle>
+            <NotesTitle>Array methods (Методы массивов)</NotesTitle>
             <Text>
                 <S.List>
                     {arrayItems.map((item, index) => (
                         <S.Item key={index}>
                             <S.HighlightedText
+                                $isTop={item.isTop}
                                 onClick={() => item.code && setSelectedCode(item.code)}>
                                 {item.highlight}
                             </S.HighlightedText>: {item.content}
@@ -695,5 +752,3 @@ export const ArrayMethods: React.FC<MethodProps> = ({arrayItems = []}) => {
         </NoteBlock>
     );
 };
-
-

@@ -11,12 +11,14 @@ type MethodProps = {
         highlight: string;
         content: string;
         code: string;
+        isTop?: boolean;
     }>;
 };
 
 export const numberItems = [
     {
         highlight: ".toFixed()",
+        isTop: true,
         content: "Форматирует число, используя запись с фиксированной запятой",
         code:
             `
@@ -40,6 +42,7 @@ export const numberItems = [
     },
     {
         highlight: ".toPrecision()",
+        isTop: true,
         content: "Возвращает строковое представление числа в указанной точности",
         code:
             `
@@ -60,6 +63,7 @@ export const numberItems = [
     },
     {
         highlight: ".toString()",
+        isTop: true,
         content: "Возвращает строковое представление указанного объекта. Метод toString() объекта Number возвращает строку, представляющую указанное число",
         code:
             `
@@ -112,12 +116,13 @@ export const NumberMethods: React.FC<MethodProps> = ({numberItems = []}) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Method Number</NotesTitle>
+            <NotesTitle>Number methods (Методы чисел)</NotesTitle>
             <Text>
                 <S.List>
                     {numberItems.map((item, index) => (
                         <S.Item key={index}>
                             <S.HighlightedText
+                                $isTop={item.isTop}
                                 onClick={() => item.code && setSelectedCode(item.code)}>
                                 {item.highlight}
                             </S.HighlightedText>: {item.content}
@@ -139,5 +144,3 @@ export const NumberMethods: React.FC<MethodProps> = ({numberItems = []}) => {
         </NoteBlock>
     );
 };
-
-

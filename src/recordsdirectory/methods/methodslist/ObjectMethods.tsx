@@ -11,12 +11,14 @@ type MethodProps = {
         highlight: string;
         content: string;
         code: string;
+        isTop?: boolean;
     }>;
 };
 
 export const objectItems = [
     {
         highlight: ".keys()",
+        isTop: true,
         content: "Возвращает массив, содержащий имена всех перечисляемых свойств объекта",
         code: 
             `
@@ -33,6 +35,7 @@ export const objectItems = [
     },
     {
         highlight: ".values()",
+        isTop: true,
         content: "Возвращает массив, содержащий значения всех перечисляемых свойств объекта",
         code: 
             `
@@ -49,6 +52,7 @@ export const objectItems = [
     },
     {
         highlight: ".entries()",
+        isTop: true,
         content: "Возвращает массив, содержащий пары [ключ, значение] для каждого свойства объекта",
         code: 
             `
@@ -65,7 +69,27 @@ export const objectItems = [
             `
     },
     {
+        highlight: ".fromEntries()",
+        isTop: true,
+        content: "Собирает объект обратно из массива пар [ключ, значение]. Часто используется после map/filter.",
+        code:
+            `
+        //code
+        const params = new URLSearchParams('page=2&sort=price');
+        const queryObject = Object.fromEntries(params.entries());
+        console.log(queryObject); // { page: '2', sort: 'price' }
+
+        //Классический pipeline: entries -> filter -> fromEntries
+        const raw = { q: 'react', page: '', sort: 'date' };
+        const cleaned = Object.fromEntries(
+            Object.entries(raw).filter(([, value]) => value !== '')
+        );
+        console.log(cleaned); // { q: 'react', sort: 'date' }
+            `
+    },
+    {
         highlight: ".assign()",
+        isTop: true,
         content: "Копирует все перечисляемые собственные свойства из одного или нескольких исходных объектов в целевой объект и возвращает целевой объект",
         code: 
             `
@@ -89,6 +113,7 @@ export const objectItems = [
     },
     {
         highlight: ".create()",
+        isTop: true,
         content: "Создает новый объект с указанным прототипом и свойствами",
         code: 
             `
@@ -109,6 +134,7 @@ export const objectItems = [
     },
     {
         highlight: ".freeze()",
+        isTop: true,
         content: "Запрещает добавление новых свойств к объекту, удаление старых свойств из объекта и изменение существующих свойств или их перечисляемости, настраиваемости и записываемости",
         code: 
             `
@@ -175,6 +201,7 @@ export const objectItems = [
     },
     {
         highlight: ".hasOwnProperty()",
+        isTop: true,
         content: "Возвращает логическое значение, указывающее, содержит ли объект указанное свойство в качестве собственного свойства",
         code: 
             `
@@ -252,12 +279,13 @@ export const ObjectMethods: React.FC<MethodProps> = ({objectItems = []}) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Method Object</NotesTitle>
+            <NotesTitle>Object methods (Методы объектов)</NotesTitle>
             <Text>
                 <S.List>
                     {objectItems.map((item, index) => (
                         <S.Item key={index}>
                             <S.HighlightedText
+                                $isTop={item.isTop}
                                 onClick={() => item.code && setSelectedCode(item.code)}>
                                 {item.highlight}
                             </S.HighlightedText>: {item.content}
@@ -279,5 +307,3 @@ export const ObjectMethods: React.FC<MethodProps> = ({objectItems = []}) => {
         </NoteBlock>
     );
 };
-
-

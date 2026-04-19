@@ -102,18 +102,37 @@ export const eventItems: EventItem[] = [
         isTop: true,
         code: `
     const form = document.querySelector('#signupForm');
+    const submitBtn = form.querySelector('button[type="submit"]');
 
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
       // 1) Блокируем стандартную отправку и перезагрузку страницы
       event.preventDefault();
 
       // 2) Собираем данные нативно
       const data = new FormData(form);
       const payload = Object.fromEntries(data.entries());
-      console.log(payload);
 
-      // 3) Реальный кейс: отправка через fetch
-      // fetch('/api/signup', { method: 'POST', body: JSON.stringify(payload) })
+      // 3) UX best practice: защита от двойной отправки
+      submitBtn.disabled = true;
+
+      try {
+        // 4) Реальный рабочий кейс
+        const response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error('HTTP ' + response.status);
+        }
+
+        console.log('Форма отправлена');
+      } catch (error) {
+        console.error('Ошибка отправки:', error);
+      } finally {
+        submitBtn.disabled = false;
+      }
     });
         `
     },
@@ -154,6 +173,42 @@ export const eventItems: EventItem[] = [
       const value = event.target.value;
       const score = value.length >= 8 ? 'strong' : 'weak';
       meter.textContent = score;
+    });
+        `
+    },
+    {
+        highlight: "pointerdown",
+        content: "Единая модель ввода для мыши/тача/пера. Удобнее, чем параллельно поддерживать mousedown + touchstart.",
+        isTop: true,
+        code: `
+    const dragHandle = document.querySelector('#dragHandle');
+
+    dragHandle.addEventListener('pointerdown', (event) => {
+      dragHandle.setPointerCapture(event.pointerId);
+      dragHandle.classList.add('is-dragging');
+      console.log('pointer:', event.pointerType); // mouse | touch | pen
+    });
+
+    dragHandle.addEventListener('pointerup', (event) => {
+      dragHandle.releasePointerCapture(event.pointerId);
+      dragHandle.classList.remove('is-dragging');
+    });
+        `
+    },
+    {
+        highlight: "beforeunload",
+        content: "Используется, когда нужно предупредить пользователя о несохраненных изменениях перед закрытием вкладки.",
+        code: `
+    let hasUnsavedChanges = false;
+
+    document.querySelector('#editor')?.addEventListener('input', () => {
+      hasUnsavedChanges = true;
+    });
+
+    window.addEventListener('beforeunload', (event) => {
+      if (!hasUnsavedChanges) return;
+      event.preventDefault();
+      event.returnValue = '';
     });
         `
     },
@@ -241,12 +296,19 @@ export const eventItems: EventItem[] = [
         isTop: true,
         code: `
     const toTopBtn = document.querySelector('#toTop');
+    let isTicking = false;
 
-    // 1) Скролл окна
+    // 1) Скролл окна + requestAnimationFrame (best practice по производительности)
     window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      toTopBtn.hidden = y < 300;
-    });
+      if (isTicking) return;
+      isTicking = true;
+
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        toTopBtn.hidden = y < 300;
+        isTicking = false;
+      });
+    }, { passive: true });
 
     // 2) Скролл контейнера
     const panel = document.querySelector('#chatPanel');
@@ -276,6 +338,75 @@ export const eventItems: EventItem[] = [
         const isMobile = window.innerWidth < 768;
         document.body.classList.toggle('is-mobile', isMobile);
       }, 150);
+    });
+        `
+    },
+    {
+        highlight: "visibilitychange",
+        content: "Срабатывает при переключении видимости вкладки. Полезно для паузы фоновых задач и экономии ресурсов.",
+        isTop: true,
+        code: `
+    const polling = setInterval(() => {
+      console.log('refetch data...');
+    }, 5000);
+
+    document.addEventListener('visibilitychange', () => {
+      const isHidden = document.visibilityState === 'hidden';
+
+      // Практика: не держать лишний трафик/таймеры в неактивной вкладке
+      if (isHidden) {
+        clearInterval(polling);
+        console.log('pause polling');
+      } else {
+        console.log('tab is visible again');
+      }
+    });
+        `
+    },
+    {
+        highlight: "storage",
+        content: "Срабатывает в других вкладках при изменении localStorage. Удобно для синхронизации состояния между табами.",
+        code: `
+    // Вкладка A:
+    localStorage.setItem('theme', 'dark');
+
+    // Вкладка B:
+    window.addEventListener('storage', (event) => {
+      if (event.key !== 'theme') return;
+      document.body.dataset.theme = event.newValue || 'light';
+    });
+
+    // Почему это полезно:
+    // можно синхронизировать theme, auth-status, фильтры без backend-сокетов.
+        `
+    },
+    {
+        highlight: "online / offline",
+        content: "События смены сетевого состояния браузера. Полезно для UX и ретраев запросов.",
+        isTop: true,
+        code: `
+    const status = document.querySelector('#networkStatus');
+
+    const renderStatus = () => {
+      const isOnline = navigator.onLine;
+      status.textContent = isOnline ? 'Online' : 'Offline';
+      status.classList.toggle('is-offline', !isOnline);
+    };
+
+    window.addEventListener('online', renderStatus);
+    window.addEventListener('offline', renderStatus);
+    renderStatus();
+        `
+    },
+    {
+        highlight: "error (resource)",
+        content: "Срабатывает при ошибке загрузки ресурса (например, изображение). Часто используется для fallback-контента.",
+        code: `
+    const image = document.querySelector('#avatar');
+
+    image.addEventListener('error', () => {
+      image.src = '/img/avatar-placeholder.png';
+      console.warn('Avatar load failed, placeholder applied');
     });
         `
     },
@@ -426,7 +557,7 @@ export const EventList = () => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Native Events</NotesTitle>
+            <NotesTitle>Native Events (Нативные события)</NotesTitle>
             <Text>
                 <S.List>
                     {eventItems.map((item, index) => (

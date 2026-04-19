@@ -11,12 +11,14 @@ type MethodProps = {
         highlight: string;
         content: string;
         code: string;
+        isTop?: boolean;
     }>;
 };
 
 export const dateItems = [
     {
         highlight: "getDate()",
+        isTop: true,
         content: "Возвращает день месяца (от 1 до 31) для указанной даты",
         code:
             `
@@ -39,6 +41,7 @@ export const dateItems = [
     },
     {
         highlight: "getDay()",
+        isTop: true,
         content: "Возвращает день недели (от 0 до 6) для указанной даты",
         code:
             `
@@ -58,6 +61,7 @@ export const dateItems = [
     },
     {
         highlight: "getFullYear()",
+        isTop: true,
         content: "Возвращает год (4 цифры для 4-значных годов) указанной даты",
         code:
             `
@@ -78,6 +82,7 @@ export const dateItems = [
     },
     {
         highlight: "getHours()",
+        isTop: true,
         content: "Возвращает час (от 0 до 23) указанной даты и времени",
         code:
             `
@@ -118,6 +123,7 @@ export const dateItems = [
     },
     {
         highlight: "getMinutes()",
+        isTop: true,
         content: "Возвращает минуты (от 0 до 59) указанной даты и времени",
         code:
             `
@@ -139,6 +145,7 @@ export const dateItems = [
     },
     {
         highlight: "getMonth()",
+        isTop: true,
         content: "Возвращает месяц (от 0 до 11) указанной даты",
         code:
             `
@@ -178,6 +185,7 @@ export const dateItems = [
     },
     {
         highlight: "getTime()",
+        isTop: true,
         content: "Возвращает числовое значение указанной даты в виде количества миллисекунд, прошедших с 1 января 1970 года 00:00:00 по UTC",
         code:
             `
@@ -222,6 +230,7 @@ export const dateItems = [
     },
     {
         highlight: "setDate()",
+        isTop: true,
         content: "Устанавливает день месяца указанного объекта Date в соответствии с местным временем",
         code:
             `
@@ -269,6 +278,7 @@ export const dateItems = [
     },
     {
         highlight: "setHours()",
+        isTop: true,
         content: "Устанавливает часы указанного объекта Date в соответствии с местным временем",
         code:
             `
@@ -314,6 +324,7 @@ export const dateItems = [
     },
     {
         highlight: "setMinutes()",
+        isTop: true,
         content: "Устанавливает минуты указанного объекта Date в соответствии с местным временем",
         code:
             `
@@ -338,6 +349,7 @@ export const dateItems = [
     },
     {
         highlight: "setMonth()",
+        isTop: true,
         content: "Устанавливает месяц указанного объекта Date в соответствии с местным временем",
         code:
             `
@@ -421,12 +433,13 @@ export const DataMethods: React.FC<MethodProps> = ({dateItems = []}) => {
 
     return (
         <NoteBlock>
-            <NotesTitle>Method Date</NotesTitle>
+            <NotesTitle>Date methods (Методы даты)</NotesTitle>
             <Text>
                 <S.List>
                     {dateItems.map((item, index) => (
                         <S.Item key={index}>
                             <S.HighlightedText
+                                $isTop={item.isTop}
                                 onClick={() => item.code && setSelectedCode(item.code)}>
                                 {item.highlight}
                             </S.HighlightedText>: {item.content}
