@@ -25,22 +25,33 @@ export const Methods = () => {
             <TypeTitle>Methods (Методы)</TypeTitle>
             <Section>
                 <Text>
-                    <ParagraphTitle>Приоритет для изучения</ParagraphTitle>
-                    <TextP>push()</TextP>
-                    <TextP>pop()</TextP>
-                    <TextP>shift()</TextP>
-                    <TextP>unshift()</TextP>
-                    <TextP>split()</TextP>
-                    <TextP>join()</TextP>
-                    <TextP>reverse()</TextP>
-                    <TextP>concat() (array/string)</TextP>
-                    <TextP>flat()</TextP>
-                    <TextP>flatMap()</TextP>
-                    <TextP>find()</TextP>
-                    <TextP>reduce()</TextP>
-                    <TextP>includes() (array/string)</TextP>
-                    <TextP>toSorted()</TextP>
-                    <TextP>Object.fromEntries()</TextP>
+                    <ParagraphTitle>Приоритет для React-разработки</ParagraphTitle>
+                    <TextP>
+                        <Marker>Рендер и immutable-обновления:</Marker>{" "}
+                        map(), filter(), find(), some(), every(), includes(), concat(), flatMap(), reduce(), toSorted().
+                    </TextP>
+                    <TextP>
+                        <Marker>Строки из форм и URL:</Marker>{" "}
+                        trim(), includes(), split(), join(), replace()/replaceAll(), slice().
+                    </TextP>
+                    <TextP>
+                        <Marker>Объекты и преобразование данных:</Marker>{" "}
+                        Object.keys(), Object.values(), Object.entries(), Object.fromEntries(), Object.assign().
+                    </TextP>
+                    <TextP>
+                        <Marker>Мутирующие методы, которые важно знать:</Marker>{" "}
+                        push(), pop(), shift(), unshift(), reverse(), sort().
+                        Не вызывай их напрямую на state: создавай новый массив, в том числе внутри functional updater.
+                    </TextP>
+                    <TextP>
+                        <Marker>Структура вложенных данных:</Marker>{" "}
+                        flat() разворачивает заданную глубину, а flatMap() выполняет map() и затем flat(1).
+                    </TextP>
+                    <TextP>
+                        <Marker>Promise-нюанс:</Marker>{" "}
+                        map(asyncCallback) возвращает массив Promise. Чтобы дождаться результатов, используй
+                        await Promise.all(items.map(asyncCallback)); обычный await перед массивом Promise не помогает.
+                    </TextP>
                 </Text>
             </Section>
             <ArrayMethods arrayItems={arrayItems}/>
@@ -124,8 +135,6 @@ console.log(byId[1]);
         </>
     );
 };
-
-
 
 
 

@@ -26,17 +26,17 @@ const replacePresets: ReplacePreset[] = [
     },
     {
         id: "tags",
-        name: "Убрать HTML-теги",
+        name: "Убрать HTML-теги (не sanitizer)",
         regex: /<\/?[^>]+>/g,
         replacement: "",
-        note: "Учебный вариант очистки html-строки."
+        note: "Только текстовая трансформация: она не делает недоверенный HTML безопасным."
     },
     {
         id: "not-letters",
         name: "Оставить только буквы",
-        regex: /[^a-zа-я]/gi,
+        regex: /[^\p{L}]/gu,
         replacement: "",
-        note: "Быстрая фильтрация для поиска по словам."
+        note: "Unicode-вариант: сохраняет буквы разных алфавитов, включая ё/Ё."
     }
 ];
 

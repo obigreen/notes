@@ -18,20 +18,20 @@ type RegexPatternItem = {
 
 export const regexPatternItems: RegexPatternItem[] = [
     {
-        pattern: "/[^a-z0-9]/gi",
-        title: "Очистка строки от спецсимволов",
-        description: "Удаляет всё, кроме латинских букв и цифр. Очень частый кейс перед сравнением/поиском.",
+        pattern: "/[^\\p{L}\\p{N}]/gu",
+        title: "Unicode-очистка строки",
+        description: "Удаляет всё, кроме Unicode-букв и числовых символов.",
         isTop: true,
         code: String.raw`
-// 1) Убираем всё, кроме букв/цифр
+// 1) Убираем всё, кроме Unicode-букв/числовых символов
 const raw = 'A man, a plan! 2026';
-const cleaned = raw.replace(/[^a-z0-9]/gi, '').toLowerCase();
+const cleaned = raw.replace(/[^\p{L}\p{N}]/gu, '').toLowerCase();
 console.log(cleaned); // 'amanaplan2026'
 
-// 2) Если нужен Unicode-вариант с кириллицей:
-const unicodeRaw = 'Привет, мир! 123';
-const cleanedRu = unicodeRaw.replace(/[^a-zа-я0-9]/gi, '');
-console.log(cleanedRu); // 'Приветмир123'
+// Кириллица, включая ё/Ё, не требует отдельного диапазона:
+const unicodeRaw = 'Ёж, Привет! 123';
+const cleanedRu = unicodeRaw.replace(/[^\p{L}\p{N}]/gu, '');
+console.log(cleanedRu); // 'ЁжПривет123'
         `
     },
     {
@@ -59,7 +59,7 @@ console.log(/^\d+$/.test('')); // false
     {
         pattern: "/^[\\w.-]+@[\\w.-]+\\.[A-Za-z]{2,}$/",
         title: "Базовая валидация email",
-        description: "Учебный шаблон для формы. Не покрывает 100% RFC-случаев, но подходит для практики.",
+        description: "Упрощённая UX-проверка. Не заменяет input[type=email] и серверную валидацию.",
         isTop: true,
         code: String.raw`
 const emailRegex = /^[\w.-]+@[\w.-]+\.[A-Za-z]{2,}$/;
@@ -70,42 +70,42 @@ console.log(emailRegex.test('no-domain@')); // false
         `
     },
     {
-        pattern: "/https?:\\/\\/[^\\s]+/g",
-        title: "Поиск URL в тексте",
-        description: "Находит ссылки, начинающиеся с http:// или https://.",
+        pattern: "/https?:\\/\\/[^\\s<>\"']*[^\\s<>\"'.,!?;:)]/g",
+        title: "Поиск URL в тексте (упрощённо)",
+        description: "Находит http(s)-ссылки и не включает частую конечную пунктуацию. Полный URL лучше разбирать через URL.",
         code: String.raw`
-const text = 'Docs: https://react.dev and http://example.com';
-const urls = text.match(/https?:\/\/[^\s]+/g);
+const text = 'Docs: https://react.dev, example: http://example.com.';
+const urls = text.match(/https?:\/\/[^\s<>"']*[^\s<>"'.,!?;:)]/g);
 console.log(urls); // ['https://react.dev', 'http://example.com']
         `
     },
     {
-        pattern: "/#([\\w-]+)/g",
+        pattern: "/#([\\p{L}\\p{N}_-]+)/gu",
         title: "Хештеги",
-        description: "Извлекает хештеги и значение после #.",
+        description: "Извлекает Unicode-хештеги и значение после #.",
         code: String.raw`
-const post = 'Learning #javascript and #regex-basics today';
-const tags = Array.from(post.matchAll(/#([\w-]+)/g), (match) => match[1]);
-console.log(tags); // ['javascript', 'regex-basics']
+const post = 'Изучаю #javascript и #регулярки-2026';
+const tags = Array.from(post.matchAll(/#([\p{L}\p{N}_-]+)/gu), (match) => match[1]);
+console.log(tags); // ['javascript', 'регулярки-2026']
         `
     },
     {
-        pattern: "/\\b\\w{6,}\\b/g",
+        pattern: "/\\p{L}{6,}/gu",
         title: "Слова длиннее N символов",
-        description: "Находит слова длиной от 6 символов.",
+        description: "Находит непрерывные последовательности Unicode-букв длиной от 6 символов.",
         code: String.raw`
-const sentence = 'regex helps developers write powerful filters';
-const longWords = sentence.match(/\b\w{6,}\b/g);
-console.log(longWords); // ['developers', 'powerful', 'filters']
+const sentence = 'regex помогает developers писать powerful filters';
+const longWords = sentence.match(/\p{L}{6,}/gu);
+console.log(longWords); // ['помогает', 'developers', 'писать', 'powerful', 'filters']
         `
     },
     {
-        pattern: "/(\\d{4})-(\\d{2})-(\\d{2})/",
-        title: "Разбор даты YYYY-MM-DD",
-        description: "Берёт группы (год/месяц/день) и позволяет форматировать дату как нужно.",
+        pattern: "/^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$/",
+        title: "Базовая проверка даты YYYY-MM-DD",
+        description: "Проверяет весь формат и базовые диапазоны. Календарную дату (например, 31 февраля) проверяет Date/Temporal.",
         code: String.raw`
 const dateText = '2026-03-01';
-const match = dateText.match(/(\d{4})-(\d{2})-(\d{2})/);
+const match = dateText.match(/^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/);
 
 if (match) {
     const [, year, month, day] = match;
@@ -115,12 +115,15 @@ if (match) {
     },
     {
         pattern: "/<\\/?[^>]+>/g",
-        title: "Удаление HTML-тегов (упрощённо)",
-        description: "Учебный шаблон, чтобы очистить строку от тегов. Для сложного HTML нужен парсер.",
+        title: "Удаление HTML-тегов (не sanitization)",
+        description: "Только учебная текстовая трансформация. Она не делает недоверенный HTML безопасным.",
         code: String.raw`
 const html = '<b>Hello</b> <i>regex</i>';
 const plain = html.replace(/<\/?[^>]+>/g, '');
 console.log(plain); // 'Hello regex'
+
+// Для безопасного отображения используй textContent/React escaping.
+// Если нужно разрешить часть HTML, применяй специализированный sanitizer.
         `
     },
     {
@@ -139,15 +142,16 @@ console.log(fallback); // ['250', '19']
     },
     {
         pattern: "/^.{8,}$/",
-        title: "Минимальная длина строки",
-        description: "Проверяет, что длина строки не меньше 8 символов.",
+        title: "Минимальная длина строки (упрощённо)",
+        description: "Проверяет минимум 8 UTF-16 code units; без s перевод строки не совпадает с точкой.",
         code: String.raw`
 const passwordLength = /^.{8,}$/;
 
 console.log(passwordLength.test('1234567')); // false
 console.log(passwordLength.test('12345678')); // true
 
-// Часто комбинируют с доп. проверками: цифры, буквы и т.д.
+// Это не подсчёт пользовательских grapheme clusters: emoji может занимать 2 code units.
+// Для пароля длина — только одна из проверок, а правила проверяет и сервер.
         `
     },
     {

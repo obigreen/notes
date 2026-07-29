@@ -46,27 +46,30 @@ const theoryMap: Record<TopicKey, SectionTheory> = {
         ],
         tableTitle: "Частые ошибки и корректный подход",
         tableRows: [
-            {left: "`if (value)`", middle: "теряем валидный `0`", right: "`if (value ?? false)` или явная проверка"},
+            {left: "`if (value)`", middle: "теряем валидный `0`", right: "`value !== null && value !== undefined` или бизнес-проверка"},
             {left: "`value || fallback`", middle: "перезапишет `0`/`''`/`false`", right: "`value ?? fallback`"},
             {left: "`==`", middle: "неявное приведение типов", right: "`===`"}
         ],
         practiceTitle: "Практический шаблон: безопасный парсинг и дефолты",
         practiceCode: `
+function toPositiveInteger(value, fallback) {
+  const normalized = typeof value === 'string' ? value.trim() : value;
+  if (normalized === '' || normalized == null) return fallback;
+
+  const number = Number(normalized);
+  return Number.isInteger(number) && number > 0 ? number : fallback;
+}
+
 function parsePagination(query) {
-  const rawPage = query.page?.trim();
-  const rawLimit = query.limit?.trim();
-
-  const page = Number(rawPage ?? '1');
-  const limit = Number(rawLimit ?? '20');
-
   return {
-    page: Number.isFinite(page) && page > 0 ? page : 1,
-    limit: Number.isFinite(limit) && limit > 0 ? limit : 20
+    page: toPositiveInteger(query.page, 1),
+    limit: toPositiveInteger(query.limit, 20)
   };
 }
 
 console.log(parsePagination({ page: ' 2 ', limit: '10' }));
 console.log(parsePagination({ page: '', limit: 'bad' }));
+console.log(parsePagination({ page: '-3', limit: '2.5' }));
         `,
         links: [
             {label: "MDN: Expressions and operators", href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators"},
@@ -124,7 +127,7 @@ console.log(canSend(), canSend(), canSend(), canSend());
         intro: "Объекты в JS — это динамические структуры. Важно понимать разницу между plain-object, Map и прототипной моделью.",
         bullets: [
             "Object удобен для JSON-структур и сериализации.",
-            "Map удобен для частых вставок/удалений и ключей любого типа.",
+            "Map удобен для ключей любого типа, явного API коллекции и предсказуемого обхода.",
             "Иммутабельные обновления (`{...obj}`) делают состояние предсказуемее.",
             "Классы — синтаксический сахар над прототипами."
         ],
@@ -158,17 +161,18 @@ console.log(byRole.editor.length); // 1
     },
     async: {
         heading: "Конспект по асинхронности",
-        intro: "Асинхронный код — источник 80% неожиданных багов. Нужны четкие правила: где await, где параллелить, как отменять и как ловить ошибки.",
+        intro: "Асинхронный код — частый источник неожиданных багов. Нужны четкие правила: где await, где выполнять операции конкурентно, как отменять и как ловить ошибки.",
         bullets: [
             "Для линейного чтения используй async/await + try/catch.",
-            "Независимые запросы запускай через Promise.all.",
+            "Независимые запросы можно создать вместе и ожидать через Promise.all.",
+            "Promise.all не запускает и не отменяет операции: он агрегирует уже созданные Promise и отклоняется при первой ошибке.",
             "Не забывай про AbortController для отмены stale-запросов.",
             "Понимай порядок: sync -> microtask -> macrotask."
         ],
         tableTitle: "Async-паттерны",
         tableRows: [
             {left: "await one-by-one", middle: "последовательно", right: "когда шаги зависят друг от друга"},
-            {left: "Promise.all", middle: "параллельно", right: "когда шаги независимы"},
+            {left: "Promise.all", middle: "ожидание группы, fail-fast", right: "когда операции независимы и уже запущены"},
             {left: "AbortController", middle: "отмена запроса", right: "поиск, автокомплит, смена страницы"}
         ],
         practiceTitle: "Практический шаблон: safe fetch с отменой",
@@ -216,19 +220,22 @@ async function searchUsers(query) {
         tableTitle: "DOM-практика",
         tableRows: [
             {left: "textContent", middle: "безопасный текст", right: "UI из пользовательских данных"},
-            {left: "innerHTML", middle: "быстрый HTML-рендер", right: "только trusted шаблоны"},
+            {left: "innerHTML", middle: "парсит и заменяет HTML-содержимое", right: "только доверенный или санитизированный HTML"},
             {left: "event delegation", middle: "один listener на список", right: "таблицы, чаты, меню"}
         ],
         practiceTitle: "Практический шаблон: делегирование + data-атрибуты",
         practiceCode: `
 const list = document.querySelector('#todoList');
 
-list.addEventListener('click', (event) => {
-  const button = event.target.closest('[data-action]');
-  if (!button) return;
+list?.addEventListener('click', (event) => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+
+  const button = target.closest('[data-action]');
+  if (!button || !list.contains(button)) return;
 
   const row = button.closest('[data-id]');
-  if (!row) return;
+  if (!row || !list.contains(row)) return;
 
   const action = button.dataset.action;
   const id = row.dataset.id;
@@ -266,20 +273,37 @@ list.addEventListener('click', (event) => {
         ],
         practiceTitle: "Практический шаблон: apiClient",
         practiceCode: `
+// json — явный JSON-body, body — FormData/Blob/другой BodyInit
 async function apiClient(path, options = {}) {
+  const { json, headers: initialHeaders, ...fetchOptions } = options;
+  const headers = new Headers(initialHeaders);
+  let body = fetchOptions.body;
+
+  if (json !== undefined) {
+    headers.set('Content-Type', 'application/json');
+    body = JSON.stringify(json);
+  }
+
+  // Для FormData Content-Type вручную не задаем:
+  // браузер сам добавит multipart boundary.
   const response = await fetch(path, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers
-    },
-    ...options
+    ...fetchOptions,
+    headers,
+    body
   });
 
-  const isJson = response.headers.get('content-type')?.includes('application/json');
-  const payload = isJson ? await response.json() : await response.text();
+  const isJson = response.headers.get('content-type')?.includes('json');
+  const raw = response.status === 204 || response.status === 205
+    ? ''
+    : await response.text();
+  const payload = raw ? (isJson ? JSON.parse(raw) : raw) : null;
 
   if (!response.ok) {
-    throw new Error(typeof payload === 'string' ? payload : payload?.message ?? 'Request failed');
+    throw new Error(
+      typeof payload === 'string'
+        ? payload
+        : payload?.message ?? \`Request failed (\${response.status})\`
+    );
   }
 
   return payload;
@@ -311,7 +335,12 @@ apiClient('/api/profile').then(console.log).catch(console.error);
         practiceCode: `
 // profile/api.js
 export async function fetchProfile() {
-  return fetch('/api/profile').then((res) => res.json());
+  const response = await fetch('/api/profile');
+  if (!response.ok) {
+    throw new Error('HTTP ' + response.status);
+  }
+
+  return response.json();
 }
 
 // profile/model.js
@@ -328,7 +357,12 @@ export * from './api.js';
 export * from './model.js';
 
 // usage
-import { fetchProfile, normalizeProfile } from './profile/index.js';
+import {
+  fetchProfile as importedFetchProfile,
+  normalizeProfile as importedNormalizeProfile
+} from './profile/index.js';
+
+importedFetchProfile().then(importedNormalizeProfile).then(console.log);
         `,
         links: [
             {label: "MDN: JavaScript modules", href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules"},

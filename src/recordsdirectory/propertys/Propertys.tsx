@@ -58,7 +58,9 @@ form.addEventListener('submit', async (event) => {
   saveButton.textContent = 'Saving...';
 
   const payload = new FormData(form);
-  if (fileInput.files?.length) {
+  // Именованный file input уже попадает в FormData(form).
+  // Добавляем вручную только input без name.
+  if (!fileInput.name && fileInput.files?.length) {
     payload.append('avatar', fileInput.files[0]);
   }
 

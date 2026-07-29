@@ -186,19 +186,24 @@ export const dateItems = [
     {
         highlight: "getTime()",
         isTop: true,
-        content: "Возвращает числовое значение указанной даты в виде количества миллисекунд, прошедших с 1 января 1970 года 00:00:00 по UTC",
+        content: "Возвращает timestamp: число миллисекунд от 1970-01-01T00:00:00.000Z. Это уже абсолютный UTC-based момент, не требующий поправки getTimezoneOffset()",
         code:
             `
         //code
-        //getTime() -> timestamp в миллисекундах
+        //getTime() -> timestamp в миллисекундах.
+        //Один и тот же момент имеет одинаковый timestamp в любой таймзоне.
 
-        const date = new Date(2026, 2, 15);
+        const date = new Date('2026-03-15T00:00:00.000Z');
         const timestamp = date.getTime();
-        console.log(timestamp);
+        console.log(timestamp); // 1773532800000
+        console.log(timestamp === Date.UTC(2026, 2, 15)); // true
 
         //Обратное преобразование:
         const restored = new Date(timestamp);
-        console.log(restored.toDateString());
+        console.log(restored.toISOString()); // 2026-03-15T00:00:00.000Z
+
+        //Для невалидной даты getTime() вернет NaN
+        console.log(Number.isNaN(new Date('invalid').getTime())); // true
 
         //Реальный пример: сортировка дат
         const list = [
@@ -212,20 +217,27 @@ export const dateItems = [
     },
     {
         highlight: "getTimezoneOffset()",
-        content: "Возвращает разницу в минутах между местным временем и Всемирным координированным временем (UTC)",
+        content: "Возвращает UTC − local time в минутах для этой даты: например, в UTC+3 это -180, а в UTC-5 — 300. Не преобразует Date и не нужен для получения UTC timestamp",
         code:
             `
         //code
-        //getTimezoneOffset() -> разница в минутах между local time и UTC
+        //getTimezoneOffset() -> UTC - local time, в минутах.
         //Зависит от таймзоны пользователя и даты (летнее/зимнее время)
 
         const date = new Date();
         const offset = date.getTimezoneOffset();
         console.log(offset);
 
-        //Реальный пример: получить UTC timestamp из local Date
-        const utcTimestamp = date.getTime() + offset * 60 * 1000;
-        console.log(utcTimestamp);
+        //Date уже хранит абсолютный момент, а getTime() уже возвращает UTC-based timestamp.
+        const timestamp = date.getTime();
+        console.log(new Date(timestamp).toISOString());
+
+        //Не прибавляй offset к getTime(): это сдвинет реальный момент ошибочно.
+        //Для отображения локальных частей используй getHours()/getDate(),
+        //а для UTC-частей — getUTCHours()/getUTCDate().
+
+        const moscowNoon = new Date('2026-03-15T12:00:00+03:00');
+        console.log(moscowNoon.toISOString()); // 2026-03-15T09:00:00.000Z
         `
     },
     {
@@ -241,7 +253,7 @@ export const dateItems = [
         const date = new Date(2026, 2, 1);
         const ts = date.setDate(15);
         console.log(date.toDateString()); // Sun Mar 15 2026
-        console.log(ts); // timestamp
+        console.log(ts === date.getTime()); // true
 
         //Переполнение дней переводит месяц вперед
         date.setDate(32);
@@ -394,7 +406,7 @@ export const dateItems = [
     },
     {
         highlight: "setTime()",
-        content: "Устанавливает значение объекта Date в количество миллисекунд, прошедших с 1 января 1970 года 00:00:00 UTC",
+        content: "Мутирует Date, устанавливая абсолютный момент по timestamp в миллисекундах от Unix epoch, и возвращает этот timestamp",
         code:
             `
         //code

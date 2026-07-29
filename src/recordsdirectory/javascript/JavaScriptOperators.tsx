@@ -59,7 +59,7 @@ console.log(end > start); // true
     },
     {
         highlight: "&&",
-        content: "Логическое И. Истина, только если оба операнда truthy.",
+        content: "Логическое И с коротким замыканием: возвращает первый falsy-операнд, а если таких нет — последний операнд. Результат не обязательно boolean.",
         isTop: true,
         code: `
 const isLoggedIn = true;
@@ -69,11 +69,17 @@ console.log(isLoggedIn && hasAccess); // false
 
 // Практика: guard для запуска действия
 isLoggedIn && console.log('fetch profile');
+
+console.log('ready' && 42); // 42, а не true
+
+// React-ловушка:
+// {items.length && <List />} при пустом массиве отрендерит 0.
+// Пиши явно: {items.length > 0 && <List />}
 `
     },
     {
         highlight: "||",
-        content: "Логическое ИЛИ. Возвращает первый truthy-операнд.",
+        content: "Логическое ИЛИ с коротким замыканием: возвращает первый truthy-операнд, а если таких нет — последний операнд.",
         isTop: true,
         code: `
 const name = '';
@@ -113,7 +119,7 @@ console.log(title ?? 'Untitled'); // Untitled
     },
     {
         highlight: "?. (optional chaining)",
-        content: "Безопасный доступ к вложенным полям и методам.",
+        content: "Безопасный доступ к вложенным полям и необязательный вызов. Вызов value?.() пропускается только для null/undefined и не проверяет, что другое значение является функцией.",
         isTop: true,
         code: `
 const profile = { settings: { locale: 'ru' } };
@@ -136,12 +142,17 @@ console.log(label);
     },
     {
         highlight: "typeof / instanceof / in",
-        content: "Проверки типа и наличия поля.",
+        content: "Проверки типа, прототипной цепочки и наличия свойства. Оператор in видит и собственные, и унаследованные свойства; для собственного используй Object.hasOwn.",
         isTop: true,
         code: `
 console.log(typeof 'hello'); // string
 console.log([] instanceof Array); // true
 console.log('name' in { name: 'Sergey' }); // true
+
+const child = Object.create({ inherited: true });
+child.own = true;
+console.log('inherited' in child); // true
+console.log(Object.hasOwn(child, 'inherited')); // false
 `
     },
     {

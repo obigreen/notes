@@ -17,9 +17,9 @@ type MethodProps = {
 
 export const objectItems = [
     {
-        highlight: ".keys()",
+        highlight: "Object.keys()",
         isTop: true,
-        content: "Возвращает массив, содержащий имена всех перечисляемых свойств объекта",
+        content: "Возвращает имена собственных перечисляемых свойств со строковыми ключами. Унаследованные, неперечисляемые и Symbol-свойства не входят",
         code: 
             `
         //code
@@ -31,12 +31,18 @@ export const objectItems = [
         keys.forEach((key) => {
             console.log(key, car[key]);
         });
+
+        const inherited = Object.create({ fromPrototype: true });
+        inherited.own = 1;
+        Object.defineProperty(inherited, 'hidden', { value: 2, enumerable: false });
+        inherited[Symbol('token')] = 3;
+        console.log(Object.keys(inherited)); // ['own']
             `
     },
     {
-        highlight: ".values()",
+        highlight: "Object.values()",
         isTop: true,
-        content: "Возвращает массив, содержащий значения всех перечисляемых свойств объекта",
+        content: "Возвращает значения собственных перечисляемых свойств со строковыми ключами. Унаследованные, неперечисляемые и Symbol-свойства не входят",
         code: 
             `
         //code
@@ -51,9 +57,9 @@ export const objectItems = [
             `
     },
     {
-        highlight: ".entries()",
+        highlight: "Object.entries()",
         isTop: true,
-        content: "Возвращает массив, содержащий пары [ключ, значение] для каждого свойства объекта",
+        content: "Возвращает пары [ключ, значение] собственных перечисляемых свойств со строковыми ключами. Symbol-ключи, inherited и non-enumerable свойства не входят",
         code: 
             `
         //code
@@ -69,9 +75,9 @@ export const objectItems = [
             `
     },
     {
-        highlight: ".fromEntries()",
+        highlight: "Object.fromEntries()",
         isTop: true,
-        content: "Собирает объект обратно из массива пар [ключ, значение]. Часто используется после map/filter.",
+        content: "Собирает объект из iterable пар [ключ, значение] со строковыми или Symbol-ключами. Часто используется после map()/filter() над entries.",
         code:
             `
         //code
@@ -88,15 +94,17 @@ export const objectItems = [
             `
     },
     {
-        highlight: ".assign()",
+        highlight: "Object.assign()",
         isTop: true,
-        content: "Копирует все перечисляемые собственные свойства из одного или нескольких исходных объектов в целевой объект и возвращает целевой объект",
+        content: "Копирует собственные перечисляемые свойства со строковыми и Symbol-ключами из источников в target и возвращает тот же target. Копирование поверхностное",
         code: 
             `
         //code
         const car = { make: 'Toyota', model: 'Camry' };
-        const newCar = Object.assign({}, car, { year: 2020 });
+        const target = {};
+        const newCar = Object.assign(target, car, { year: 2020 });
         console.log(newCar); // { make: 'Toyota', model: 'Camry', year: 2020 }
+        console.log(newCar === target); // true
 
         //Merge нескольких источников (справа приоритет)
         const defaults = { theme: 'light', lang: 'ru' };
@@ -112,9 +120,9 @@ export const objectItems = [
             `
     },
     {
-        highlight: ".create()",
+        highlight: "Object.create()",
         isTop: true,
-        content: "Создает новый объект с указанным прототипом и свойствами",
+        content: "Создает новый объект с указанным прототипом и необязательными дескрипторами собственных свойств",
         code: 
             `
         //code
@@ -133,18 +141,37 @@ export const objectItems = [
             `
     },
     {
-        highlight: ".freeze()",
+        highlight: "Object.freeze()",
         isTop: true,
-        content: "Запрещает добавление новых свойств к объекту, удаление старых свойств из объекта и изменение существующих свойств или их перечисляемости, настраиваемости и записываемости",
+        content: "Делает объект нерасширяемым, его собственные свойства — non-configurable, а data-свойства — non-writable. Операция поверхностная; в strict mode запрещенная запись/добавление/удаление бросает TypeError",
         code: 
             `
         //code
-        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
-        Object.freeze(car);
+        'use strict';
+        //ES-модули (включая React-код) работают в strict mode.
+        //В classic script без strict эти запрещенные операции обычно завершились бы молча.
 
-        car.year = 2025; // игнорируется
-        car.color = 'Red'; // игнорируется
-        delete car.model; // игнорируется
+        const attempt = (label, action) => {
+            try {
+                action();
+            } catch (error) {
+                console.log(label, error.name); // TypeError
+            }
+        };
+
+        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
+        const frozenCar = Object.freeze(car);
+        console.log(frozenCar === car); // true
+
+        attempt('change', () => {
+            car.year = 2025;
+        });
+        attempt('add', () => {
+            car.color = 'Red';
+        });
+        attempt('delete', () => {
+            delete car.model;
+        });
 
         console.log(car); // { make: 'Toyota', model: 'Camry', year: 2020 }
         console.log(Object.isFrozen(car)); // true
@@ -152,29 +179,46 @@ export const objectItems = [
         //Важно: freeze не делает deep freeze
         const user = { profile: { name: 'Ann' } };
         Object.freeze(user);
-        user.profile.name = 'Kate';
+        user.profile.name = 'Kate'; // вложенный объект не заморожен
         console.log(user.profile.name); // 'Kate'
             `
     },
     {
-        highlight: ".seal()",
-        content: "Запрещает добавление новых свойств к объекту и удаление старых свойств из объекта, но позволяет изменять значения существующих свойств",
+        highlight: "Object.seal()",
+        content: "Делает объект нерасширяемым и все его собственные свойства non-configurable, но сохраняет writable у существующих data-свойств. В strict mode добавление и удаление бросают TypeError",
         code: 
             `
         //code
+        'use strict';
+        //ES-модули (включая React-код) работают в strict mode.
+        //В classic script без strict добавление/удаление обычно завершилось бы молча.
+
+        const attempt = (label, action) => {
+            try {
+                action();
+            } catch (error) {
+                console.log(label, error.name); // TypeError
+            }
+        };
+
         const car = { make: 'Toyota', model: 'Camry', year: 2020 };
-        Object.seal(car);
+        const sealedCar = Object.seal(car);
+        console.log(sealedCar === car); // true
 
         car.year = 2021; // можно
-        car.color = 'Red'; // нельзя добавить
-        delete car.model; // нельзя удалить
+        attempt('add', () => {
+            car.color = 'Red';
+        });
+        attempt('delete', () => {
+            delete car.model;
+        });
 
         console.log(car); // { make: 'Toyota', model: 'Camry', year: 2021 }
         console.log(Object.isSealed(car)); // true
             `
     },
     {
-        highlight: ".isFrozen()",
+        highlight: "Object.isFrozen()",
         content: "Определяет, заморожен ли объект",
         code: 
             `
@@ -187,7 +231,7 @@ export const objectItems = [
             `
     },
     {
-        highlight: ".isSealed()",
+        highlight: "Object.isSealed()",
         content: "Определяет, запечатан ли объект",
         code: 
             `
@@ -200,7 +244,7 @@ export const objectItems = [
             `
     },
     {
-        highlight: ".hasOwnProperty()",
+        highlight: "Object.hasOwn() / .hasOwnProperty()",
         isTop: true,
         content: "Возвращает логическое значение, указывающее, содержит ли объект указанное свойство в качестве собственного свойства",
         code: 
@@ -210,12 +254,15 @@ export const objectItems = [
         console.log(car.hasOwnProperty('make')); // true
         console.log(car.hasOwnProperty('toString')); // false (это из прототипа)
 
-        //Безопасный вариант:
+        //Современный безопасный вариант, в том числе для Object.create(null):
+        console.log(Object.hasOwn(car, 'model')); // true
+
+        //Совместимый безопасный вариант для старых окружений:
         console.log(Object.prototype.hasOwnProperty.call(car, 'model')); // true
             `
     },
     {
-        highlight: ".is()",
+        highlight: "Object.is()",
         content: "Сравнивает, являются ли два значения одинаковыми значениями",
         code: 
             `
@@ -233,7 +280,7 @@ export const objectItems = [
             `
     },
     {
-        highlight: ".isExtensible()",
+        highlight: "Object.isExtensible()",
         content: "Определяет, является ли объект расширяемым (то есть, могут ли к нему быть добавлены новые свойства)",
         code: 
             `
@@ -246,15 +293,24 @@ export const objectItems = [
             `
     },
     {
-        highlight: ".preventExtensions()",
-        content: "Запрещает любые расширения объекта",
+        highlight: "Object.preventExtensions()",
+        content: "Запрещает добавлять новые свойства, но не запрещает менять и удалять существующие. В strict mode попытка добавить свойство бросает TypeError",
         code: 
             `
         //code
-        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
-        Object.preventExtensions(car);
+        'use strict';
+        //ES-модули (включая React-код) работают в strict mode.
+        //В classic script без strict добавление обычно завершилось бы молча.
 
-        car.color = 'Red'; // не добавится
+        const car = { make: 'Toyota', model: 'Camry', year: 2020 };
+        const sameCar = Object.preventExtensions(car);
+        console.log(sameCar === car); // true
+
+        try {
+            car.color = 'Red';
+        } catch (error) {
+            console.log(error.name); // TypeError
+        }
         car.year = 2025; // менять существующее можно
         delete car.model; // удалять существующее можно
 

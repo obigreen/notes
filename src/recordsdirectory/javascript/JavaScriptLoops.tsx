@@ -58,17 +58,22 @@ for (const item of list) {
     },
     {
         highlight: "for...in",
-        content: "Итерация по ключам объекта. Для массивов обычно не используется.",
+        content: "Итерация по всем перечисляемым строковым ключам, включая унаследованные. Для собственных данных проверяй Object.hasOwn; для массивов обычно не используется.",
         code: `
-const user = { id: 1, name: 'Sergey' };
+const prototype = { inheritedRole: 'viewer' };
+const user = Object.create(prototype);
+user.id = 1;
+user.name = 'Sergey';
+
 for (const key in user) {
+  if (!Object.hasOwn(user, key)) continue;
   console.log(key, user[key]);
 }
 `
     },
     {
         highlight: "forEach",
-        content: "Перебор массива без break/continue. Удобно для сайд-эффектов.",
+        content: "Перебор массива без break/continue. Удобно для синхронных сайд-эффектов; сам forEach не ожидает Promise из async-callback.",
         isTop: true,
         code: `
 const ids = [1, 2, 3];
@@ -146,7 +151,7 @@ const loopRows: LoopRow[] = [
     {
         syntax: "for...in",
         bestFor: "Перебор ключей объекта",
-        pitfalls: "Для массивов часто дает неожиданный порядок/поведение"
+        pitfalls: "Включает унаследованные enumerable-свойства; нужен Object.hasOwn"
     }
 ];
 
@@ -156,7 +161,9 @@ const LoopsArrayDemo = () => {
     const output = useMemo(() => {
         const parsed = raw
             .split(",")
-            .map((value) => Number(value.trim()))
+            .map((value) => value.trim())
+            .filter(Boolean)
+            .map(Number)
             .filter((value) => Number.isFinite(value));
 
         const evenByFor: number[] = [];
@@ -236,7 +243,7 @@ export const JavaScriptLoops = () => {
                         <Marker> map/filter/reduce</Marker> и обход DOM-коллекций.
                     </TextP>
                     <NoteUl>
-                        <NoteLi>Для объектов чаще `for...in` + `Object.keys/entries`.</NoteLi>
+                        <NoteLi>Для собственных данных объекта чаще `Object.keys/entries`; `for...in` требует проверки `Object.hasOwn`.</NoteLi>
                         <NoteLi>Для массивов чаще `for...of` или методы массива.</NoteLi>
                         <NoteLi>Для DOM-коллекций учитывай разницу между NodeList и HTMLCollection.</NoteLi>
                     </NoteUl>

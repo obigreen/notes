@@ -45,13 +45,15 @@ export const Events = () => {
                     <NoteUl>
                         <NoteLi>Используй <Marker>делегирование</Marker> для больших списков и таблиц.</NoteLi>
                         <NoteLi>
-                            Для `scroll`/`touch` слушателей учитывай <Marker>passive: true</Marker> и throttling/rAF.
+                            Для частых `scroll`-обновлений используй throttling/rAF, а для `touchmove`/`wheel`,
+                            где не вызывается preventDefault, учитывай <Marker>passive: true</Marker>.
                         </NoteLi>
                         <NoteLi>
                             Разделяй `target` (где кликнули) и `currentTarget` (где висит обработчик).
                         </NoteLi>
                         <NoteLi>
-                            На формах почти всегда нужен `preventDefault` + ручная отправка с валидацией.
+                            В SPA часто используют `preventDefault` + ручную отправку с валидацией, но нативный submit
+                            полезно сохранять, если форма должна работать без JavaScript или отправляться обычным способом.
                         </NoteLi>
                     </NoteUl>
                 </Text>
@@ -66,11 +68,12 @@ export const Events = () => {
 const list = document.querySelector('#orders');
 
 list.addEventListener('click', (event) => {
+  if (!(event.target instanceof Element)) return;
   const actionButton = event.target.closest('[data-action]');
-  if (!actionButton) return;
+  if (!actionButton || !list.contains(actionButton)) return;
 
   const row = actionButton.closest('[data-id]');
-  if (!row) return;
+  if (!row || !list.contains(row)) return;
 
   const id = row.dataset.id;
   const action = actionButton.dataset.action;

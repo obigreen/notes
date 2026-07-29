@@ -27,30 +27,38 @@ export const arrayItems = [
         //code  
         //Мутирующий  
         
-        const arr = [1, 2, 3];
-        const newLength = arr.push(4);
-        console.log(arr); // [1, 2, 3, 4]
-        console.log(newLength); // 4
+        {
+            const arr = [1, 2, 3];
+            const newLength = arr.push(4);
+            console.log(arr); // [1, 2, 3, 4]
+            console.log(newLength); // 4
+        }
         
         //Использование push() с массивом объектов
-        const users = [{ name: 'John' }, { name: 'Alice' }];
-        const newLength = users.push({ name: 'Bob' });
-        console.log(users);
-        // [{ name: 'John' }, { name: 'Alice' }, { name: 'Bob' }]
-        console.log(newLength); // 3
+        {
+            const users = [{ name: 'John' }, { name: 'Alice' }];
+            const newLength = users.push({ name: 'Bob' });
+            console.log(users);
+            // [{ name: 'John' }, { name: 'Alice' }, { name: 'Bob' }]
+            console.log(newLength); // 3
+        }
         
         //Добавление нескольких элементов
-        const arr = [1, 2, 3];
-        const newLength = arr.push(4, 5, 6);
-        console.log(arr); // [1, 2, 3, 4, 5, 6]
-        console.log(newLength); // 6
+        {
+            const arr = [1, 2, 3];
+            const newLength = arr.push(4, 5, 6);
+            console.log(arr); // [1, 2, 3, 4, 5, 6]
+            console.log(newLength); // 6
+        }
         
         //Добавление массива как одного элемента
         //Если вы передадите массив в push(), он будет добавлен как один элемент:
-        const arr = [1, 2, 3];
-        const newLength = arr.push([4, 5, 6]);
-        console.log(arr); // [1, 2, 3, [4, 5, 6]] //хм.. и может далее flat() для "выравнивания"
-        console.log(newLength); // 4
+        {
+            const arr = [1, 2, 3];
+            const newLength = arr.push([4, 5, 6]);
+            console.log(arr); // [1, 2, 3, [4, 5, 6]]
+            console.log(newLength); // 4
+        }
             `
     },
     {
@@ -63,16 +71,20 @@ export const arrayItems = [
         //code   
         //Мутирующий
                   
-        const arr = [1, 2, 3];
-        const lastElement = arr.pop();
-        console.log(arr); // [1, 2]
-        console.log(lastElement); // 3
+        {
+            const arr = [1, 2, 3];
+            const lastElement = arr.pop();
+            console.log(arr); // [1, 2]
+            console.log(lastElement); // 3
+        }
         
         //Если массив пустой, метод pop() возвращает undefined и не изменяет массив
-        const emptyArr = [];
-        const lastElement = emptyArr.pop();
-        console.log(emptyArr); // []
-        console.log(lastElement); // undefined
+        {
+            const emptyArr = [];
+            const lastElement = emptyArr.pop();
+            console.log(emptyArr); // []
+            console.log(lastElement); // undefined
+        }
         
         //Метод pop() изменяет исходный массив, уменьшая его длину на один.
         //Возвращаемое значение pop() — это последний элемент массива или undefined, если массив пустой.
@@ -88,16 +100,20 @@ export const arrayItems = [
         //code  
         //Мутирующий  
         
-        const arr = [1, 2, 3];
-        const firstElement = arr.shift();
-        console.log(arr); // [2, 3]
-        console.log(firstElement); // 1
+        {
+            const arr = [1, 2, 3];
+            const firstElement = arr.shift();
+            console.log(arr); // [2, 3]
+            console.log(firstElement); // 1
+        }
         
         //Если массив пустой, метод shift() возвращает undefined и не изменяет массив.
-        const emptyArr = [];
-        const firstElement = emptyArr.shift();
-        console.log(emptyArr); // []
-        console.log(firstElement); // undefined
+        {
+            const emptyArr = [];
+            const firstElement = emptyArr.shift();
+            console.log(emptyArr); // []
+            console.log(firstElement); // undefined
+        }
             `
     },
     {
@@ -110,28 +126,36 @@ export const arrayItems = [
         //code    
         //Мутирующий  
         
-        const arr = [2, 3, 4];
-        const newLength = arr.unshift(1);
-        console.log(arr); // [1, 2, 3, 4]
-        console.log(newLength); // 4
+        {
+            const arr = [2, 3, 4];
+            const newLength = arr.unshift(1);
+            console.log(arr); // [1, 2, 3, 4]
+            console.log(newLength); // 4
+        }
         
         //Добавление нескольких элементов
-        const arr = [3, 4];
-        const newLength = arr.unshift(1, 2);
-        console.log(arr); // [1, 2, 3, 4]
-        console.log(newLength); // 4
+        {
+            const arr = [3, 4];
+            const newLength = arr.unshift(1, 2);
+            console.log(arr); // [1, 2, 3, 4]
+            console.log(newLength); // 4
+        }
         
         //Добавление массива как одного элемента
-        const arr = [2, 3];
-        const newLength = arr.unshift([0, 1]);
-        console.log(arr); // [[0, 1], 2, 3]
-        console.log(newLength); // 3
+        {
+            const arr = [2, 3];
+            const newLength = arr.unshift([0, 1]);
+            console.log(arr); // [[0, 1], 2, 3]
+            console.log(newLength); // 3
+        }
         
         //Добавление объектов в массив
-        const users = [{ name: 'Alice' }, { name: 'Bob' }];
-        const newLength = users.unshift({ name: 'John' });
-        console.log(users); // [{ name: 'John' }, { name: 'Alice' }, { name: 'Bob' }]
-        console.log(newLength); // 3
+        {
+            const users = [{ name: 'Alice' }, { name: 'Bob' }];
+            const newLength = users.unshift({ name: 'John' });
+            console.log(users); // [{ name: 'John' }, { name: 'Alice' }, { name: 'Bob' }]
+            console.log(newLength); // 3
+        }
             `
     },
     // {
@@ -160,7 +184,7 @@ export const arrayItems = [
     // },
     {
         highlight: ".concat()",
-        content: "Используется для объединения двух или более массивов. Этот метод не изменяет существующие массивы, а вместо этого возвращает новый массив",
+        content: "Возвращает новый массив, объединяя исходный массив со значениями и массивами-аргументами. Массивы-аргументы разворачиваются только на один уровень; исходные массивы не мутируют",
         isTop: true,
 
         code:
@@ -168,31 +192,39 @@ export const arrayItems = [
         //code    
         //Не мутирующий
         
-        arr.concat(value1, value2, ..., valueN)
+        //arr.concat(value1, value2, ..., valueN)
         //value1, value2, ..., valueN: Массивы и/или значения, которые нужно объединить в новый массив.
+        //Массивы-аргументы разворачиваются на один уровень, но их вложенные массивы остаются вложенными.
 
         //Объединение двух массивов
-        const arr1 = [1, 2, 3];
-        const arr2 = [4, 5, 6];
-        const newArr = arr1.concat(arr2);
-        
-        console.log(newArr); // [1, 2, 3, 4, 5, 6]
-        console.log(arr1); // [1, 2, 3]
-        console.log(arr2); // [4, 5, 6]
+        {
+            const arr1 = [1, 2, 3];
+            const arr2 = [4, 5, 6];
+            const newArr = arr1.concat(arr2);
+
+            console.log(newArr); // [1, 2, 3, 4, 5, 6]
+            console.log(arr1); // [1, 2, 3]
+            console.log(arr2); // [4, 5, 6]
+        }
         //В этом примере массивы arr1 и arr2 объединяются в новый массив newArr, при этом исходные массивы остаются неизменными
         
         //Объединение массивов и значений
-        const arr = [1, 2, 3];
-        const newArr = arr.concat(4, [5, 6], 7);
-        console.log(newArr); // [1, 2, 3, 4, 5, 6, 7]
-        //В этом примере массив arr объединяется с числом 4, массивом [5, 6] и числом 7, создавая новый массив newArr
-        
-        //Вложенные массивы добавляются как есть, без развертывания
+        {
+            const arr = [1, 2, 3];
+            const newArr = arr.concat(4, [5, 6], [[7, 8]]);
+            console.log(newArr); // [1, 2, 3, 4, 5, 6, [7, 8]]
+        }
+        //Массив [5, 6] развернулся, а вложенный [7, 8] сохранился:
+        //concat не является полной заменой flat(Infinity).
         
         //Метод concat() часто используется для создания поверхностных копий массивов:
-        const originalArr = [1, 2, 3];
-        const copyArr = originalArr.concat();
-        console.log(copyArr); // [1, 2, 3]
+        {
+            const originalArr = [{ id: 1 }];
+            const copyArr = originalArr.concat();
+            console.log(copyArr); // [{ id: 1 }]
+            console.log(copyArr !== originalArr); // true: новый массив
+            console.log(copyArr[0] === originalArr[0]); // true: копия поверхностная
+        }
         
         //Метод concat() полезен для объединения данных из разных источников, например, объединения результатов нескольких API-запросов или объединения данных из нескольких компонентов.
             `
@@ -206,29 +238,37 @@ export const arrayItems = [
             `
         //code 
         //Не мутирующий   
-        arr.join([separator])
+        //arr.join(separator)
         //separator (необязательный): Указывает строку, которая будет использоваться в качестве разделителя между элементами массива. 
         //Если разделитель не указан, используется запятая ,.
         
         //Объединение массива в строку с разделителем по умолчанию
-        const arr = [1, 2, 3];
-        const str = arr.join();
-        console.log(str); // "1,2,3"
+        {
+            const arr = [1, 2, 3];
+            const str = arr.join();
+            console.log(str); // "1,2,3"
+        }
         
         //Объединение массива с указанным разделителем
-        const arr = ['Hello', 'world'];
-        const str = arr.join(' ');
-        console.log(str); // "Hello world"
+        {
+            const arr = ['Hello', 'world'];
+            const str = arr.join(' ');
+            console.log(str); // "Hello world"
+        }
         
         //Объединение массива без разделителя
-        const arr = ['H', 'e', 'l', 'l', 'o'];
-        const str = arr.join('');
-        console.log(str); // "Hello"
+        {
+            const arr = ['H', 'e', 'l', 'l', 'o'];
+            const str = arr.join('');
+            console.log(str); // "Hello"
+        }
         
         //Объединение массива с разными типами данных
-        const arr = [1, 'apple', true];
-        const str = arr.join(' - ');
-        console.log(str); // "1 - apple - true"
+        {
+            const arr = [1, 'apple', true];
+            const str = arr.join(' - ');
+            console.log(str); // "1 - apple - true"
+        }
         //В этом примере элементы массива разных типов объединяются в строку с использованием дефиса в качестве разделителя.
         
         //Если массив содержит только один элемент, этот элемент будет возвращен как строка без добавления разделителя
@@ -245,39 +285,43 @@ export const arrayItems = [
         //Мутирующий
         
         //Обратный порядок числового/строкового массива
-        const arr = [1, 2, 3];
-        const reversedArr = arr.reverse();
-        console.log(arr); // [3, 2, 1]
-        console.log(reversedArr); // [3, 2, 1]
+        {
+            const arr = [1, 2, 3];
+            const reversedArr = arr.reverse();
+            console.log(arr); // [3, 2, 1]
+            console.log(reversedArr); // [3, 2, 1]
+            console.log(reversedArr === arr); // true: возвращается тот же массив
+        }
         //и
-        const arr = ['a', 'b', 'c'];
-        const reversedArr = arr.reverse();
-        console.log(arr); // ['c', 'b', 'a']
-        console.log(reversedArr); // ['c', 'b', 'a']
+        {
+            const arr = ['a', 'b', 'c'];
+            const reversedArr = arr.reverse();
+            console.log(arr); // ['c', 'b', 'a']
+            console.log(reversedArr); // ['c', 'b', 'a']
+        }
                 
-        //Меняет исходный (создать копию)
-        const originalArr = [1, 2, 3];
-        const reversedArr = [...originalArr].reverse();
-        console.log(originalArr); // [1, 2, 3]
-        console.log(reversedArr); // [3, 2, 1]
-        //--
-        const [items, setItems] = useState([1, 2, 3]);
-        const handleReverse = () => {
-            const reversedItems = [...items].reverse();
-            setItems(reversedItems);
-        };
+        //Для React state сначала создаем копию
+        {
+            const originalArr = [1, 2, 3];
+            const reversedArr = [...originalArr].reverse();
+            console.log(originalArr); // [1, 2, 3]
+            console.log(reversedArr); // [3, 2, 1]
+        }
+
+        //В React безопасный functional update выглядит так:
+        //setItems((currentItems) => [...currentItems].reverse());
             `
     },
     {
         highlight: ".flat()",
-        content: "Используется для “выравнивания” многомерных массивов, то есть для объединения элементов вложенных массивов в один одномерный массив. Этот метод возвращает новый массив и не изменяет исходный массив",
+        content: "Возвращает новый массив, разворачивая вложенные массивы до указанной глубины (по умолчанию один уровень), и не изменяет исходный массив",
         isTop: true,
 
         code:
             `
         //code    
         //Не мутирующий
-        arr.flat(depth) //depth значение глубины (1) (2) (3)
+        //arr.flat(depth), где depth — глубина 1, 2, 3...
         //По умолчанию, значение depth равно 1
         //Infinity - для полного “выравнивания” массива
         
@@ -303,7 +347,7 @@ export const arrayItems = [
     },
     {
         highlight: ".sort()",
-        content: "Сортирует элементы массива на месте и возвращает массив.\n",
+        content: "Сортирует элементы массива на месте и возвращает тот же массив. Для React state используй toSorted() или сортируй предварительно созданную копию",
         isTop: true,
 
         code:
@@ -318,8 +362,9 @@ export const arrayItems = [
 
         //Для чисел нужен compareFn, иначе сортировка будет как строки
         const numbers = [10, 2, 100, 5];
-        numbers.sort((a, b) => a - b);
+        const returned = numbers.sort((a, b) => a - b);
         console.log(numbers); // [2, 5, 10, 100]
+        console.log(returned === numbers); // true
 
         //Сортировка объектов
         const users = [
@@ -327,7 +372,7 @@ export const arrayItems = [
             { name: 'Bob', age: 20 }
         ];
         users.sort((a, b) => a.age - b.age);
-        console.log(users); // Bob, Alice
+        console.log(users.map((user) => user.name)); // ['Bob', 'Alice']
 
         //Если нужно без мутации:
         const original = [3, 1, 2];
@@ -338,7 +383,7 @@ export const arrayItems = [
     },
     {
         highlight: ".filter()",
-        content: "Создает новый массив со всеми элементами, которые проходят условие, реализованное предоставленной функцией",
+        content: "Возвращает новый массив со всеми элементами, для которых callback вернул truthy. Сам filter() не мутирует исходный массив",
         isTop: true,
 
         code:
@@ -369,7 +414,7 @@ export const arrayItems = [
     },
     {
         highlight: ".map()",
-        content: "Создает новый массив с результатами вызова предоставленной функции для каждого элемента массива",
+        content: "Возвращает новый массив той же длины с результатами callback для каждого существующего элемента; исходный массив сам метод не мутирует",
         isTop: true,
 
         code:
@@ -405,7 +450,7 @@ export const arrayItems = [
     },
     {
         highlight: ".flatMap()",
-        content: "Комбинирует map + flat(1): удобно, когда один элемент превращается в 0, 1 или несколько элементов.",
+        content: "Возвращает новый массив, выполняя map() и затем flat(1): удобно, когда один элемент превращается в 0, 1 или несколько элементов.",
         isTop: true,
 
         code:
@@ -445,7 +490,8 @@ export const arrayItems = [
         code:
             `
         //code
-        //Не мутирующий (если не мутировать accumulator вручную)
+        //Сам reduce() не мутирует исходный массив.
+        //Но callback может мутировать accumulator, элементы или внешний state.
         //arr.reduce((acc, item) => nextAcc, initialAcc)
 
         //1) Базовый кейс: сумма
@@ -474,11 +520,12 @@ export const arrayItems = [
 
         //Почему reduce полезен:
         //когда нужно получить один итог: число, объект, Map, сложную агрегированную структуру.
+        //Для пустого массива без initialAcc метод выбросит TypeError.
             `
     },
     {
         highlight: ".forEach()",
-        content: "Выполняет предоставленную функцию один раз для каждого элемента массива",
+        content: "Вызывает callback для каждого существующего элемента и всегда возвращает undefined; сам по себе новый массив не создает",
         isTop: true,
 
         code:
@@ -488,10 +535,11 @@ export const arrayItems = [
         //arr.forEach(callback)
 
         const fruits = ['Яблоко', 'Банан', 'Апельсин'];
-        fruits.forEach((fruit) => console.log(fruit));
+        const returned = fruits.forEach((fruit) => console.log(fruit));
         // 'Яблоко'
         // 'Банан'
         // 'Апельсин'
+        console.log(returned); // undefined
 
         //Подсчет суммы через внешний аккумулятор
         let sum = 0;
@@ -637,6 +685,7 @@ export const arrayItems = [
         const list = ['draft', 'review', 'published'];
         console.log(list.at(0));  // 'draft'
         console.log(list.at(-1)); // 'published'
+        console.log(list.at(99)); // undefined
 
         //Сравнение с классикой:
         console.log(list[list.length - 1]); // 'published'
@@ -650,7 +699,7 @@ export const arrayItems = [
     },
     {
         highlight: ".toSorted()",
-        content: "Возвращает отсортированную копию массива без мутации исходного (современная иммутабельная альтернатива sort).",
+        content: "Возвращает поверхностную отсортированную копию массива без мутации исходного (современная иммутабельная альтернатива sort).",
         isTop: true,
 
         code:

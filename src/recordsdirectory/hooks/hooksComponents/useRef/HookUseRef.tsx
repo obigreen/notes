@@ -1,77 +1,52 @@
-import React, {useEffect, useRef} from 'react';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/default.css';
+import React, {useRef} from 'react';
 import {
-    ButtonCopy,
-    CodeBlockWrapp, Link,
-    Text, BookTitle, Section, NoteBlock
+    Link,
+    Marker,
+    NoteBlock,
+    NoteLi,
+    NoteUl,
+    Section,
+    Text,
+    TextP,
+    BookTitle
 } from "../../../RecordsDirectory_Style";
-import Copy from '../../../../accets/img/all/copy.png'
-
-
-//type for code
-interface HighlightedCodeBlockProps {
-    children: string;
-}
-
-// ---------------------------------------------------------------------------------------
-// code block + copy button
-const HighlightedCodeBlock = ({children}: HighlightedCodeBlockProps) => {
-    const codeRef = useRef<HTMLElement>(null);
-    useEffect(() => {
-        if (codeRef.current) {
-            hljs.highlightBlock(codeRef.current);
-        }
-    }, [])
-    const handleCopyClick = async () => {
-        if (codeRef.current) {
-            const range = document.createRange();
-            range.selectNodeContents(codeRef.current);
-
-            if (navigator.clipboard) {
-                try {
-                    const text = range.toString();
-                    await navigator.clipboard.writeText(text);
-                } catch (err) {
-                    console.error('Failed to copy text: ', err);
-                }
-            } else {
-                const selection = window.getSelection();
-                if (selection) {
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                    document.execCommand('copy');
-                    selection.removeAllRanges();
-                }
-            }
-        }
-    }
-    return (
-        <CodeBlockWrapp>
-      <pre>
-        <code ref={codeRef} className="javascript">
-          {children}
-        </code>
-      </pre>
-            <ButtonCopy onClick={handleCopyClick}>
-                <img src={Copy} alt="Copy"/>
-            </ButtonCopy>
-        </CodeBlockWrapp>
-    );
-};
-
-
-
-// ---------------------------------------------------------------------------------------
-
-
 export const HookUseRef = () => {
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
+    const focusInput = () => {
+        inputRef.current?.focus();
+    };
+
+    const clearInput = () => {
+        if (inputRef.current) {
+            inputRef.current.value = '';
+            inputRef.current.focus();
+        }
+    };
 
     return (
         <NoteBlock>
             <Text>
                 <BookTitle>useRef</BookTitle>
+                <Section>
+                    <TextP>
+                        <Marker>useRef</Marker> возвращает один и тот же объект между рендерами. Его свойство
+                        <Marker> current</Marker> можно использовать для ссылки на DOM-элемент или для изменяемого
+                        значения, которое не участвует в отображении.
+                    </TextP>
+                    <NoteUl>
+                        <NoteLi>Изменение <Marker>ref.current</Marker> само по себе не вызывает ререндер.</NoteLi>
+                        <NoteLi>Для данных, которые должны появиться в JSX, используй state, а не ref.</NoteLi>
+                        <NoteLi>DOM-ref становится доступен после монтирования элемента.</NoteLi>
+                    </NoteUl>
+
+                    <TextP><Marker>Живой пример: управление неконтролируемым input</Marker></TextP>
+                    <div>
+                        <input ref={inputRef} defaultValue="Текст без React state"/>
+                        <button type="button" onClick={focusInput}>Фокус</button>
+                        <button type="button" onClick={clearInput}>Очистить</button>
+                    </div>
+                </Section>
                 <Section>
                     <Link target={"_blank"} href="https://react.dev/reference/react/useRef">useRef - документация</Link>
                 </Section>
@@ -79,4 +54,3 @@ export const HookUseRef = () => {
         </NoteBlock>
    );
 };
-

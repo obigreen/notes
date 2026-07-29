@@ -12,7 +12,7 @@ type ErrorRow = {
 const errorItems: JsPopupItem[] = [
     {
         highlight: "try / catch / finally",
-        content: "Базовая конструкция обработки исключений в sync и async-коде.",
+        content: "Ловит синхронные исключения внутри try и отклонения Promise, которые были явно await. Ошибка из отдельно запущенной async-операции этим catch не перехватывается.",
         isTop: true,
         code: `
 async function loadProfile() {
@@ -22,7 +22,8 @@ async function loadProfile() {
     return await response.json();
   } catch (error) {
     console.error('Profile error:', error);
-    return null;
+    // После логирования не маскируем ошибку под отсутствие данных.
+    throw error;
   } finally {
     console.log('request finished');
   }
@@ -35,7 +36,7 @@ async function loadProfile() {
         isTop: true,
         code: `
 function assertNonEmpty(value, fieldName) {
-  if (!value?.trim()) {
+  if (typeof value !== 'string' || !value.trim()) {
     throw new Error(fieldName + ' is required');
   }
 }
@@ -55,13 +56,15 @@ class ValidationError extends Error {
 }
 
 function validateAge(age) {
-  if (age < 18) throw new ValidationError('Age must be 18+');
+  if (!Number.isFinite(age) || age < 18) {
+    throw new ValidationError('Age must be a finite number and 18+');
+  }
 }
 `
     },
     {
         highlight: "Promise rejection handling",
-        content: "Для промисов без await обязательно добавляй catch.",
+        content: "У цепочки Promise без await должен быть явный обработчик rejection. Реши осознанно: восстановиться, вернуть fallback или пробросить ошибку выше.",
         isTop: true,
         code: `
 fetch('/api/orders')
@@ -70,12 +73,15 @@ fetch('/api/orders')
     return res.json();
   })
   .then((data) => console.log(data))
-  .catch((error) => console.error('orders error', error));
+  .catch((error) => {
+    console.error('orders error', error);
+    return []; // осознанное восстановление цепочки значением того же типа
+  });
 `
     },
     {
         highlight: "window.onerror / unhandledrejection",
-        content: "Глобальные хуки на неожиданные клиентские ошибки.",
+        content: "Глобальные хуки для последнего уровня мониторинга неожиданных клиентских ошибок; они не заменяют локальную обработку и понятный fallback в UI.",
         code: `
 window.addEventListener('error', (event) => {
   console.error('Global JS error:', event.message);
@@ -116,7 +122,7 @@ const errorRows: ErrorRow[] = [
     {
         layer: "API request",
         what: "Сеть/таймаут/HTTP-ошибка",
-        recommendation: "Проверять response.ok, логировать код и payload"
+        recommendation: "Проверять response.ok; логировать status/request ID и только безопасные диагностические данные"
     },
     {
         layer: "Runtime",
@@ -150,7 +156,10 @@ const ErrorsValidateDemo = () => {
     return (
         <S.DemoCard>
             <S.DemoTitle>Demo 1: Validation + throw/catch</S.DemoTitle>
-            <S.DemoHint>Показывает, как ошибки валидации можно централизованно обрабатывать.</S.DemoHint>
+            <S.DemoHint>
+                Показывает централизованную обработку на упрощенной проверке; `includes("@")` не является полной
+                валидацией email.
+            </S.DemoHint>
             <S.DemoLabel htmlFor="errors-email">Email</S.DemoLabel>
             <S.DemoInput id="errors-email" value={email} onChange={(event) => setEmail(event.currentTarget.value)} />
             <S.DemoBadge $isError={!result.ok}>{result.message}</S.DemoBadge>

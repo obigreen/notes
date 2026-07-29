@@ -16,7 +16,7 @@ export const propertys: PropertyItem[] = [
 
     {
         highlight: ".length",
-        content: "Возвращает длину строки, массива или количество аргументов функции.",
+        content: "Для строки возвращает число UTF-16 code units; для массива — длину по индексным позициям, включая пустые слоты; для функции — число формальных параметров до первого default-параметра, без rest.",
         isTop: true,
         code: `
     // Примеры для .length
@@ -38,6 +38,13 @@ export const propertys: PropertyItem[] = [
     if (userName.length >= 3) {
       console.log('Имя валидно');
     }
+
+    // 5) Function.length — параметры до первого default/rest, не аргументы вызова
+    function request(url, options = {}, ...middlewares) {}
+    console.log(request.length); // 1
+
+    // Строковая length считает UTF-16 code units, а не видимые символы
+    console.log('👍'.length); // 2
         `
     },
 
@@ -102,7 +109,7 @@ export const propertys: PropertyItem[] = [
 
     {
         highlight: ".constructor",
-        content: "Ссылается на функцию-конструктор, создавшую объект.",
+        content: "Обычно наследуется из prototype и указывает на связанную функцию; свойство изменяемо и не доказывает, кто фактически создал объект.",
         code: `
     // 1) Проверка конструктора
     const numbers = [1, 2, 3];
@@ -123,7 +130,7 @@ export const propertys: PropertyItem[] = [
         content: "Получает или задает HTML-содержимое элемента.",
         isTop: true,
         code: `
-    // 1) Чтение HTML содержимого
+    // 1) innerHTML подходит для статичного доверенного шаблона
     const card = document.createElement('div');
     card.innerHTML = '<h3>Заголовок</h3><p>Описание</p>';
     console.log(card.innerHTML);
@@ -131,16 +138,18 @@ export const propertys: PropertyItem[] = [
     // 2) Полная перезапись содержимого
     card.innerHTML = '<button>Купить</button>';
 
-    // 3) Добавление фрагмента
-    card.innerHTML += '<span class="badge">NEW</span>';
-
-    // 4) Реальный кейс: рендер списка из API
+    // 3) Данные из API/пользовательский текст создаём безопасными DOM-операциями
     const users = ['Ann', 'Bob', 'Kate'];
     const list = document.createElement('ul');
-    list.innerHTML = users.map(u => '<li>' + u + '</li>').join('');
+    users.forEach((user) => {
+      const item = document.createElement('li');
+      item.textContent = user;
+      list.appendChild(item);
+    });
     document.body.appendChild(list);
 
-    // Важно: innerHTML может быть опасен при вставке непроверенных данных (XSS).
+    // Важно: innerHTML с непроверенными данными создаёт XSS-риск.
+    // Операция element.innerHTML += ... ещё и пересоздаёт дочерние DOM-узлы.
         `
     },
 
@@ -153,7 +162,7 @@ export const propertys: PropertyItem[] = [
     const title = document.createElement('h2');
     title.textContent = 'Новости';
 
-    // 2) textContent экранирует HTML как обычный текст
+    // 2) textContent трактует разметку как обычный текст
     const msg = document.createElement('p');
     msg.textContent = '<b>Не жирный текст</b>';
     console.log(msg.textContent); // '<b>Не жирный текст</b>'
@@ -315,6 +324,7 @@ export const propertys: PropertyItem[] = [
 
     // 4) Реальный кейс: fallback если картинка не загрузилась
     image.onerror = () => {
+      image.onerror = null; // предотвращает цикл, если placeholder тоже недоступен
       image.src = '/assets/placeholder.png';
     };
         `
@@ -351,8 +361,14 @@ export const propertys: PropertyItem[] = [
     box.style.width = '120px';
     box.style.height = '60px';
 
-    // 2) Пакетная установка
-    box.style.cssText = 'border-radius: 12px; color: white; padding: 10px;';
+    // 2) Пакетно добавляем стили, не стирая уже заданные declarations
+    Object.assign(box.style, {
+      borderRadius: '12px',
+      color: 'white',
+      padding: '10px'
+    });
+
+    // Присваивание box.style.cssText = '...' заменило бы весь inline-style.
 
     // 3) Чтение стиля
     console.log(box.style.width); // '120px'
@@ -451,6 +467,7 @@ export const propertys: PropertyItem[] = [
 
     // 4) Реальный кейс: делегирование кликов по карточкам
     function onCardClick(event) {
+      if (!(event.target instanceof Element)) return;
       const target = event.target.closest('[data-user-id]');
       if (!target) return;
       console.log('Открываем пользователя:', target.dataset.userId);
@@ -536,7 +553,7 @@ export const propertys: PropertyItem[] = [
 
     {
         highlight: ".nextElementSibling",
-        content: "Возвращает следующий соседний HTML-элемент.",
+        content: "Возвращает следующий соседний HTML-элемент или null.",
         code: `
     const wrap = document.createElement('div');
     wrap.innerHTML = '<span id="a">A</span><span id="b">B</span><span id="c">C</span>';
@@ -552,7 +569,7 @@ export const propertys: PropertyItem[] = [
 
     {
         highlight: ".previousElementSibling",
-        content: "Возвращает предыдущий соседний HTML-элемент.",
+        content: "Возвращает предыдущий соседний HTML-элемент или null.",
         code: `
     const wrap = document.createElement('div');
     wrap.innerHTML = '<span id="a">A</span><span id="b">B</span><span id="c">C</span>';
@@ -589,7 +606,7 @@ export const propertys: PropertyItem[] = [
 
     {
         highlight: ".clientWidth",
-        content: "Внутренняя ширина элемента (контент + padding, без border/scrollbar).",
+        content: "Внутренняя ширина элемента: content + padding, без border, margin и вертикальной полосы прокрутки.",
         code: `
     const box = document.createElement('div');
     box.style.width = '200px';
@@ -608,7 +625,7 @@ export const propertys: PropertyItem[] = [
 
     {
         highlight: ".clientHeight",
-        content: "Внутренняя высота элемента (контент + padding, без border/scrollbar).",
+        content: "Внутренняя высота элемента: content + padding, без border, margin и горизонтальной полосы прокрутки.",
         code: `
     const panel = document.createElement('div');
     panel.style.height = '220px';
@@ -639,8 +656,8 @@ export const propertys: PropertyItem[] = [
     console.log(box.clientHeight); // видимая высота
     console.log(box.scrollHeight); // полная высота контента
 
-    // Реальный кейс: проверка "доскроллил ли пользователь до конца"
-    const isAtBottom = box.scrollTop + box.clientHeight >= box.scrollHeight;
+    // Реальный кейс: scrollTop может быть дробным, поэтому нужен небольшой допуск
+    const isAtBottom = box.scrollTop + box.clientHeight >= box.scrollHeight - 1;
     console.log(isAtBottom);
         `
     },
@@ -666,7 +683,7 @@ export const propertys: PropertyItem[] = [
 
     {
         highlight: ".offsetTop",
-        content: "Расстояние от верхней границы элемента до верхней границы offsetParent.",
+        content: "Расстояние от внешней границы элемента (с margin) до padding edge его offsetParent.",
         code: `
     const section = document.createElement('section');
     section.style.marginTop = '300px';
@@ -675,9 +692,12 @@ export const propertys: PropertyItem[] = [
 
     console.log(section.offsetTop); // примерно 300+ (зависит от верстки)
 
+    // offsetTop относится к offsetParent, а не обязательно ко всему документу
+    const documentTop = section.getBoundingClientRect().top + window.scrollY;
+
     // Реальный кейс: скролл к блоку с небольшим отступом
     window.scrollTo({
-      top: section.offsetTop - 16,
+      top: documentTop - 16,
       behavior: 'smooth'
     });
         `
@@ -703,30 +723,6 @@ export const propertys: PropertyItem[] = [
       const showToTop = panel.scrollTop > 150;
       console.log('Показывать кнопку вверх:', showToTop);
     });
-        `
-    },
-
-    {
-        highlight: ".files",
-        content: "Список выбранных файлов в input[type='file'].",
-        code: `
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.multiple = true;
-
-    fileInput.addEventListener('change', () => {
-      const files = fileInput.files;
-      if (!files || files.length === 0) return;
-
-      console.log('Количество файлов:', files.length);
-      console.log('Первый файл:', files[0].name, files[0].size);
-    });
-
-    // Реальный кейс: ограничение размера файла
-    function isFileAllowed(file) {
-      const maxSizeMb = 5;
-      return file.size <= maxSizeMb * 1024 * 1024;
-    }
         `
     }
 ];

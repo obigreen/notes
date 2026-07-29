@@ -5,7 +5,7 @@ export const RegexSanitizeDemo = () => {
     const [value, setValue] = useState("A man, a plan! 2026");
 
     const cleaned = useMemo(
-        () => value.replace(/[^a-zа-я0-9]/gi, "").toLowerCase(),
+        () => value.replace(/[^\p{L}\p{N}]/gu, "").toLowerCase(),
         [value]
     );
 
@@ -13,7 +13,8 @@ export const RegexSanitizeDemo = () => {
         <S.DemoCard>
             <S.DemoTitle>Demo 1: Очистка строки для поиска/палиндрома</S.DemoTitle>
             <S.DemoHint>
-                Удаляем всё, кроме букв и цифр: <S.TableToken>/[^a-zа-я0-9]/gi</S.TableToken>
+                Оставляем Unicode-буквы и числовые символы:{" "}
+                <S.TableToken>{String.raw`/[^\p{L}\p{N}]/gu`}</S.TableToken>
             </S.DemoHint>
             <S.DemoLabel htmlFor="sanitize-input">Исходная строка</S.DemoLabel>
             <S.DemoTextarea

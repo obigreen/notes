@@ -19,7 +19,7 @@ type MethodProps = {
 export const stringItems = [
     {
         highlight: ".charAt()",
-        content: "Возвращает символ по указанному индексу",
+        content: "Возвращает строку с UTF-16 code unit по индексу или пустую строку вне диапазона. Один emoji может состоять из двух таких единиц",
         code:
             `
         //code
@@ -48,37 +48,46 @@ export const stringItems = [
         //code
         //Не мутирующий
         
-        string1.concat(string2, string3, ..., stringN)
+        //string1.concat(string2, string3, ..., stringN)
         //string1: Исходная строка.
         //string2, string3, ..., stringN: Строки, которые нужно объединить с string1.
         
         //Объединение двух строк
-        const str1 = "Hello, ";
-        const str2 = "world!";
-        const result = str1.concat(str2);
-        console.log(result); // "Hello, world!"
+        {
+            const str1 = "Hello, ";
+            const str2 = "world!";
+            const result = str1.concat(str2);
+            console.log(result); // "Hello, world!"
+            console.log(str1); // "Hello, " — исходная строка не изменилась
+        }
         
         //Объединение нескольких строк
-        const str1 = "JavaScript ";
-        const str2 = "is ";
-        const str3 = "awesome!";
-        const result = str1.concat(str2, str3);
-        console.log(result); // "JavaScript is awesome!"
+        {
+            const str1 = "JavaScript ";
+            const str2 = "is ";
+            const str3 = "awesome!";
+            const result = str1.concat(str2, str3);
+            console.log(result); // "JavaScript is awesome!"
+        }
         
         //Объединение с пустой строкой
-        const str1 = "Concat";
-        const str2 = "";
-        const result = str1.concat(str2);
-        console.log(result); // "Concat"
+        {
+            const str1 = "Concat";
+            const str2 = "";
+            const result = str1.concat(str2);
+            console.log(result); // "Concat"
+        }
         
         //Если один из аргументов не является строкой, он будет приведен к строке перед объединением.
         
         //Метод concat() полезен для создания сложных строковых значений, объединяя отдельные части текста, такие как пользовательский ввод, константы или данные из различных источников.
         //Альтернатива с использованием оператора +
-        const str1 = "Hello, ";
-        const str2 = "world!";
-        const result = str1 + str2;
-        console.log(result); // "Hello, world!"
+        {
+            const str1 = "Hello, ";
+            const str2 = "world!";
+            const result = str1 + str2;
+            console.log(result); // "Hello, world!"
+        }
         //Использование оператора + может быть более кратким и читабельным, особенно при объединении небольшого количества строк.
             `
     },
@@ -184,7 +193,7 @@ export const stringItems = [
         //code
         //Не мутирующий
 
-        string.replace(pattern, replacement)
+        //string.replace(pattern, replacement)
         //pattern: строка или регулярное выражение
         //replacement: строка или функция, которая формирует замену
 
@@ -218,7 +227,7 @@ export const stringItems = [
     {
         highlight: ".replaceAll()",
         isTop: true,
-        content: "Заменяет все вхождения подстроки сразу. Удобнее, чем replace() со строкой, когда нужны именно все совпадения.",
+        content: "Возвращает новую строку, заменяя все вхождения строки или глобального RegExp. RegExp без флага g вызовет TypeError.",
         code:
             `
         //code
@@ -238,6 +247,9 @@ export const stringItems = [
         //если замена по шаблону (например, все цифры), лучше replace(/\\d+/g, ...)
         const sku = 'id-123-part-456';
         console.log(sku.replace(/\\d+/g, '#')); // id-#-part-#
+
+        //replaceAll тоже принимает RegExp, но только с флагом g:
+        console.log(sku.replaceAll(/\\d+/g, '#')); // id-#-part-#
             `
     },
     {
@@ -315,13 +327,14 @@ export const stringItems = [
     },
     {
         highlight: ".substr()",
-        content: "Возвращает часть строки, начиная с указанного индекса и в течение заданного количества символов",
+        content: "Legacy/deprecated-метод: возвращает length символов, начиная со start. Не используй в новом коде — выбирай slice() или substring()",
         code:
             `
         //code
         //Не мутирующий
         //str.substr(start[, length])
-        //Метод считается устаревающим, чаще используют slice/substring
+        //Legacy/deprecated: сохранен в браузерах ради совместимости.
+        //Для нового кода используй slice() или substring().
 
         const str = 'Привет, мир!';
         console.log(str.substr(8, 3)); // 'мир'

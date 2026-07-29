@@ -26,8 +26,9 @@ export const eventItems: EventItem[] = [
     // 2) Делегирование кликов на список
     const list = document.querySelector('.todo-list');
     list.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) return;
       const removeBtn = event.target.closest('[data-action="remove"]');
-      if (!removeBtn) return;
+      if (!removeBtn || !list.contains(removeBtn)) return;
       removeBtn.closest('li')?.remove();
     });
 
@@ -108,9 +109,13 @@ export const eventItems: EventItem[] = [
       // 1) Блокируем стандартную отправку и перезагрузку страницы
       event.preventDefault();
 
-      // 2) Собираем данные нативно
+      // 2) FormData сохраняет File и повторяющиеся поля с одинаковым name
       const data = new FormData(form);
-      const payload = Object.fromEntries(data.entries());
+      const selectedRoles = data.getAll('role');
+      console.log('Выбранные роли:', selectedRoles);
+
+      // Object.fromEntries(data) подходит только для уникальных скалярных полей:
+      // повторяющиеся name будут потеряны, а File нельзя корректно отправить как JSON.
 
       // 3) UX best practice: защита от двойной отправки
       submitBtn.disabled = true;
@@ -119,8 +124,8 @@ export const eventItems: EventItem[] = [
         // 4) Реальный рабочий кейс
         const response = await fetch('/api/signup', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          // Для FormData браузер сам добавит Content-Type с multipart boundary.
+          body: data
         });
 
         if (!response.ok) {
@@ -163,16 +168,23 @@ export const eventItems: EventItem[] = [
     },
     {
         highlight: "keyup",
-        content: "Срабатывает при отпускании клавиши.",
+        content: "Срабатывает при отпускании клавиши. Для слежения за значением поля обычно лучше событие input.",
         code: `
     const password = document.querySelector('#password');
     const meter = document.querySelector('#strength');
 
-    // Реальный кейс: live-индикатор силы пароля
-    password.addEventListener('keyup', (event) => {
+    // Live-индикатор должен учитывать клавиатуру, paste, autofill и другие способы ввода
+    password.addEventListener('input', (event) => {
       const value = event.target.value;
       const score = value.length >= 8 ? 'strong' : 'weak';
       meter.textContent = score;
+    });
+
+    // keyup полезен, когда важен именно момент отпускания клавиши
+    document.addEventListener('keyup', (event) => {
+      if (event.key === 'Alt') {
+        console.log('Клавиша Alt отпущена');
+      }
     });
         `
     },
@@ -189,27 +201,41 @@ export const eventItems: EventItem[] = [
       console.log('pointer:', event.pointerType); // mouse | touch | pen
     });
 
-    dragHandle.addEventListener('pointerup', (event) => {
-      dragHandle.releasePointerCapture(event.pointerId);
+    const stopDragging = (event) => {
+      if (dragHandle.hasPointerCapture(event.pointerId)) {
+        dragHandle.releasePointerCapture(event.pointerId);
+      }
       dragHandle.classList.remove('is-dragging');
-    });
+    };
+
+    dragHandle.addEventListener('pointerup', stopDragging);
+    dragHandle.addEventListener('pointercancel', stopDragging);
         `
     },
     {
         highlight: "beforeunload",
-        content: "Используется, когда нужно предупредить пользователя о несохраненных изменениях перед закрытием вкладки.",
+        content: "Может запросить подтверждение при несохранённых изменениях, но браузер показывает свой текст и не гарантирует событие во всех сценариях.",
         code: `
     let hasUnsavedChanges = false;
 
-    document.querySelector('#editor')?.addEventListener('input', () => {
-      hasUnsavedChanges = true;
-    });
-
-    window.addEventListener('beforeunload', (event) => {
-      if (!hasUnsavedChanges) return;
+    const warnAboutUnsavedChanges = (event) => {
       event.preventDefault();
-      event.returnValue = '';
-    });
+      event.returnValue = true; // legacy-совместимость
+    };
+
+    const markAsDirty = () => {
+      if (hasUnsavedChanges) return;
+      hasUnsavedChanges = true;
+      window.addEventListener('beforeunload', warnAboutUnsavedChanges);
+    };
+
+    const markAsSaved = () => {
+      hasUnsavedChanges = false;
+      window.removeEventListener('beforeunload', warnAboutUnsavedChanges);
+    };
+
+    document.querySelector('#editor')?.addEventListener('input', markAsDirty);
+    document.querySelector('#save')?.addEventListener('click', markAsSaved);
         `
     },
     {
@@ -277,17 +303,29 @@ export const eventItems: EventItem[] = [
       console.log('Страница полностью загружена');
     });
 
-    // 2) Загрузка картинки
+    // 2) Загрузка картинки с учётом уже загруженного cache-ресурса
     const img = document.querySelector('#heroImage');
-    img.addEventListener('load', () => {
-      console.log('Картинка загружена');
-    });
-
-    // 3) Реальный кейс: прятать skeleton после загрузки изображения
     const skeleton = document.querySelector('#heroSkeleton');
-    img.addEventListener('load', () => {
+
+    const handleImageReady = () => {
+      img.removeEventListener('error', handleImageError);
       skeleton.hidden = true;
-    });
+      console.log('Картинка загружена');
+    };
+
+    const handleImageError = () => {
+      img.removeEventListener('load', handleImageReady);
+      skeleton.hidden = true;
+      console.error('Картинка не загрузилась');
+    };
+
+    if (img.complete) {
+      // complete === true и для успешной, и для неудачной cached-загрузки
+      img.naturalWidth > 0 ? handleImageReady() : handleImageError();
+    } else {
+      img.addEventListener('load', handleImageReady, { once: true });
+      img.addEventListener('error', handleImageError, { once: true });
+    }
         `
     },
     {
@@ -313,7 +351,8 @@ export const eventItems: EventItem[] = [
     // 2) Скролл контейнера
     const panel = document.querySelector('#chatPanel');
     panel.addEventListener('scroll', () => {
-      const isBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight;
+      // scrollTop может быть дробным, а размеры округляются до целых пикселей.
+      const isBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 1;
       console.log('Снизу?', isBottom);
     });
 
@@ -346,21 +385,39 @@ export const eventItems: EventItem[] = [
         content: "Срабатывает при переключении видимости вкладки. Полезно для паузы фоновых задач и экономии ресурсов.",
         isTop: true,
         code: `
-    const polling = setInterval(() => {
-      console.log('refetch data...');
-    }, 5000);
+    let pollingId = null;
 
-    document.addEventListener('visibilitychange', () => {
+    const startPolling = () => {
+      if (pollingId !== null) return;
+      pollingId = setInterval(() => {
+        console.log('refetch data...');
+      }, 5000);
+    };
+
+    const stopPolling = () => {
+      if (pollingId === null) return;
+      clearInterval(pollingId);
+      pollingId = null;
+    };
+
+    const handleVisibilityChange = () => {
       const isHidden = document.visibilityState === 'hidden';
 
-      // Практика: не держать лишний трафик/таймеры в неактивной вкладке
       if (isHidden) {
-        clearInterval(polling);
+        stopPolling();
         console.log('pause polling');
       } else {
+        startPolling();
         console.log('tab is visible again');
       }
-    });
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    handleVisibilityChange(); // синхронизируемся и с изначально скрытой вкладкой
+
+    // Когда владелец логики уничтожается:
+    // document.removeEventListener('visibilitychange', handleVisibilityChange);
+    // stopPolling();
         `
     },
     {
@@ -382,12 +439,13 @@ export const eventItems: EventItem[] = [
     },
     {
         highlight: "online / offline",
-        content: "События смены сетевого состояния браузера. Полезно для UX и ретраев запросов.",
+        content: "События смены сетевого состояния браузера. Это UX-подсказка, а не гарантия доступности конкретного API.",
         isTop: true,
         code: `
     const status = document.querySelector('#networkStatus');
 
     const renderStatus = () => {
+      // navigator.onLine сообщает оценку браузера; доступность API проверяет сам запрос.
       const isOnline = navigator.onLine;
       status.textContent = isOnline ? 'Online' : 'Offline';
       status.classList.toggle('is-offline', !isOnline);
@@ -404,10 +462,14 @@ export const eventItems: EventItem[] = [
         code: `
     const image = document.querySelector('#avatar');
 
-    image.addEventListener('error', () => {
+    const applyFallback = () => {
+      // Удаляем handler до смены src, чтобы ошибка placeholder не создала цикл.
+      image.removeEventListener('error', applyFallback);
       image.src = '/img/avatar-placeholder.png';
       console.warn('Avatar load failed, placeholder applied');
-    });
+    };
+
+    image.addEventListener('error', applyFallback);
         `
     },
     {
@@ -465,8 +527,9 @@ export const eventItems: EventItem[] = [
 
     // Делегирование: один обработчик на весь список
     menu.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) return;
       const item = event.target.closest('[data-item-id]');
-      if (!item) return;
+      if (!item || !menu.contains(item)) return;
       console.log('Нажали пункт:', item.dataset.itemId);
     });
 
@@ -491,7 +554,7 @@ export const eventItems: EventItem[] = [
     },
     {
         highlight: "event.preventDefault()",
-        content: "Отменяет стандартное действие браузера для события.",
+        content: "Отменяет стандартное действие браузера, если событие допускает отмену (event.cancelable === true).",
         isTop: true,
         code: `
     // 1) Отмена перехода по ссылке
@@ -511,7 +574,7 @@ export const eventItems: EventItem[] = [
     },
     {
         highlight: "event.stopPropagation()",
-        content: "Останавливает всплытие события к родителям.",
+        content: "Останавливает дальнейшее распространение по event path, но не другие listeners на том же элементе.",
         isTop: true,
         code: `
     const modal = document.querySelector('#modal');
@@ -526,6 +589,9 @@ export const eventItems: EventItem[] = [
     content.addEventListener('click', (event) => {
       event.stopPropagation();
     });
+
+    // stopImmediatePropagation() дополнительно остановил бы
+    // следующие listeners этого же события на content.
         `
     },
     {

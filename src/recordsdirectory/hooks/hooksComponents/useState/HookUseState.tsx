@@ -79,19 +79,16 @@ export const HookUseState = () => {
                 <BookTitle>useState</BookTitle>
                 <Section>
                     <TextP>
-                        Хук <Marker>useState</Marker> в React — это функция, которая позволяет обычным функциям
-                        запоминать информацию и
-                        <Marker>менять её</Marker>. Представьте, что у вас есть свет в комнате, и вам нужно помнить,
-                        включен он или
-                        выключен. useState - это как переключатель: он не только помогает запомнить, но и менять
-                        состояние света - включить или выключить. Это упрощает создание интерактивных приложений без
-                        сложного программирования.
+                        Хук <Marker>useState</Marker> позволяет функциональному React-компоненту хранить состояние между
+                        рендерами и запрашивать новый рендер после его обновления. Состояние принадлежит конкретному
+                        экземпляру компонента: например, каждый экземпляр переключателя отдельно помнит, включён он
+                        или выключен.
                     </TextP>
 
                     <TextP>Основы <Marker>useState</Marker></TextP>
 
                     <TextP>
-                        <Marker></Marker>useState принимает начальное значение состояния как аргумент и возвращает
+                        <Marker>useState</Marker> принимает начальное значение состояния как аргумент и возвращает
                         массив из двух
                         элементов: <Marker>текущее значение состояния</Marker> и <Marker>функцию для его
                         обновления</Marker>. Это позволяет компоненту
@@ -102,17 +99,28 @@ export const HookUseState = () => {
 
                     <VideoContainer>
                         <iframe src="https://www.youtube.com/embed/wqs3LuU2x3s"
+                                title="useState: деструктуризация состояния"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
                     </VideoContainer>
 
                     <HighlightedCodeBlock>
                         {
                             `
-    const result = useState(tasks)
-    const state = result[0]
-    const setState = result[1]
+    // Вариант без деструктуризации:
+    function StateWithoutDestructuring() {
+      const initialTasks: string[] = []
+      const result = useState(initialTasks)
+      const state = result[0]
+      const setState = result[1]
+      return <button onClick={() => setState([...state, 'task'])}>{state.length}</button>
+    }
 
-    const [state, setState] = useState(tasks)
+    // Эквивалентная форма записи в отдельном примере компонента:
+    function StateWithDestructuring() {
+      const initialTasks: string[] = []
+      const [state, setState] = useState(initialTasks)
+      return <button onClick={() => setState([...state, 'task'])}>{state.length}</button>
+    }
                             `
                         }
                     </HighlightedCodeBlock>
@@ -169,12 +177,15 @@ export const HookUseState = () => {
                             <HighlightedCodeBlock>
                                 {
                                     `
-    onClick={() => setCount(count + 1)}
+    <button onClick={() => setCount(count + 1)}>
+      Нажми на меня
+    </button>
                                     `
                                 }
                             </HighlightedCodeBlock>
 
-                            Когда функция setCount вызывается, она увеличивает значение счетчика на 1.
+                            Вызов setCount ставит обновление в очередь. React вычислит новое состояние, и обновлённое
+                            значение станет доступно компоненту в следующем рендере.
                         </NoteLi>
                     </NoteUl>
 
@@ -190,7 +201,9 @@ export const HookUseState = () => {
                     <TextP>
                         <Marker>Функциональные обновления</Marker> - Если новое состояние зависит от предыдущего,
                         useState позволяет передавать в функцию обновления другую функцию, которая получит текущее
-                        состояние и вернет обновленное.
+                        состояние и вернет обновленное. Setter планирует состояние для следующего рендера, а уже
+                        выполняющийся обработчик продолжает видеть snapshot текущего рендера, поэтому несколько
+                        зависимых обновлений следует записывать через updater-функции.
                     </TextP>
                     <TextP>Пример:</TextP>
                     <HighlightedCodeBlock>
@@ -202,8 +215,8 @@ export const HookUseState = () => {
                     </HighlightedCodeBlock>
 
                     <TextP>
-                        <Marker>Хуки не могут быть вызваны условно</Marker> - Хуки следует вызывать на верхнем уровне
-                        функционального компонента или других хуков, но не в условных операторах, циклах или вложенных
+                        <Marker>Хуки не могут быть вызваны условно</Marker> — хуки следует вызывать на верхнем уровне
+                        React-компонента или собственного хука, но не в условных операторах, циклах или вложенных
                         функциях.
                     </TextP>
 
@@ -222,36 +235,42 @@ export const HookUseState = () => {
                     <HighlightedCodeBlock>
                         {
                             `
-   type Task = string;
-   type TaskList = Task[];
-   
-   export const TaskManager = () => {
-        // Состояние для хранения текущего ввода пользователя (текст задачи)
-        const [currentTask, setCurrentTask] = useState<Task>('');
-        // Состояние для хранения списка всех задач
-        const [tasks, setTasks] = useState<TaskList>([]);
-        // Функция для обновления состояния при вводе текста пользователем
-        const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-            setCurrentTask(event.currentTarget.value);
-        };
-        // Функция для добавления новой задачи в список
-        const addTask = () => {
-            if (!currentTask) return; // Не добавляем пустую задачу
-            setTasks([...tasks, currentTask]); // Добавляем текущую задачу в список
-            setCurrentTask(''); // Очищаем поле ввода
-        };
-        return (
-            <div>
-                <input value={currentTask} onChange={handleInputChange} />
-                <button onClick={addTask}>Добавить Задачу</button>
-                <ul>
-                    {tasks.map((task, index) => (
-                        <li key={index}>{task}</li>
-                    ))}
-                </ul>
-            </div>
-        );
-   }
+    type Task = {
+      id: number;
+      text: string;
+    };
+    type TaskList = Task[];
+    let nextTaskId = 1;
+
+    export const TaskManager = () => {
+      // Состояние для хранения текущего ввода пользователя (текст задачи)
+      const [currentTask, setCurrentTask] = useState('');
+      // Состояние для хранения списка всех задач
+      const [tasks, setTasks] = useState<TaskList>([]);
+      // Функция для обновления состояния при вводе текста пользователем
+      const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setCurrentTask(event.currentTarget.value);
+      };
+      // Функция для добавления новой задачи в список
+      const addTask = () => {
+        const normalizedTask = currentTask.trim();
+        if (!normalizedTask) return; // Не добавляем пустую строку или одни пробелы
+        const newTask: Task = {id: nextTaskId++, text: normalizedTask};
+        setTasks(previousTasks => [...previousTasks, newTask]);
+        setCurrentTask(''); // Очищаем поле ввода
+      };
+      return (
+        <div>
+          <input value={currentTask} onChange={handleInputChange} />
+          <button onClick={addTask}>Добавить Задачу</button>
+          <ul>
+            {tasks.map((task) => (
+              <li key={task.id}>{task.text}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
                             `
                         }
                     </HighlightedCodeBlock>
@@ -287,49 +306,61 @@ export const HookUseState = () => {
         password: '',
         confirmPassword: '',
         errors: {},
-   };
-    
-   export const RegistrationForm = () => {
-        const [formState, setFormState] = useState<UserFormState>(initialFormState);
-    
-        // Универсальная функция для обновления состояний любого поля формы
-        const handleInputChange = (field: keyof UserFormState, value: string) => {
-            setFormState({
-                ...formState,
-                [field]: value,
-            });
-        };
-    
-        // Функция для проверки корректности введённых данных
-        const validateForm = () => {
-            let errors: UserFormState['errors'] = {};
-    
-            if (formState.username.length < 3) {
-                errors.username = 'Имя пользователя должно быть не менее 3 символов';
-            }
-            // Проверки почты, паролей и т.д.
-            // ...
-    
-            setFormState({
-                ...formState,
-                errors: errors,
-            });
-    
-            return Object.keys(errors).length === 0;
-        };
-    
-        // Функция, вызываемая при отправке формы
-        const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            // Вызов функции валидации
-            if (validateForm()) {
-                console.log('Форма отправлена', formState);
-                // Здесь могла быть отправка данных на сервер...
-            }
-        };
+	   };
+
+	   type EditableField = Exclude<keyof UserFormState, 'errors'>;
+
+	   export const RegistrationForm = () => {
+	        const [formState, setFormState] = useState<UserFormState>(initialFormState);
+
+	        // Служебный объект errors нельзя случайно заменить строкой.
+	        const handleInputChange = (field: EditableField, value: string) => {
+	            setFormState(previousState => ({
+	                ...previousState,
+	                [field]: value,
+	                errors: {...previousState.errors, [field]: undefined},
+	            }));
+	        };
+
+	        // Чистая функция валидации не вызывает setState.
+	        const validateForm = (state: UserFormState) => {
+	            const errors: UserFormState['errors'] = {};
+
+	            if (state.username.trim().length < 3) {
+	                errors.username = 'Имя пользователя должно быть не менее 3 символов';
+	            }
+	            // Упрощённая UX-проверка; сервер валидирует email самостоятельно.
+	            if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(state.email.trim())) {
+	                errors.email = 'Введите корректный email';
+	            }
+	            if (state.password.length < 8) {
+	                errors.password = 'Пароль должен быть не менее 8 символов';
+	            }
+	            if (state.confirmPassword !== state.password) {
+	                errors.confirmPassword = 'Пароли не совпадают';
+	            }
+	            return errors;
+	        };
+
+	        const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	            event.preventDefault();
+	            const errors = validateForm(formState);
+	            if (Object.keys(errors).length > 0) {
+	                setFormState(previousState => ({...previousState, errors}));
+	                return;
+	            }
+	            setFormState(previousState => ({...previousState, errors: {}}));
+
+	            const payload = {
+	                username: formState.username.trim(),
+	                email: formState.email.trim(),
+	                password: formState.password,
+	            };
+	            console.log('Форма отправлена', payload);
+	        };
     
         return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate>
                 <div>
                     <label htmlFor="username">Имя пользователя:</label>
                     <input
@@ -338,11 +369,41 @@ export const HookUseState = () => {
                         value={formState.username}
                         onChange={(e) => handleInputChange('username', e.target.value)}
                     />
-                    {formState.errors.username && <p>{formState.errors.username}</p>}
-                </div>
-    
-                {/* Поля для email, password и confirmPassword со схожими проверками */}
-                {/* ... */}
+	                    {formState.errors.username && <p>{formState.errors.username}</p>}
+	                </div>
+
+	                <div>
+	                    <label htmlFor="email">Email:</label>
+	                    <input
+	                        id="email"
+	                        type="email"
+	                        value={formState.email}
+	                        onChange={(e) => handleInputChange('email', e.target.value)}
+	                    />
+	                    {formState.errors.email && <p>{formState.errors.email}</p>}
+	                </div>
+
+	                <div>
+	                    <label htmlFor="password">Пароль:</label>
+	                    <input
+	                        id="password"
+	                        type="password"
+	                        value={formState.password}
+	                        onChange={(e) => handleInputChange('password', e.target.value)}
+	                    />
+	                    {formState.errors.password && <p>{formState.errors.password}</p>}
+	                </div>
+
+	                <div>
+	                    <label htmlFor="confirm-password">Повторите пароль:</label>
+	                    <input
+	                        id="confirm-password"
+	                        type="password"
+	                        value={formState.confirmPassword}
+	                        onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+	                    />
+	                    {formState.errors.confirmPassword && <p>{formState.errors.confirmPassword}</p>}
+	                </div>
     
                 <button type="submit">Зарегистрироваться</button>
             </form>
@@ -366,4 +427,3 @@ export const HookUseState = () => {
         </NoteBlock>
    );
 };
-

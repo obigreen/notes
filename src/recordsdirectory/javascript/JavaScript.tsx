@@ -77,7 +77,7 @@ count += 1;
     },
     {
         highlight: "Primitive types",
-        content: "Основные примитивы: string, number, boolean, undefined, null, symbol, bigint.",
+        content: "Основные примитивы: string, number, boolean, undefined, null, symbol, bigint. Объекты и функции не являются примитивами.",
         isTop: true,
         code: `
 console.log(typeof 'hello'); // string
@@ -85,6 +85,12 @@ console.log(typeof 42); // number
 console.log(typeof true); // boolean
 console.log(typeof undefined); // undefined
 console.log(typeof 10n); // bigint
+
+// Исторические особенности typeof:
+console.log(typeof null); // object
+console.log(typeof NaN); // number
+console.log(typeof []); // object
+console.log(typeof function () {}); // function
 `
     },
     {
@@ -187,7 +193,7 @@ console.log(multiply(2, 4)); // 8
     },
     {
         highlight: "this",
-        content: "this зависит от способа вызова функции, а не от места объявления.",
+        content: "У обычной функции this определяется способом вызова. У стрелочной функции собственного this нет: она лексически берет его из внешней области.",
         isTop: true,
         code: `
 const user = {
@@ -210,6 +216,7 @@ function showName(prefix) {
 
 const user = { name: 'Sergey' };
 showName.call(user, 'User:');
+showName.apply(user, ['Applied:']);
 
 const binded = showName.bind(user, 'Bound:');
 binded();
@@ -247,7 +254,7 @@ console.log(greet()); // Hello, Guest
     },
     {
         highlight: "Hoisting",
-        content: "Поднятие объявлений: declaration поднимается полностью, let/const — нет как инициализированные значения.",
+        content: "Function declaration создается до выполнения кода. Привязки let/const тоже создаются заранее, но остаются неинициализированными в TDZ до строки объявления.",
         code: `
 // console.log(role); // ReferenceError (TDZ)
 let role = 'frontend';
@@ -262,7 +269,7 @@ function sum(a, b) {
 export const objectItems: JsItem[] = [
     {
         highlight: "Object.keys / values / entries",
-        content: "Базовый инструментарий работы с объектами: ключи, значения и пары [ключ, значение].",
+        content: "Возвращают собственные перечисляемые свойства со строковыми ключами: ключи, значения и пары [ключ, значение]. Унаследованные свойства и Symbol-ключи не входят.",
         isTop: true,
         code: `
 const user = { id: 1, name: 'Sergey', role: 'frontend' };
@@ -274,7 +281,7 @@ console.log(Object.entries(user));
     },
     {
         highlight: "Object.assign",
-        content: "Поверхностное объединение объектов в новый объект.",
+        content: "Копирует свойства в целевой объект и мутирует его. Если передать первым аргументом {}, получится новый поверхностный объект.",
         isTop: true,
         code: `
 const defaults = { theme: 'light', lang: 'ru' };
@@ -358,7 +365,7 @@ console.log(unique); // [1, 2, 3, 4]
     },
     {
         highlight: "JSON.parse / stringify",
-        content: "Преобразование между объектом и JSON-строкой.",
+        content: "Преобразование между JSON-совместимыми данными и строкой. Циклические ссылки и BigInt вызывают ошибку, а undefined/functions/Symbol могут быть отброшены.",
         isTop: true,
         code: `
 const user = { id: 1, name: 'Sergey' };
@@ -374,7 +381,7 @@ console.log(parsed.name);
 export const asyncItems: JsItem[] = [
     {
         highlight: "setTimeout",
-        content: "Запускает функцию один раз через заданную задержку (мс).",
+        content: "Ставит одно выполнение в очередь не раньше заданной задержки. Фактический запуск произойдет только когда event loop сможет обработать задачу.",
         isTop: true,
         code: `
 setTimeout(() => {
@@ -384,7 +391,7 @@ setTimeout(() => {
     },
     {
         highlight: "setInterval / clearInterval",
-        content: "Повторяет выполнение по интервалу до ручной остановки.",
+        content: "Планирует повторные выполнения до ручной остановки, но не гарантирует точную периодичность: занятый event loop может задерживать вызовы.",
         isTop: true,
         code: `
 let tick = 0;
@@ -432,9 +439,11 @@ loadData().then(console.log);
     },
     {
         highlight: "Promise.all",
-        content: "Параллельный запуск нескольких промисов с ожиданием всех результатов.",
+        content: "Ожидает группу уже созданных промисов и сохраняет порядок результатов. Отклоняется при первой ошибке и не отменяет остальные операции.",
         isTop: true,
         code: `
+// Операции начинают выполняться при создании промисов,
+// а не из-за самого вызова Promise.all.
 const a = Promise.resolve(1);
 const b = Promise.resolve(2);
 const c = Promise.resolve(3);
@@ -516,7 +525,7 @@ if (output) {
     },
     {
         highlight: "innerText",
-        content: "Текст с учетом визуальной части (например, скрытых элементов и переносов).",
+        content: "Текст так, как он отображается пользователю: учитывает CSS и переносы и обычно исключает скрытый контент. Для всего текстового содержимого без layout-расчета используй textContent.",
         code: `
 const title = document.querySelector('#title');
 console.log(title?.innerText);
@@ -524,7 +533,7 @@ console.log(title?.innerText);
     },
     {
         highlight: "innerHTML",
-        content: "Чтение/запись HTML внутри элемента (осторожно: XSS на пользовательских данных).",
+        content: "Чтение/запись HTML внутри элемента. Пользовательские данные нельзя вставлять без надежной HTML-санитизации: это приводит к XSS.",
         isTop: true,
         code: `
 const list = document.querySelector('#list');
@@ -608,15 +617,23 @@ console.log(url.toString());
         code: `
 const controller = new AbortController();
 
-fetch('/api/search?q=react', { signal: controller.signal })
-  .then((res) => res.json())
+const request = fetch('/api/search?q=react', { signal: controller.signal })
+  .then((res) => {
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  })
   .then(console.log)
   .catch((error) => {
     if (error.name === 'AbortError') {
       console.log('Запрос отменен');
+      return;
     }
+
+    // Не скрываем сетевые и parse-ошибки.
+    throw error;
   });
 
+request.catch((error) => console.error('Search failed:', error));
 controller.abort();
 `
     },
@@ -626,7 +643,7 @@ controller.abort();
         isTop: true,
         code: `
 const form = document.querySelector('#signup-form');
-if (form) {
+if (form instanceof HTMLFormElement) {
   const formData = new FormData(form);
 
   for (const [key, value] of formData.entries()) {
@@ -655,10 +672,14 @@ console.log(sessionStorage.getItem('step'));
     },
     {
         highlight: "document.cookie",
-        content: "Базовая работа с cookie (для сложных кейсов обычно через бэкенд и secure/httpOnly флаги).",
+        content: "JavaScript видит только не-HttpOnly cookie. Сессионные токены должен устанавливать сервер через Set-Cookie с HttpOnly, Secure и подходящим SameSite; не храни auth-токен в доступной JS cookie.",
         code: `
-document.cookie = 'token=abc123; path=/; max-age=3600';
+// Подходит для нечувствительной UI-настройки.
+document.cookie = 'theme=dark; path=/; max-age=3600; SameSite=Lax; Secure';
 console.log(document.cookie);
+
+// Серверная сессия задается ответом сервера, а не этим API:
+// Set-Cookie: session=...; HttpOnly; Secure; SameSite=Lax; Path=/
 `
     },
     {
@@ -685,9 +706,9 @@ export const sum = (a, b) => a + b;
 export const sub = (a, b) => a - b;
 
 // usage.js
-import { sum, sub } from './math.js';
-console.log(sum(2, 3)); // 5
-console.log(sub(9, 4)); // 5
+import { sum as importedSum, sub as importedSub } from './math.js';
+console.log(importedSum(2, 3)); // 5
+console.log(importedSub(9, 4)); // 5
 `
     },
     {
@@ -703,8 +724,8 @@ export default class UserService {
 }
 
 // app.js
-import UserService from './user-service.js';
-console.log(new UserService().findById(1));
+import UserServiceClient from './user-service.js';
+console.log(new UserServiceClient().findById(1));
 `
     },
     {
@@ -722,7 +743,13 @@ export * from './date.js';
 export * from './number.js';
 
 // feature.js
-import { formatDate, formatPrice } from './utils/index.js';
+import {
+  formatDate as importedFormatDate,
+  formatPrice as importedFormatPrice
+} from './utils/index.js';
+
+console.log(importedFormatDate(new Date()));
+console.log(importedFormatPrice(42));
 `
     },
     {
@@ -752,7 +779,7 @@ console.log(globalThis.APP_VERSION);
     },
     {
         highlight: "structuredClone",
-        content: "Глубокое копирование структур данных без ручной рекурсии и JSON-хаков.",
+        content: "Глубокое копирование значений, поддерживаемых structured clone algorithm. Функции и DOM-узлы не клонируются и вызов может выбросить DataCloneError.",
         isTop: true,
         code: `
 const original = {
@@ -792,13 +819,13 @@ const guideRows: GuideRow[] = [
     {
         situation: "Работа с DOM-текстом",
         avoid: "innerHTML для пользовательского ввода",
-        best: "textContent для текста, innerHTML только для trusted шаблонов",
+        best: "textContent для текста, innerHTML только для доверенного или санитизированного HTML",
         why: "Снижение риска XSS и предсказуемое поведение."
     },
     {
         situation: "События scroll/input/resize",
         avoid: "Тяжелые обработчики на каждый тик без ограничений",
-        best: "debounce/throttle/requestAnimationFrame и passive listeners",
+        best: "debounce/throttle/requestAnimationFrame; passive для wheel/touch без preventDefault",
         why: "Интерфейс не тормозит и лучше держит FPS."
     }
 ];
@@ -970,21 +997,37 @@ export const JavaScript = () => {
                     <HighlightedCodeBlock>
                         {
                             `
-// 1) Универсальный API-клиент для fetch
+// 1) API-клиент: json — явный JSON-body, body — FormData/Blob/другой BodyInit
 async function apiClient(path, options = {}) {
+  const { json, headers: initialHeaders, ...fetchOptions } = options;
+  const headers = new Headers(initialHeaders);
+  let body = fetchOptions.body;
+
+  if (json !== undefined) {
+    headers.set('Content-Type', 'application/json');
+    body = JSON.stringify(json);
+  }
+
+  // Для FormData Content-Type вручную не задаем:
+  // браузер сам добавит multipart boundary.
   const response = await fetch(path, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers
-    },
-    ...options
+    ...fetchOptions,
+    headers,
+    body
   });
 
-  const isJson = response.headers.get('content-type')?.includes('application/json');
-  const payload = isJson ? await response.json() : await response.text();
+  const isJson = response.headers.get('content-type')?.includes('json');
+  const raw = response.status === 204 || response.status === 205
+    ? ''
+    : await response.text();
+  const payload = raw ? (isJson ? JSON.parse(raw) : raw) : null;
 
   if (!response.ok) {
-    throw new Error(typeof payload === 'string' ? payload : payload?.message ?? 'Request failed');
+    throw new Error(
+      typeof payload === 'string'
+        ? payload
+        : payload?.message ?? \`Request failed (\${response.status})\`
+    );
   }
 
   return payload;
@@ -997,11 +1040,19 @@ async function apiClient(path, options = {}) {
                         {
                             `
 // 2) Нормализация входных данных из формы/URL
+function toPositiveInteger(value, fallback) {
+  const normalized = typeof value === 'string' ? value.trim() : value;
+  if (normalized === '' || normalized == null) return fallback;
+
+  const number = Number(normalized);
+  return Number.isInteger(number) && number > 0 ? number : fallback;
+}
+
 function normalizeUserInput(raw) {
   return {
-    query: raw.query?.trim().toLowerCase() ?? '',
-    page: Number.isFinite(Number(raw.page)) ? Number(raw.page) : 1,
-    limit: Number.isFinite(Number(raw.limit)) ? Number(raw.limit) : 20
+    query: typeof raw.query === 'string' ? raw.query.trim().toLowerCase() : '',
+    page: toPositiveInteger(raw.page, 1),
+    limit: toPositiveInteger(raw.limit, 20)
   };
 }
 

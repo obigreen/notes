@@ -23,12 +23,17 @@ console.log(Number('abc')); // NaN
     },
     {
         highlight: "parseInt / parseFloat",
-        content: "Парсинг чисел из строк, когда в конце может быть текст/единицы измерения.",
+        content: "Парсят числовой префикс строки и допускают текст в конце. Это удобно для CSS-единиц, но не подходит для строгой проверки всего пользовательского ввода.",
         isTop: true,
         code: `
 console.log(parseInt('42px', 10)); // 42
 console.log(parseFloat('3.14rem')); // 3.14
 console.log(parseInt('08', 10)); // 8
+console.log(parseInt('42oops', 10)); // 42
+
+// Для строгого ввода преобразуй всю строку и проверь результат:
+const strict = Number('42oops');
+console.log(Number.isFinite(strict)); // false
 `
     },
     {
@@ -56,7 +61,7 @@ console.log(!!1); // true
     },
     {
         highlight: "String()",
-        content: "Безопасное преобразование значений в строку перед выводом или сериализацией.",
+        content: "Явное преобразование примитивных значений в строку перед выводом. Для JSON-сериализации объектов используй JSON.stringify, учитывая его ограничения.",
         code: `
 console.log(String(123)); // '123'
 console.log(String(null)); // 'null'
@@ -65,7 +70,7 @@ console.log(String(undefined)); // 'undefined'
     },
     {
         highlight: "JSON.parse / stringify",
-        content: "Преобразование между объектом и JSON. Ошибки parse нужно ловить через try/catch.",
+        content: "Преобразование между JSON-совместимыми данными и строкой. Ошибки parse/stringify нужно обрабатывать; циклы и BigInt не сериализуются, а unsupported-значения могут быть отброшены.",
         isTop: true,
         code: `
 const payload = { id: 1, name: 'Sergey' };
@@ -85,17 +90,23 @@ console.log(unsafe === unsafe + 1); // true (потеря точности)
 
 const precise = 9007199254740993n;
 console.log(precise + 1n); // 9007199254740994n
+
+// BigInt нельзя смешивать с Number в арифметике:
+// precise + 1; // TypeError
+// JSON.stringify({ precise }); // TypeError
 `
     },
     {
         highlight: "Date parsing",
-        content: "Работай с датами аккуратно: ISO-формат предсказуемее локальных строк.",
+        content: "Работай с датами аккуратно: используй ISO со временем и явной зоной (Z или offset). Строка YYYY-MM-DD трактуется как UTC, а date-time без зоны — как локальное время.",
         code: `
 const iso = '2026-04-19T10:00:00Z';
 const date = new Date(iso);
 console.log(date.toISOString());
 
 // Нестандартизованные строки парсятся по-разному в разных окружениях
+// new Date('2026-04-19') — полночь UTC
+// new Date('2026-04-19T10:00:00') — 10:00 в локальной зоне
 `
     }
 ];
@@ -104,7 +115,7 @@ const typeRows: TypeRow[] = [
     {
         caseName: "'42' -> число",
         result: "Number('42') -> 42",
-        recommendation: "Для строгого парсинга используй Number + Number.isNaN"
+        recommendation: "Для обычного конечного числа используй Number + Number.isFinite"
     },
     {
         caseName: "'42px' -> число",
@@ -206,7 +217,7 @@ export const JavaScriptTypes = () => {
                     </TextP>
                     <NoteUl>
                         <NoteLi>Преобразование делай явно (`Number`, `String`, `Boolean`).</NoteLi>
-                        <NoteLi>После Number всегда учитывай возможность NaN.</NoteLi>
+                        <NoteLi>После Number учитывай NaN и Infinity; для обычного конечного числа проверяй `Number.isFinite`.</NoteLi>
                         <NoteLi>Для чисел из UI-строк с единицами используй parseInt/parseFloat.</NoteLi>
                     </NoteUl>
                 </Text>

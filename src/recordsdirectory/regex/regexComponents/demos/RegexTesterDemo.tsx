@@ -34,14 +34,18 @@ export const RegexTesterDemo = () => {
             return [];
         }
 
-        if (parsed.regex.global) {
-            return Array.from(text.matchAll(parsed.regex), (match) => ({
+        // exec() с g/y меняет lastIndex. Новый объект гарантирует независимый запуск с позиции 0.
+        const regex = new RegExp(parsed.regex.source, parsed.regex.flags);
+        regex.lastIndex = 0;
+
+        if (regex.global) {
+            return Array.from(text.matchAll(regex), (match) => ({
                 value: match[0],
                 index: match.index ?? -1
             }));
         }
 
-        const singleMatch = parsed.regex.exec(text);
+        const singleMatch = regex.exec(text);
         if (!singleMatch) {
             return [];
         }

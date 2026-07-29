@@ -28,7 +28,7 @@ if (score >= 90) {
     },
     {
         highlight: "switch",
-        content: "Удобен, когда проверяем одно выражение на много фиксированных значений.",
+        content: "Удобен, когда проверяем одно выражение на много фиксированных значений. Сопоставление case выполняется как строгое сравнение; без break/return выполнение продолжится в следующий case.",
         isTop: true,
         code: `
 const role = 'editor';
@@ -66,13 +66,13 @@ function createOrder(cart) {
   }
 
   // основной сценарий без лишней вложенности
-  return { ok: true, total: cart.items.length };
+  return { ok: true, itemCount: cart.items.length };
 }
 `
     },
     {
         highlight: "Short-circuit (&& / ||)",
-        content: "Короткое логическое вычисление для выполнения выражения по условию.",
+        content: "Короткое логическое вычисление возвращает один из операндов, а не обязательно boolean. Удобно для guard-выражений и fallback, если falsy-значения обработаны осознанно.",
         code: `
 const isDev = true;
 isDev && console.log('debug panel enabled');
@@ -136,9 +136,14 @@ const ConditionsScoreDemo = () => {
     const [scoreInput, setScoreInput] = useState("72");
 
     const result = useMemo(() => {
-        const score = Number(scoreInput);
-        if (Number.isNaN(score)) {
-            return "Введите число";
+        const normalized = scoreInput.trim();
+        if (!normalized) {
+            return "Введите число от 0 до 100";
+        }
+
+        const score = Number(normalized);
+        if (!Number.isFinite(score) || score < 0 || score > 100) {
+            return "Введите число от 0 до 100";
         }
 
         if (score >= 90) return "A";

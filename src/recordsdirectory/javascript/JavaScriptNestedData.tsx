@@ -86,7 +86,7 @@ console.log(response.data?.user?.contacts?.[0]?.value); // undefined
     },
     {
         highlight: "Destructuring nested fields",
-        content: "Извлечение вложенных полей через деструктуризацию с дефолтами.",
+        content: "Извлечение вложенных полей через деструктуризацию. Дефолт отдельного поля не защищает отсутствующие родительские ветки — для nullable-данных сначала дай объект-fallback.",
         code: `
 const payload = {
   user: {
@@ -94,13 +94,23 @@ const payload = {
   }
 };
 
+// Подходит, когда структура user.profile гарантирована:
 const {
   user: {
-    profile: { name, city = 'Unknown' }
+    profile: { name: stableName, city: stableCity = 'Unknown' }
   }
 } = payload;
 
-console.log(name, city);
+console.log(stableName, stableCity);
+
+// Безопасный вариант для ответа API с nullable-ветками:
+const maybePayload = {};
+const {
+  name: safeName = 'Unknown',
+  city: safeCity = 'Unknown'
+} = maybePayload.user?.profile ?? {};
+
+console.log(safeName, safeCity);
 `
     },
     {
@@ -150,7 +160,7 @@ console.log(user?.profile?.name); // Bob
     },
     {
         highlight: "Generic getByPath helper",
-        content: "Утилита для доступа к глубине по пути типа user.profile.contacts[0].value.",
+        content: "Упрощенная утилита для путей типа user.profile.contacts[0].value. Она поддерживает только точки и числовые индексы и не должна открывать служебные ключи для недоверенного ввода.",
         isTop: true,
         code: String.raw`
 function getByPath(source, rawPath) {
@@ -158,6 +168,11 @@ function getByPath(source, rawPath) {
     .replace(/\[(\d+)\]/g, '.$1')
     .split('.')
     .filter(Boolean);
+
+  const blockedKeys = new Set(['__proto__', 'prototype', 'constructor']);
+  if (keys.some((key) => blockedKeys.has(key))) {
+    return undefined;
+  }
 
   return keys.reduce((acc, key) => acc?.[key], source);
 }
@@ -208,6 +223,11 @@ const getByPath = (source: any, rawPath: string) => {
         .replace(/\[(\d+)\]/g, ".$1")
         .split(".")
         .filter(Boolean);
+
+    const blockedKeys = new Set(["__proto__", "prototype", "constructor"]);
+    if (keys.some((key) => blockedKeys.has(key))) {
+        return undefined;
+    }
 
     return keys.reduce((acc, key) => acc?.[key], source);
 };

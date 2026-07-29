@@ -14,6 +14,8 @@ interface UserFormState {
     };
 }
 
+type EditableField = Exclude<keyof UserFormState, 'errors'>;
+
 const initialFormState: UserFormState = {
     username: '',
     email: '',
@@ -23,47 +25,65 @@ const initialFormState: UserFormState = {
 };
 
 export const RegistrationForm = () => {
-    
+
     const [formState, setFormState] = useState<UserFormState>(initialFormState);
 
-    // Универсальная функция для обновления состояний любого поля формы
-    const handleInputChange = (field: keyof UserFormState, value: string) => {
-        setFormState({
-            ...formState,
+    // Обновлять можно только поля ввода, но не служебный объект errors.
+    const handleInputChange = (field: EditableField, value: string) => {
+        setFormState((previousState) => ({
+            ...previousState,
             [field]: value,
-        });
+            errors: {
+                ...previousState.errors,
+                [field]: undefined,
+            },
+        }));
     };
 
-    // Функция для проверки корректности введённых данных
-    const validateForm = () => {
-        let errors: UserFormState['errors'] = {};
+    // Валидация остаётся чистой функцией: она не меняет state самостоятельно.
+    const validateForm = (state: UserFormState) => {
+        const errors: UserFormState['errors'] = {};
 
-        if (formState.username.length < 3) {
+        if (state.username.trim().length < 3) {
             errors.username = 'Имя пользователя должно быть не менее 3 символов';
         }
-        // Проверки почты, паролей и т.д.
-        // ...
+        // Упрощённая UX-проверка. Сервер всё равно обязан валидировать email самостоятельно.
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email.trim())) {
+            errors.email = 'Введите корректный email';
+        }
+        if (state.password.length < 8) {
+            errors.password = 'Пароль должен быть не менее 8 символов';
+        }
+        if (state.confirmPassword !== state.password) {
+            errors.confirmPassword = 'Пароли не совпадают';
+        }
 
-        setFormState({
-            ...formState,
-            errors: errors,
-        });
-
-        return Object.keys(errors).length === 0;
+        return errors;
     };
 
     // Функция, вызываемая при отправке формы
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // Вызов функции валидации
-        if (validateForm()) {
-            console.log('Форма отправлена', formState);
-            // Здесь могла быть отправка данных на сервер...
+        const errors = validateForm(formState);
+
+        if (Object.keys(errors).length > 0) {
+            setFormState((previousState) => ({...previousState, errors}));
+            return;
         }
+
+        setFormState((previousState) => ({...previousState, errors: {}}));
+
+        // В payload не отправляем служебные errors и повтор пароля.
+        const payload = {
+            username: formState.username.trim(),
+            email: formState.email.trim(),
+            password: formState.password,
+        };
+        console.log('Форма отправлена', payload);
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
             <div>
                 <label htmlFor="username">Имя пользователя:</label>
                 <input
@@ -75,8 +95,38 @@ export const RegistrationForm = () => {
                 {formState.errors.username && <p>{formState.errors.username}</p>}
             </div>
 
-            {/* Поля для email, password и confirmPassword со схожими проверками */}
-            {/* ... */}
+            <div>
+                <label htmlFor="email">Email:</label>
+                <input
+                    id="email"
+                    type="email"
+                    value={formState.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                />
+                {formState.errors.email && <p>{formState.errors.email}</p>}
+            </div>
+
+            <div>
+                <label htmlFor="password">Пароль:</label>
+                <input
+                    id="password"
+                    type="password"
+                    value={formState.password}
+                    onChange={(e) => handleInputChange('password', e.target.value)}
+                />
+                {formState.errors.password && <p>{formState.errors.password}</p>}
+            </div>
+
+            <div>
+                <label htmlFor="confirm-password">Повторите пароль:</label>
+                <input
+                    id="confirm-password"
+                    type="password"
+                    value={formState.confirmPassword}
+                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                />
+                {formState.errors.confirmPassword && <p>{formState.errors.confirmPassword}</p>}
+            </div>
 
             <button type="submit">Зарегистрироваться</button>
         </form>
