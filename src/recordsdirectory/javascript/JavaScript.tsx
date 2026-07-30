@@ -454,6 +454,57 @@ Promise.all([a, b, c]).then((values) => {
 `
     },
     {
+        highlight: "Promise.allSettled",
+        content: "Дожидается завершения всех промисов и возвращает для каждого результат со status fulfilled или rejected.",
+        code: `
+Promise.allSettled([
+  Promise.resolve('profile loaded'),
+  Promise.reject(new Error('avatar failed'))
+]).then((results) => {
+  results.forEach((result) => {
+    if (result.status === 'fulfilled') {
+      console.log(result.value);
+    } else {
+      console.error(result.reason.message);
+    }
+  });
+});
+`
+    },
+    {
+        highlight: "Promise.race",
+        content: "Завершается исходом первого settled-промиса: fulfilled или rejected. Остальные операции не отменяются.",
+        code: `
+const waitFor = (ms, value) =>
+  new Promise((resolve) => setTimeout(() => resolve(value), ms));
+
+const slow = waitFor(1000, 'slow').then((value) => {
+  console.log('slow still finished');
+  return value;
+});
+
+Promise.race([slow, waitFor(100, 'fast')])
+  .then(console.log); // fast; slow продолжит выполняться
+`
+    },
+    {
+        highlight: "Promise.any",
+        content: "Возвращает первый fulfilled-результат, игнорируя отдельные rejection. Если отклонены все промисы, отклоняется с AggregateError.",
+        code: `
+Promise.any([
+  Promise.reject(new Error('source A failed')),
+  Promise.resolve('source B succeeded')
+]).then(console.log); // source B succeeded
+
+Promise.any([
+  Promise.reject(new Error('A failed')),
+  Promise.reject(new Error('B failed'))
+]).catch((error) => {
+  console.log(error instanceof AggregateError); // true
+});
+`
+    },
+    {
         highlight: "try / catch / finally",
         content: "Перехват ошибок синхронного и async-кода (внутри async через await).",
         isTop: true,

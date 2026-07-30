@@ -17,9 +17,11 @@ export const NavBar = () => {
                     <Li><Link to="/js-nested">Nested Data</Link></Li>
                     <Li><Link to="/js-types">Types</Link></Li>
                     <Li><Link to="/js-errors">Errors</Link></Li>
+                    <Li><Link to="/typescript">TypeScript</Link></Li>
                     <Li><Link to="/js-async">Async</Link></Li>
                     <Li><Link to="/js-dom">DOM</Link></Li>
                     <Li><Link to="/js-network">Network</Link></Li>
+                    <Li><Link to="/rest-api">REST API</Link></Li>
                     <Li><Link to="/js-modules">Modules</Link></Li>
                     <Li><Link to="/hooks">Hooks</Link></Li>
                     <Li><Link to="/methods">Methods</Link></Li>

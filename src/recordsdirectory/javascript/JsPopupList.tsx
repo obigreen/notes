@@ -15,9 +15,15 @@ type JsPopupListProps = {
     title: string;
     description?: string;
     items: JsPopupItem[];
+    language?: string;
 };
 
-export const JsPopupList = ({title, description, items}: JsPopupListProps) => {
+export const JsPopupList = ({
+    title,
+    description,
+    items,
+    language = "javascript"
+}: JsPopupListProps) => {
     const [selectedCode, setSelectedCode] = useState<string | null>(null);
     const codeRef = useRef<HTMLElement>(null);
 
@@ -50,7 +56,7 @@ export const JsPopupList = ({title, description, items}: JsPopupListProps) => {
                 <EventS.Overlay onClick={() => setSelectedCode(null)}>
                     <EventS.PopupWrapper onClick={(event) => event.stopPropagation()}>
                         <pre>
-                            <code ref={codeRef} className="javascript">
+                            <code ref={codeRef} className={language}>
                                 {selectedCode.trim()}
                             </code>
                         </pre>

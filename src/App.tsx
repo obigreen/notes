@@ -26,6 +26,8 @@ import {JavaScriptLoops} from "./recordsdirectory/javascript/JavaScriptLoops";
 import {JavaScriptTypes} from "./recordsdirectory/javascript/JavaScriptTypes";
 import {JavaScriptErrors} from "./recordsdirectory/javascript/JavaScriptErrors";
 import {JavaScriptNestedData} from "./recordsdirectory/javascript/JavaScriptNestedData";
+import {TypeScript} from "./recordsdirectory/typescript/TypeScript";
+import {RestApi} from "./recordsdirectory/restapi/RestApi";
 
 const App = () => {
     return (
@@ -84,7 +86,7 @@ const App = () => {
                                 <JavaScriptSectionPage
                                     title={"Async (Асинхронность)"}
                                     sectionTitle={"Async & Timers (Ключевые паттерны)"}
-                                    description={"setTimeout/setInterval, Promise, async/await, Promise.all, try/catch/finally, microtasks."}
+                                    description={"Promise, async/await, combinators, обработка ошибок и event loop. Связь HTTP-запроса с frontend разобрана в REST API."}
                                     items={asyncItems}
                                     topic={"async"}
                                 />
@@ -108,7 +110,7 @@ const App = () => {
                                 <JavaScriptSectionPage
                                     title={"Network (Сеть и хранение)"}
                                     sectionTitle={"Network & Storage (Ключевые паттерны)"}
-                                    description={"fetch, URLSearchParams, AbortController, FormData и хранение данных в браузере."}
+                                    description={"Browser API: fetch, URLSearchParams, AbortController, FormData и storage. HTTP-методы и контракт запроса разобраны в REST API."}
                                     items={webApiItems}
                                     topic={"network"}
                                 />
@@ -132,6 +134,8 @@ const App = () => {
                         <Route path={"js-nested"} element={<JavaScriptNestedData />} />
                         <Route path={"js-types"} element={<JavaScriptTypes />} />
                         <Route path={"js-errors"} element={<JavaScriptErrors />} />
+                        <Route path={"typescript"} element={<TypeScript />} />
+                        <Route path={"rest-api"} element={<RestApi />} />
                         <Route path={"hooks"} element={<Hooks />} />
                         <Route path={"methods"} element={<Methods />} />
                         <Route path={"properties"} element={<Propertys />} />
