@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Split-Screen Multiplayer FPS Game with Detailed Environment</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+
+        /* Stamina Bar Styles */
+        .stamina-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 200px;
+            height: 20px;
+            background-color: #555;
+            border: 2px solid #000;
+            border-radius: 5px;
+        }
+
+        .stamina-bar {
+            width: 100%;
+            height: 100%;
+            background-color: #00ff00;
+            border-radius: 5px;
+            transition: width 0.1s linear;
+        }
+
+        /* Ammo Counter Styles */
+        .ammo-container {
+            position: absolute;
+            top: 50px;
+            left: 20px;
+            width: 200px;
+            height: 20px;
+            background-color: #555;
+            border: 2px solid #000;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding-left: 5px;
+            box-sizing: border-box;
+        }
+
+        .ammo-bar {
+            width: 100%;
+            height: 100%;
+            background-color: #ffa500; /* Orange */
+            border-radius: 5px;
+            transition: width 0.1s linear;
+        }
+
+        .ammo-count {
+            position: absolute;
+            top: 50px;
+            left: 230px;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            background-color: rgba(0,0,0,0.5);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        /* Health Hearts Styles */
+        .health-container {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .heart {
+            width: 30px;
+            height: 30px;
+            margin-right: 5px;
+            background-color: red;
+            clip-path: polygon(
+                    50% 0%,
+                    61% 35%,
+                    98% 35%,
+                    68% 57%,
+                    79% 91%,
+                    50% 70%,
+                    21% 91%,
+                    32% 57%,
+                    2% 35%,
+                    39% 35%
+            );
+        }
+
+        /* Crosshair Styles */
+        .crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Ammo Box Pickup Indicator */
+        .ammo-box-indicator {
+            position: absolute;
+            top: 10px;
+            left: 220px;
+            width: 50px;
+            height: 50px;
+            background-color: #ff8c00; /* Dark Orange */
+            border: 2px solid #000;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            opacity: 0.9;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Kill Counter Styles */
+        .kill-counter {
+            position: absolute;
+            top: 110px;
+            left: 20px;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            background-color: rgba(0,0,0,0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        /* Player 1 UI */
+        #player1-ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+        }
+
+        /* Player 2 UI */
+        #player2-ui {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+        }
+
+        /* Adjust crosshair positions */
+        #player1-ui .crosshair {
+            top: 25%;
+        }
+
+        #player2-ui .crosshair {
+            top: 75%;
+        }
+
+        /* Canvas adjustments */
+        #game-canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<!-- Player 1 UI -->
+<div id="player1-ui">
+    <!-- Stamina Bar -->
+    <div class="stamina-container" id="stamina-container-p1">
+        <div class="stamina-bar" id="stamina-bar-p1"></div>
+    </div>
+
+    <!-- Ammo Counter -->
+    <div class="ammo-container" id="ammo-container-p1">
+        <div class="ammo-bar" id="ammo-bar-p1"></div>
+    </div>
+    <div class="ammo-count" id="ammo-count-p1">30/100</div>
+
+    <!-- Health Hearts -->
+    <div class="health-container" id="health-container-p1">
+        <div class="heart" id="heart-p1-1"></div>
+        <div class="heart" id="heart-p1-2"></div>
+        <div class="heart" id="heart-p1-3"></div>
+    </div>
+
+    <!-- Kill Counter -->
+    <div class="kill-counter" id="kill-counter-p1">Kills: 0</div>
+
+    <!-- Crosshair -->
+    <div class="crosshair"></div>
+
+    <!-- Ammo Box Pickup Indicator -->
+    <div class="ammo-box-indicator" id="ammo-box-indicator-p1" style="display: none;">
+        +30
+    </div>
+</div>
+
+<!-- Player 2 UI -->
+<div id="player2-ui">
+    <!-- Stamina Bar -->
+    <div class="stamina-container" id="stamina-container-p2">
+        <div class="stamina-bar" id="stamina-bar-p2"></div>
+    </div>
+
+    <!-- Ammo Counter -->
+    <div class="ammo-container" id="ammo-container-p2">
+        <div class="ammo-bar" id="ammo-bar-p2"></div>
+    </div>
+    <div class="ammo-count" id="ammo-count-p2">30/100</div>
+
+    <!-- Health Hearts -->
+    <div class="health-container" id="health-container-p2">
+        <div class="heart" id="heart-p2-1"></div>
+        <div class="heart" id="heart-p2-2"></div>
+        <div class="heart" id="heart-p2-3"></div>
+    </div>
+
+    <!-- Kill Counter -->
+    <div class="kill-counter" id="kill-counter-p2">Kills: 0</div>
+
+    <!-- Crosshair -->
+    <div class="crosshair"></div>
+
+    <!-- Ammo Box Pickup Indicator -->
+    <div class="ammo-box-indicator" id="ammo-box-indicator-p2" style="display: none;">
+        +30
+    </div>
+</div>
+
+<!-- Game Canvas -->
+<canvas id="game-canvas"></canvas>
+
+<!-- Three.js Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Simplex Noise for terrain generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+<!-- PointerLockControls for better FPS controls -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/PointerLockControls.js"></script>
+<script>
+    let scene, renderer;
+    let gamepadIndices = [null, null];
+
+    // Player objects
+    let players = [
+        {
+            id: 0,
+            controls: null,
+            pitchObject: null,
+            camera: null,
+            velocity: new THREE.Vector3(),
+            speed: 0.2,
+            sprintSpeed: 0.4,
+            rotationSpeed: 0.005,
+            pitch: 0,
+            isSprinting: false,
+            stamina: 100,
+            maxStamina: 100,
+            staminaDepletionRate: 15,
+            staminaRegenRate: 20,
+            canJump: true,
+            verticalVelocity: 0,
+            gravity: -0.5,
+            jumpStrength: 18,
+            collider: new THREE.Sphere(new THREE.Vector3(), 1),
+            ammo: 30,
+            maxAmmo: 100,
+            gun: null,
+            health: 3,
+            maxHealth: 3,
+            kills: 0,
+            model: null,
+            isDead: false,
+            respawnTime: 3, // seconds
+            respawnTimer: 0,
+        },
+        {
+            id: 1,
+            controls: null,
+            pitchObject: null,
+            camera: null,
+            velocity: new THREE.Vector3(),
+            speed: 0.2,
+            sprintSpeed: 0.4,
+            rotationSpeed: 0.005,
+            pitch: 0,
+            isSprinting: false,
+            stamina: 100,
+            maxStamina: 100,
+            staminaDepletionRate: 15,
+            staminaRegenRate: 20,
+            canJump: true,
+            verticalVelocity: 0,
+            gravity: -0.5,
+            jumpStrength: 18,
+            collider: new THREE.Sphere(new THREE.Vector3(), 1),
+            ammo: 30,
+            maxAmmo: 100,
+            gun: null,
+            health: 3,
+            maxHealth: 3,
+            kills: 0,
+            model: null,
+            isDead: false,
+            respawnTime: 3, // seconds
+            respawnTimer: 0,
+        }
+    ];
+
+    let collidableObjects = []; // Objects to check for collisions
+
+    // Bullets
+    let bullets = [];
+
+    // Ammo Box
+    let ammoBoxes = [];
+
+    // UI Elements
+    const staminaBars = [
+        document.getElementById('stamina-bar-p1'),
+        document.getElementById('stamina-bar-p2')
+    ];
+    const ammoBars = [
+        document.getElementById('ammo-bar-p1'),
+        document.getElementById('ammo-bar-p2')
+    ];
+    const ammoCounts = [
+        document.getElementById('ammo-count-p1'),
+        document.getElementById('ammo-count-p2')
+    ];
+    const healthContainers = [
+        document.getElementById('health-container-p1'),
+        document.getElementById('health-container-p2')
+    ];
+    const ammoBoxIndicators = [
+        document.getElementById('ammo-box-indicator-p1'),
+        document.getElementById('ammo-box-indicator-p2')
+    ];
+    const killCounters = [
+        document.getElementById('kill-counter-p1'),
+        document.getElementById('kill-counter-p2')
+    ];
+
+    // To track previous button states for edge detection
+    let prevGamepadButtons = [[], []];
+
+    // Simplex Noise instance
+    const simplex = new SimplexNoise();
+
+    // Terrain parameters
+    const terrainSize = 1000;
+    const terrainSegments = 256;
+    const terrainMaxHeight = 20;
+    const noiseScale = 400;
+
+    let terrainMesh;
+    let terrainHeights = []; // To store height data for terrain
+
+    function init() {
+        // Create scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x87ceeb); // Sky blue
+
+        // Add fog for depth perception
+        scene.fog = new THREE.Fog(0x87ceeb, 0, 1500);
+
+        // Create renderer
+        renderer = new THREE.WebGLRenderer({ antialias: true, canvas: document.getElementById('game-canvas') });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true; // Enable shadow mapping
+
+        // Create cameras and controls for each player
+        players.forEach(player => {
+            // Create camera
+            player.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+
+            // Create controls hierarchy
+            player.controls = new THREE.Object3D();
+            scene.add(player.controls);
+
+            player.pitchObject = new THREE.Object3D();
+            player.controls.add(player.pitchObject);
+
+            player.pitchObject.add(player.camera);
+
+            // Set initial position
+            player.controls.position.copy(getRandomSpawnPosition());
+            player.collider.center.copy(player.controls.position);
+
+            // Add gun model
+            addGun(player);
+
+            // Add player model
+            addHumanoidPlayerModel(player);
+        });
+
+        // Create terrain
+        createTerrain();
+
+        // Add lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(200, 300, 200);
+        directionalLight.castShadow = true; // Cast shadows
+        directionalLight.shadow.mapSize.width = 1024;
+        directionalLight.shadow.mapSize.height = 1024;
+        directionalLight.shadow.camera.near = 0.5;
+        directionalLight.shadow.camera.far = 1500;
+        scene.add(directionalLight);
+
+        // Add environment elements
+        addTrees();
+        addRocks();
+        addMountains();
+        addSun();
+        addClouds();
+        addGrass();
+
+        // Handle window resize
+        window.addEventListener('resize', onWindowResize, false);
+
+        // Start the game loop
+        animate();
+
+        // Handle gamepad connections
+        window.addEventListener('gamepadconnected', (event) => {
+            console.log('Gamepad connected:', event.gamepad);
+            // Assign gamepad to player
+            assignGamepadToPlayer(event.gamepad.index);
+        });
+
+        window.addEventListener('gamepaddisconnected', (event) => {
+            console.log('Gamepad disconnected:', event.gamepad);
+            // Remove gamepad assignment
+            gamepadIndices.forEach((index, i) => {
+                if (index === event.gamepad.index) {
+                    gamepadIndices[i] = null;
+                }
+            });
+        });
+
+        // Spawn ammo boxes periodically, max 3 at a time
+        setInterval(spawnAmmoBox, 10000); // Every 10 seconds
+
+        // Initialize UI
+        updateAllUI();
+    }
+
+    function assignGamepadToPlayer(gamepadIndex) {
+        for (let i = 0; i < gamepadIndices.length; i++) {
+            if (gamepadIndices[i] === null) {
+                gamepadIndices[i] = gamepadIndex;
+                prevGamepadButtons[i] = [];
+                console.log(`Gamepad ${gamepadIndex} assigned to Player ${i + 1}`);
+                break;
+            }
+        }
+    }
+
+    function onWindowResize() {
+        players.forEach(player => {
+            player.camera.aspect = window.innerWidth / window.innerHeight;
+            player.camera.updateProjectionMatrix();
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function handleGamepadInput(playerIndex) {
+        const gamepads = navigator.getGamepads();
+        const gamepadIndex = gamepadIndices[playerIndex];
+        if (gamepadIndex === null) return;
+
+        const gamepad = gamepads[gamepadIndex];
+        if (!gamepad) return;
+
+        const player = players[playerIndex];
+
+        // Initialize previous buttons if not set
+        if (!prevGamepadButtons[playerIndex]) {
+            prevGamepadButtons[playerIndex] = gamepad.buttons.map(button => button.pressed);
+        }
+
+        // Skip input if player is dead
+        if (player.isDead) return;
+
+        // Detect sprinting via left stick click (button 10)
+        const sprintButtonIndex = 10;
+        const isSprintPressed = gamepad.buttons[sprintButtonIndex]?.pressed;
+        player.isSprinting = isSprintPressed && player.stamina > 0;
+
+        // Determine current speed
+        let currentSpeed = player.isSprinting ? player.sprintSpeed : player.speed;
+
+        // Handle stamina
+        if (player.isSprinting && player.stamina > 0) {
+            player.stamina -= player.staminaDepletionRate * (1 / 60); // Assuming 60 FPS
+            if (player.stamina < 0) player.stamina = 0;
+        } else if (!player.isSprinting && player.stamina < player.maxStamina) {
+            player.stamina += player.staminaRegenRate * (1 / 60);
+            if (player.stamina > player.maxStamina) player.stamina = player.maxStamina;
+        }
+
+        // Update stamina bar
+        updateStaminaBar(player);
+
+        // If stamina is depleted, stop sprinting
+        if (player.stamina <= 0) {
+            player.isSprinting = false;
+        }
+
+        // Left stick axes for movement (axes 0 and 1)
+        const moveX = gamepad.axes[0]; // Left/right strafing
+        const moveZ = gamepad.axes[1]; // Forward/backward
+
+        // Movement inputs
+        const moveForward = -moveZ; // Invert to align with camera
+        const moveRight = moveX;
+
+        // Compute movement direction based on controls' orientation
+        const forward = new THREE.Vector3(0, 0, -1);
+        forward.applyQuaternion(player.controls.quaternion);
+        forward.y = 0;
+        forward.normalize();
+
+        const right = new THREE.Vector3(1, 0, 0);
+        right.applyQuaternion(player.controls.quaternion);
+        right.y = 0;
+        right.normalize();
+
+        // Update velocity
+        player.velocity.x = (forward.x * moveForward + right.x * moveRight) * currentSpeed;
+        player.velocity.z = (forward.z * moveForward + right.z * moveRight) * currentSpeed;
+
+        // Attempt to move controls
+        const oldPosition = player.controls.position.clone();
+        player.controls.position.x += player.velocity.x;
+        player.controls.position.z += player.velocity.z;
+
+        // Update player's collider position
+        player.collider.center.set(player.controls.position.x, player.controls.position.y, player.controls.position.z);
+
+        // Check for collisions
+        if (checkCollisions(player)) {
+            // Collision detected, revert to old position
+            player.controls.position.copy(oldPosition);
+            player.collider.center.set(player.controls.position.x, player.controls.position.y, player.controls.position.z);
+        }
+
+        // Apply rotations with smoothing
+        const rotationDeltaX = gamepad.axes[2] * player.rotationSpeed;
+        const rotationDeltaY = gamepad.axes[3] * player.rotationSpeed;
+
+        player.controls.rotation.y -= rotationDeltaX;
+
+        player.pitch -= rotationDeltaY;
+        player.pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, player.pitch));
+
+        // Smoothly interpolate the pitch rotation
+        player.pitchObject.rotation.x += (player.pitch - player.pitchObject.rotation.x) * 0.1; // Smoothing factor
+
+        // Handle Jumping
+        const jumpButtonIndex = 0; // "A" button
+        const isJumpPressed = gamepad.buttons[jumpButtonIndex]?.pressed;
+        const wasJumpPressed = prevGamepadButtons[playerIndex][jumpButtonIndex];
+
+        // Detect jump on button press (not hold)
+        if (isJumpPressed && !wasJumpPressed && player.canJump && isOnGround(player)) {
+            player.verticalVelocity = player.jumpStrength;
+            player.canJump = false;
+        }
+
+        // Apply gravity
+        player.verticalVelocity += player.gravity;
+        player.controls.position.y += player.verticalVelocity * (1 / 60); // Assuming 60 FPS
+
+        // Adjust terrain height at player's position
+        const terrainHeight = getTerrainHeight(player.controls.position.x, player.controls.position.z);
+        if (player.controls.position.y < terrainHeight + 5) { // Ground level (player height is 5)
+            player.controls.position.y = terrainHeight + 5;
+            player.verticalVelocity = 0;
+            player.canJump = true;
+        }
+
+        // Update player's collider position
+        player.collider.center.y = player.controls.position.y;
+
+        // Update player model position
+        if (player.model) {
+            player.model.position.copy(player.controls.position);
+        }
+
+        // Handle Shooting
+        const fireButtonIndex = 5; // Right trigger
+        const isFirePressed = gamepad.buttons[fireButtonIndex]?.pressed;
+        const wasFirePressed = prevGamepadButtons[playerIndex][fireButtonIndex];
+
+        // Detect fire on button press (not hold)
+        if (isFirePressed && !wasFirePressed && player.ammo > 0) {
+            fireBullet(player);
+        }
+
+        // Update previous button states
+        prevGamepadButtons[playerIndex] = gamepad.buttons.map(button => button.pressed);
+    }
+
+    function isOnGround(player) {
+        const terrainHeight = getTerrainHeight(player.controls.position.x, player.controls.position.z);
+        return player.controls.position.y <= terrainHeight + 5 + 0.01; // Small epsilon for floating point precision
+    }
+
+    function checkCollisions(player) {
+        for (let i = 0; i < collidableObjects.length; i++) {
+            const obj = collidableObjects[i];
+            if (obj.userData.collider) {
+                const collision = player.collider.intersectsSphere(obj.userData.collider);
+                if (collision) {
+                    return true; // Collision detected
+                }
+            }
+        }
+        return false; // No collision
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Handle gamepad input for each player
+        players.forEach((player, index) => {
+            handleGamepadInput(index);
+            updatePlayerModel(player);
+            handleRespawn(player);
+        });
+
+        // Update bullets
+        updateBullets();
+
+        // Animate ammo boxes
+        animateAmmoBoxes();
+
+        // Check for ammo box pickups
+        players.forEach((player, index) => {
+            pickUpAmmoBox(player);
+        });
+
+        // Render the scene for each player
+        renderSplitScreen();
+
+        // Update UI
+        updateAllUI();
+    }
+
+    function renderSplitScreen() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        // Player 1
+        // Hide player 1's own model and show player 2's model
+        players[0].model.visible = false;
+        players[1].model.visible = true;
+
+        renderer.setViewport(0, height / 2, width, height / 2);
+        renderer.setScissor(0, height / 2, width, height / 2);
+        renderer.setScissorTest(true);
+        renderer.render(scene, players[0].camera);
+
+        // Player 2
+        // Hide player 2's own model and show player 1's model
+        players[1].model.visible = false;
+        players[0].model.visible = true;
+
+        renderer.setViewport(0, 0, width, height / 2);
+        renderer.setScissor(0, 0, width, height / 2);
+        renderer.setScissorTest(true);
+        renderer.render(scene, players[1].camera);
+
+        // Reset models' visibility
+        players[0].model.visible = true;
+        players[1].model.visible = true;
+
+        renderer.setScissorTest(false);
+    }
+
+    function createTerrain() {
+        const geometry = new THREE.PlaneGeometry(terrainSize, terrainSize, terrainSegments, terrainSegments);
+        geometry.rotateX(-Math.PI / 2); // Rotate to make it horizontal
+
+        // Apply noise to vertices to create hills and valleys
+        for (let i = 0; i < geometry.attributes.position.count; i++) {
+            const x = geometry.attributes.position.getX(i);
+            const z = geometry.attributes.position.getZ(i);
+            const y = simplex.noise2D(x / noiseScale, z / noiseScale) * terrainMaxHeight;
+            geometry.attributes.position.setY(i, y);
+            terrainHeights.push(y);
+        }
+
+        geometry.computeVertexNormals();
+
+        const material = new THREE.MeshLambertMaterial({ color: 0x013220 }); // Dark evergreen
+
+        terrainMesh = new THREE.Mesh(geometry, material);
+        terrainMesh.receiveShadow = true;
+        scene.add(terrainMesh);
+    }
+
+    function getTerrainHeight(x, z) {
+        // Convert x, z to terrain grid indices
+        const halfSize = terrainSize / 2;
+        const gridX = Math.floor(((x + halfSize) / terrainSize) * terrainSegments);
+        const gridZ = Math.floor(((z + halfSize) / terrainSize) * terrainSegments);
+
+        // Clamp indices to terrain grid
+        const clampedX = THREE.MathUtils.clamp(gridX, 0, terrainSegments - 1);
+        const clampedZ = THREE.MathUtils.clamp(gridZ, 0, terrainSegments - 1);
+
+        // Get the height from terrainHeights array
+        const index = clampedZ * (terrainSegments + 1) + clampedX;
+        return terrainHeights[index] || 0;
+    }
+
+    // Environment functions
+    function addTrees() {
+        // Define tree types with varying canopy sizes
+        const treeTypes = [
+            {
+                trunkHeight: 15,
+                trunkRadius: 1.5,
+                canopyParts: 6,
+                canopyRadius: 5,
+                trunkColor: 0x5d4037, // Darker brown
+                canopyColors: [0x2e7d32, 0x388e3c, 0x1b5e20], // Varied dark greens
+                spreadCanopy: false
+            },
+            {
+                trunkHeight: 18,
+                trunkRadius: 1.8,
+                canopyParts: 7,
+                canopyRadius: 6,
+                trunkColor: 0x6d4c41, // Slightly different brown
+                canopyColors: [0x43a047, 0x2e7d32, 0x1b5e20],
+                spreadCanopy: false
+            },
+            {
+                trunkHeight: 12,
+                trunkRadius: 1.2,
+                canopyParts: 5,
+                canopyRadius: 4,
+                trunkColor: 0x5d4037,
+                canopyColors: [0x2e7d32, 0x388e3c],
+                spreadCanopy: false
+            },
+            // Additional larger tree types
+            {
+                trunkHeight: 22,
+                trunkRadius: 2.2,
+                canopyParts: 8,
+                canopyRadius: 7,
+                trunkColor: 0x4e342e, // Even darker brown
+                canopyColors: [0x1b5e20, 0x2e7d32, 0x006400], // Varied dark greens
+                spreadCanopy: false
+            },
+            {
+                trunkHeight: 25,
+                trunkRadius: 2.5,
+                canopyParts: 9,
+                canopyRadius: 8,
+                trunkColor: 0x3e2723, // Very dark brown
+                canopyColors: [0x1b5e20, 0x2e7d32, 0x006400],
+                spreadCanopy: false
+            }
+        ];
+
+        // Number of trees to add
+        const numberOfTrees = 300;
+
+        for (let i = 0; i < numberOfTrees; i++) {
+            // Choose a random tree type
+            const type = treeTypes[Math.floor(Math.random() * treeTypes.length)];
+
+            // Randomly decide if this tree will have a spread-out canopy
+            const spreadCanopyChance = 0.3; // 30% chance
+            const hasSpreadCanopy = Math.random() < spreadCanopyChance;
+            type.spreadCanopy = hasSpreadCanopy;
+
+            // Create a group for each tree
+            const tree = new THREE.Group();
+
+            // Create trunk
+            const trunkGeometry = new THREE.CylinderGeometry(type.trunkRadius, type.trunkRadius, type.trunkHeight, 8);
+            const trunkMaterial = new THREE.MeshLambertMaterial({ color: type.trunkColor });
+            const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+            trunk.position.y = type.trunkHeight / 2;
+            trunk.castShadow = true;
+            trunk.receiveShadow = true;
+            tree.add(trunk);
+
+            // Create canopy parts
+            if (type.spreadCanopy) {
+                // Spread-out canopy: arrange spheres around the top
+                const numCanopySpheres = type.canopyParts;
+                const angleStep = (Math.PI * 2) / numCanopySpheres;
+                const radius = type.canopyRadius * 1.2;
+
+                for (let j = 0; j < numCanopySpheres; j++) {
+                    const canopyGeometry = new THREE.SphereGeometry(type.canopyRadius, 8, 8);
+                    const canopyMaterial = new THREE.MeshLambertMaterial({ color: type.canopyColors[Math.floor(Math.random() * type.canopyColors.length)] });
+                    const canopy = new THREE.Mesh(canopyGeometry, canopyMaterial);
+                    const angle = j * angleStep;
+                    canopy.position.x = Math.cos(angle) * radius;
+                    canopy.position.z = Math.sin(angle) * radius;
+                    canopy.position.y = type.trunkHeight + type.canopyRadius; // Slight overlap
+                    canopy.castShadow = true;
+                    canopy.receiveShadow = true;
+                    tree.add(canopy);
+                }
+            } else {
+                // Tall canopy: stack spheres vertically
+                for (let j = 0; j < type.canopyParts; j++) {
+                    const canopyGeometry = new THREE.SphereGeometry(type.canopyRadius, 8, 8);
+                    const canopyMaterial = new THREE.MeshLambertMaterial({ color: type.canopyColors[Math.floor(Math.random() * type.canopyColors.length)] });
+                    const canopy = new THREE.Mesh(canopyGeometry, canopyMaterial);
+                    canopy.position.y = type.trunkHeight + (type.canopyRadius * 0.8) * (j + 1);
+                    canopy.castShadow = true;
+                    canopy.receiveShadow = true;
+                    tree.add(canopy);
+                }
+            }
+
+            // Position the tree on the terrain
+            const x = Math.random() * terrainSize - terrainSize / 2;
+            const z = Math.random() * terrainSize - terrainSize / 2;
+            const y = getTerrainHeight(x, z); // Get terrain height at (x, z)
+            tree.position.set(x, y, z);
+
+            // Add collider for trunk only
+            const trunkCollider = new THREE.Sphere(new THREE.Vector3(x, y + type.trunkHeight / 2, z), type.trunkRadius * 1.2);
+            collidableObjects.push({ userData: { collider: trunkCollider } });
+
+            // Add to scene
+            scene.add(tree);
+        }
+    }
+
+    function addRocks() {
+        // Add small rocks
+        const smallRockGeometry = new THREE.DodecahedronGeometry(0.7, 0);
+        const smallRockMaterial = new THREE.MeshLambertMaterial({ color: 0x808080 }); // Gray color
+
+        for (let i = 0; i < 300; i++) {
+            const rock = new THREE.Mesh(smallRockGeometry, smallRockMaterial);
+            const x = Math.random() * terrainSize - terrainSize / 2;
+            const z = Math.random() * terrainSize - terrainSize / 2;
+            const y = getTerrainHeight(x, z) + 0.35; // Slightly above ground
+            rock.position.set(x, y, z);
+            rock.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+            rock.castShadow = true;
+            rock.receiveShadow = true;
+            scene.add(rock);
+            // Small rocks do not have collision detection
+        }
+
+        // Add large rocks
+        const largeRockGeometry = new THREE.DodecahedronGeometry(3.0, 0); // Increased size
+        const largeRockMaterial = new THREE.MeshLambertMaterial({ color: 0x696969 }); // Darker gray
+
+        for (let i = 0; i < 40; i++) {
+            const rock = new THREE.Mesh(largeRockGeometry, largeRockMaterial);
+            const x = Math.random() * terrainSize - terrainSize / 2;
+            const z = Math.random() * terrainSize - terrainSize / 2;
+            const y = getTerrainHeight(x, z) + 3.0; // Slightly above ground
+            rock.position.set(x, y, z);
+            rock.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+            rock.castShadow = true;
+            rock.receiveShadow = true;
+            scene.add(rock);
+
+            // Add collider to large rocks
+            const collider = new THREE.Sphere(new THREE.Vector3(x, y, z), 4); // Approximate radius
+            rock.userData.collider = collider;
+
+            // Add to collidable objects
+            collidableObjects.push(rock);
+        }
+
+        // Add very large rocks
+        const veryLargeRockGeometry = new THREE.DodecahedronGeometry(6.0, 0); // 6 times bigger
+        const veryLargeRockMaterial = new THREE.MeshLambertMaterial({ color: 0x555555 }); // Even darker gray
+
+        for (let i = 0; i < 10; i++) {
+            const rock = new THREE.Mesh(veryLargeRockGeometry, veryLargeRockMaterial);
+            const x = Math.random() * terrainSize - terrainSize / 2;
+            const z = Math.random() * terrainSize - terrainSize / 2;
+            const y = getTerrainHeight(x, z) + 6.0; // Slightly above ground
+            rock.position.set(x, y, z);
+            rock.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+            rock.castShadow = true;
+            rock.receiveShadow = true;
+            scene.add(rock);
+
+            // Add collider to very large rocks
+            const collider = new THREE.Sphere(new THREE.Vector3(x, y, z), 8); // Approximate radius
+            rock.userData.collider = collider;
+
+            // Add to collidable objects
+            collidableObjects.push(rock);
+        }
+    }
+
+    function addMountains() {
+        const mountainGroup = new THREE.Group();
+        const numberOfMountains = 50; // Increased from 30 to 50
+        const radius = 1200; // Increased distance from the center/player
+
+        for (let i = 0; i < numberOfMountains; i++) {
+            // Random angle for placement
+            const angle = (i / numberOfMountains) * Math.PI * 2;
+
+            // Randomize mountain size with more variation
+            const mountainSizeType = Math.floor(Math.random() * 3); // 0: small, 1: medium, 2: large
+            let mountainHeight, mountainWidth;
+
+            if (mountainSizeType === 0) { // Small
+                mountainHeight = THREE.MathUtils.randFloat(40, 60);
+                mountainWidth = THREE.MathUtils.randFloat(100, 200);
+            } else if (mountainSizeType === 1) { // Medium
+                mountainHeight = THREE.MathUtils.randFloat(60, 100);
+                mountainWidth = THREE.MathUtils.randFloat(200, 300);
+            } else { // Large
+                mountainHeight = THREE.MathUtils.randFloat(100, 150);
+                mountainWidth = THREE.MathUtils.randFloat(300, 500);
+            }
+
+            // Create mountain geometry (simple cone)
+            const mountainGeometry = new THREE.ConeGeometry(mountainWidth, mountainHeight, 16);
+            const mountainMaterial = new THREE.MeshLambertMaterial({ color: 0x808080 }); // Grayish color
+            const mountain = new THREE.Mesh(mountainGeometry, mountainMaterial);
+
+            // Position the mountain
+            mountain.position.x = Math.cos(angle) * radius;
+            mountain.position.z = Math.sin(angle) * radius;
+
+            // Adjust Y position so that part of the mountain is below the terrain
+            const terrainHeightAtMountain = getTerrainHeight(mountain.position.x, mountain.position.z);
+            const overlap = THREE.MathUtils.randFloat(10, 20); // Random overlap between 10 to 20 units
+            mountain.position.y = (mountainHeight / 2) + terrainHeightAtMountain - overlap;
+
+            // Rotate the mountain to face outward
+            mountain.rotation.y = angle + Math.PI / 2;
+
+            // Optionally, add slight randomness to position for more natural look
+            mountain.position.x += THREE.MathUtils.randFloatSpread(50);
+            mountain.position.z += THREE.MathUtils.randFloatSpread(50);
+
+            // Disable casting shadows for mountains to improve performance
+            mountain.castShadow = false;
+            mountain.receiveShadow = false;
+
+            // Add to mountain group
+            mountainGroup.add(mountain);
+        }
+
+        // Add the mountain group to the scene
+        scene.add(mountainGroup);
+    }
+
+    function addSun() {
+        // Create sun as a 2D circle using CircleGeometry and MeshBasicMaterial
+        const sunGeometry = new THREE.CircleGeometry(30, 32); // Radius 30, 32 segments for smoothness
+        const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffe066, side: THREE.DoubleSide }); // Muted yellow color
+        const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+
+        // Position the sun in the sky
+        sun.position.set(-600, 800, -600); // Farther position for a larger sky
+        sun.rotation.x = -Math.PI / 2; // Rotate to face the camera
+
+        // Add sun to the scene
+        scene.add(sun);
+    }
+
+    function addClouds() {
+        const cloudGroup = new THREE.Group();
+        const numberOfClouds = 40; // Increased from 20 to 40
+
+        for (let i = 0; i < numberOfClouds; i++) {
+            // Create cloud geometry using multiple spheres
+            const cloudGeometry = new THREE.SphereGeometry(15, 8, 8);
+            const cloudMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 });
+            const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+
+            // Create a group for each cloud
+            const singleCloud = new THREE.Group();
+
+            // Add multiple spheres to form a cloud
+            const numSpheres = THREE.MathUtils.randInt(4, 8);
+            for (let j = 0; j < numSpheres; j++) {
+                const sphere = new THREE.Mesh(cloudGeometry, cloudMaterial);
+                sphere.position.set(
+                    THREE.MathUtils.randFloatSpread(30),
+                    THREE.MathUtils.randFloatSpread(10),
+                    THREE.MathUtils.randFloatSpread(30)
+                );
+                singleCloud.add(sphere);
+            }
+
+            // Position the cloud
+            const x = Math.random() * terrainSize - terrainSize / 2;
+            const z = Math.random() * terrainSize - terrainSize / 2;
+            const y = THREE.MathUtils.randFloat(200, 400);
+            singleCloud.position.set(x, y, z);
+
+            // Random scale
+            const scale = THREE.MathUtils.randFloat(0.5, 2);
+            singleCloud.scale.set(scale, scale, scale);
+
+            // Add to cloud group
+            cloudGroup.add(singleCloud);
+        }
+
+        // Add cloud group to the scene
+        scene.add(cloudGroup);
+    }
+
+    function addGrass() {
+        const grassGroup = new THREE.Group();
+        const grassBladeGeometry = new THREE.BoxGeometry(0.1, 2, 0.05); // Increased height
+        const grassBladeMaterial = new THREE.MeshLambertMaterial({ color: 0x006400 }); // Darker green
+
+        const numberOfBlades = 2000; // Increased from 1000 to 2000
+        const groupCount = 100; // Number of grass clusters
+        const bladesPerGroup = Math.floor(numberOfBlades / groupCount);
+
+        for (let i = 0; i < groupCount; i++) {
+            // Random center position for the grass group
+            const centerX = Math.random() * terrainSize - terrainSize / 2;
+            const centerZ = Math.random() * terrainSize - terrainSize / 2;
+            const centerY = getTerrainHeight(centerX, centerZ);
+
+            // Random number of blades in this group
+            const bladesInThisGroup = THREE.MathUtils.randInt(bladesPerGroup - 20, bladesPerGroup + 20);
+
+            for (let j = 0; j < bladesInThisGroup; j++) {
+                const blade = new THREE.Mesh(grassBladeGeometry, grassBladeMaterial);
+
+                // Slight offset from the group center
+                const x = centerX + THREE.MathUtils.randFloatSpread(10);
+                const z = centerZ + THREE.MathUtils.randFloatSpread(10);
+                const y = getTerrainHeight(x, z) + 1; // Half the height to sit on the ground
+
+                blade.position.set(x, y, z);
+
+                // Random rotation around the Y-axis
+                blade.rotation.y = Math.random() * Math.PI * 2;
+
+                // Random scale for height variation
+                const scaleY = THREE.MathUtils.randFloat(0.5, 1.5);
+                blade.scale.set(1, scaleY, 1);
+
+                // Add blade to grass group
+                grassGroup.add(blade);
+            }
+        }
+
+        // Add some scattered blades outside the groups
+        const scatteredBlades = 400; // Increased from 200 to 400
+        for (let i = 0; i < scatteredBlades; i++) {
+            const blade = new THREE.Mesh(grassBladeGeometry, grassBladeMaterial);
+
+            // Random position on the ground plane
+            const x = Math.random() * terrainSize - terrainSize / 2;
+            const z = Math.random() * terrainSize - terrainSize / 2;
+            const y = getTerrainHeight(x, z) + 1; // Half the height to sit on the ground
+
+            blade.position.set(x, y, z);
+
+            // Random rotation around the Y-axis
+            blade.rotation.y = Math.random() * Math.PI * 2;
+
+            // Random scale for height variation
+            const scaleY = THREE.MathUtils.randFloat(0.5, 1.5);
+            blade.scale.set(1, scaleY, 1);
+
+            // Add blade to grass group
+            grassGroup.add(blade);
+        }
+
+        // Add grass group to the scene
+        scene.add(grassGroup);
+    }
+
+    function addGun(player) {
+        // Create a gun using only the barrel geometry
+        const gunGroup = new THREE.Group();
+
+        // Barrel Geometry
+        const barrelGeometry = new THREE.BoxGeometry(0.3, 0.3, 1.2);
+        const barrelMaterial = new THREE.MeshStandardMaterial({ color: 0x444444, metalness: 0.4, roughness: 0.6 });
+        const barrel = new THREE.Mesh(barrelGeometry, barrelMaterial);
+        barrel.position.set(0, 0, 0); // Center the barrel
+        barrel.castShadow = true;
+        barrel.receiveShadow = true;
+        gunGroup.add(barrel);
+
+        // Align the gun correctly in front of the camera
+        gunGroup.position.set(0.6, -0.5, -2); // Adjust position as needed
+        gunGroup.rotation.x = Math.PI / 12; // Slight angle for realism
+
+        // Add gun to pitchObject so it follows the camera's rotation
+        player.pitchObject.add(gunGroup);
+
+        // Attach gun to player object for reference
+        player.gun = gunGroup;
+    }
+
+    function fireBullet(player) {
+        if (player.ammo <= 0) return;
+
+        // Create bullet geometry
+        const bulletGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+        const bulletMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+        const bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
+
+        // Position the bullet at the gun's end
+        const gunPosition = new THREE.Vector3();
+        player.gun.getWorldPosition(gunPosition);
+
+        // Calculate the direction the camera is facing
+        const direction = new THREE.Vector3();
+        player.camera.getWorldDirection(direction);
+        direction.normalize();
+
+        // Offset the bullet slightly forward from the gun to prevent clipping
+        gunPosition.add(direction.clone().multiplyScalar(0.5));
+        bullet.position.copy(gunPosition);
+
+        // Set bullet velocity
+        const bulletSpeed = 100;
+        bullet.velocity = direction.clone().multiplyScalar(bulletSpeed);
+
+        // Bullet owner
+        bullet.ownerId = player.id;
+
+        // Add gravity to bullet after a certain distance or time
+        bullet.hasGravity = false;
+        bullet.fallDistance = 100; // Distance after which gravity starts
+        bullet.distanceTraveled = 0;
+
+        // Add bullet to the scene and bullets array
+        scene.add(bullet);
+        bullets.push(bullet);
+
+        // Reduce ammo
+        player.ammo -= 1;
+        updateAmmoBar(player);
+    }
+
+    function updateBullets() {
+        for (let i = bullets.length - 1; i >= 0; i--) {
+            const bullet = bullets[i];
+            // Move bullet forward
+            const deltaTime = 1 / 60; // Assuming 60 FPS
+            const moveDistance = bullet.velocity.clone().multiplyScalar(deltaTime);
+            bullet.position.add(moveDistance);
+
+            // Update distance traveled
+            bullet.distanceTraveled += moveDistance.length();
+
+            // Apply gravity after falling distance
+            if (!bullet.hasGravity && bullet.distanceTraveled >= bullet.fallDistance) {
+                bullet.hasGravity = true;
+            }
+
+            if (bullet.hasGravity) {
+                bullet.velocity.y += players[bullet.ownerId].gravity * deltaTime; // Apply gravity
+            }
+
+            // Update bullet position with gravity
+            bullet.position.y += bullet.velocity.y * deltaTime;
+
+            // Remove bullet if it's too far or below ground
+            if (bullet.position.length() > 1500 || bullet.position.y < getTerrainHeight(bullet.position.x, bullet.position.z)) {
+                scene.remove(bullet);
+                bullets.splice(i, 1);
+                continue;
+            }
+
+            // Collision detection with players
+            players.forEach(player => {
+                if (player.id !== bullet.ownerId && !player.isDead) {
+                    const distance = player.controls.position.distanceTo(bullet.position);
+                    if (distance < 2) { // Adjust as needed
+                        // Bullet hit the player
+                        player.health -= 1;
+                        updateHealthUI(player);
+                        if (player.health <= 0) {
+                            handlePlayerDeath(player, players[bullet.ownerId]);
+                        }
+                        // Remove bullet
+                        scene.remove(bullet);
+                        bullets.splice(i, 1);
+                    }
+                }
+            });
+        }
+    }
+
+    function handlePlayerDeath(deadPlayer, killerPlayer) {
+        deadPlayer.isDead = true;
+        deadPlayer.respawnTimer = deadPlayer.respawnTime;
+
+        // Hide player model
+        if (deadPlayer.model) {
+            deadPlayer.model.visible = false;
+        }
+
+        // Increment killer's kill count
+        killerPlayer.kills += 1;
+        updateKillCounter(killerPlayer);
+    }
+
+    function handleRespawn(player) {
+        if (player.isDead) {
+            player.respawnTimer -= 1 / 60; // Assuming 60 FPS
+            if (player.respawnTimer <= 0) {
+                player.isDead = false;
+                player.health = player.maxHealth;
+                player.ammo = player.maxAmmo;
+                player.stamina = player.maxStamina;
+                player.controls.position.copy(getRandomSpawnPosition());
+                player.collider.center.copy(player.controls.position);
+                if (player.model) {
+                    player.model.visible = true;
+                    player.model.position.copy(player.controls.position);
+                }
+                updateAllUI();
+            }
+        }
+    }
+
+    function getRandomSpawnPosition() {
+        let x = Math.random() * terrainSize - terrainSize / 2;
+        let z = Math.random() * terrainSize - terrainSize / 2;
+        let y = getTerrainHeight(x, z) + 5;
+        return new THREE.Vector3(x, y, z);
+    }
+
+    function addHumanoidPlayerModel(player) {
+        const color = player.id === 0 ? 0xff0000 : 0x0000ff; // Red or Blue
+        const material = new THREE.MeshLambertMaterial({ color });
+
+        const bodyGroup = new THREE.Group();
+
+        // Adjusted positions
+        const modelHeight = 6; // Total height of the model
+
+        // Torso
+        const torsoGeometry = new THREE.BoxGeometry(2, 3, 1);
+        const torso = new THREE.Mesh(torsoGeometry, material);
+        torso.position.y = 3.5;
+        bodyGroup.add(torso);
+
+        // Head
+        const headGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+        const head = new THREE.Mesh(headGeometry, material);
+        head.position.y = 5.75;
+        bodyGroup.add(head);
+
+        // Arms
+        const armGeometry = new THREE.BoxGeometry(0.5, 3, 0.5);
+        // Left Arm
+        const leftArm = new THREE.Mesh(armGeometry, material);
+        leftArm.position.set(-1.25, 3.5, 0);
+        bodyGroup.add(leftArm);
+        // Right Arm
+        const rightArm = new THREE.Mesh(armGeometry, material);
+        rightArm.position.set(1.25, 3.5, 0);
+        bodyGroup.add(rightArm);
+
+        // Legs
+        const legGeometry = new THREE.BoxGeometry(0.7, 3, 0.7);
+        // Left Leg
+        const leftLeg = new THREE.Mesh(legGeometry, material);
+        leftLeg.position.set(-0.5, 1, 0);
+        bodyGroup.add(leftLeg);
+        // Right Leg
+        const rightLeg = new THREE.Mesh(legGeometry, material);
+        rightLeg.position.set(0.5, 1, 0);
+        bodyGroup.add(rightLeg);
+
+        // Position the model at the player's position
+        bodyGroup.position.copy(player.controls.position);
+
+        // Adjust model's origin to be at the feet
+        bodyGroup.position.y -= modelHeight / 2;
+
+        scene.add(bodyGroup);
+        player.model = bodyGroup;
+    }
+
+    function updatePlayerModel(player) {
+        if (player.model) {
+            player.model.position.copy(player.controls.position);
+            // Adjust model's origin to be at the feet
+            player.model.position.y -= 6 / 2; // modelHeight / 2
+            // Optional: Make the model face the camera's direction
+            player.model.rotation.y = player.controls.rotation.y;
+        }
+    }
+
+    function pickUpAmmoBox(player) {
+        if (player.isDead) return;
+
+        for (let i = ammoBoxes.length - 1; i >= 0; i--) {
+            const box = ammoBoxes[i];
+            const distance = player.controls.position.distanceTo(box.position);
+            if (distance < 5) { // Increased pickup distance threshold
+                // Add 30 bullets, but do not exceed maxAmmo
+                player.ammo += 30;
+                if (player.ammo > player.maxAmmo) player.ammo = player.maxAmmo;
+                updateAmmoBar(player);
+
+                // Remove ammo box from scene and array
+                scene.remove(box);
+                ammoBoxes.splice(i, 1);
+
+                // Show ammo box pickup indicator
+                showAmmoBoxIndicator(player);
+
+                break;
+            }
+        }
+    }
+
+    function showAmmoBoxIndicator(player) {
+        const indicator = ammoBoxIndicators[player.id];
+        indicator.style.display = 'flex';
+        indicator.style.opacity = '1';
+        setTimeout(() => {
+            indicator.style.opacity = '0';
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 500); // Fade out duration
+        }, 2000); // Show for 2 seconds
+    }
+
+    function animateAmmoBoxes() {
+        ammoBoxes.forEach(box => {
+            // Wobble animation using sine wave
+            box.userData.wobblePhase += 0.02;
+            const baseY = getTerrainHeight(box.position.x, box.position.z) + 1.5;
+            box.position.y = baseY + Math.sin(box.userData.wobblePhase) * 0.3; // More pronounced bobbing
+
+            // Slow rotation
+            box.rotation.y += 0.005; // Adjust rotation speed as desired
+        });
+    }
+
+    function addAmmoBox(x, z) {
+        // Create ammo box geometry (simple box)
+        const boxGeometry = new THREE.BoxGeometry(3, 3, 3);
+        const boxMaterial = new THREE.MeshLambertMaterial({ color: 0xff8c00 }); // Dark Orange
+        const ammoBox = new THREE.Mesh(boxGeometry, boxMaterial);
+
+        // Position the ammo box on the terrain
+        const y = getTerrainHeight(x, z) + 1.5; // Half the height to sit on the ground
+        ammoBox.position.set(x, y, z);
+
+        // Enable shadow casting and receiving
+        ammoBox.castShadow = true;
+        ammoBox.receiveShadow = true;
+
+        // Add floating and wobbling animation parameters
+        ammoBox.userData = {
+            wobblePhase: Math.random() * Math.PI * 2
+        };
+
+        // Add ammo box to the scene and ammoBoxes array
+        scene.add(ammoBox);
+        ammoBoxes.push(ammoBox);
+    }
+
+    function spawnAmmoBox() {
+        // Limit the number of ammo boxes to 3
+        if (ammoBoxes.length >= 3) return;
+
+        let attempts = 0;
+        const maxAttempts = 10;
+        let positionFound = false;
+        let x, z;
+
+        while (!positionFound && attempts < maxAttempts) {
+            x = Math.random() * terrainSize - terrainSize / 2;
+            z = Math.random() * terrainSize - terrainSize / 2;
+
+            // Ensure the new ammo box is not too close to existing ones
+            const minDistance = 50;
+            let tooClose = false;
+            for (let i = 0; i < ammoBoxes.length; i++) {
+                const existingBox = ammoBoxes[i];
+                const distance = Math.sqrt(Math.pow(existingBox.position.x - x, 2) + Math.pow(existingBox.position.z - z, 2));
+                if (distance < minDistance) {
+                    tooClose = true;
+                    break;
+                }
+            }
+
+            if (!tooClose) {
+                positionFound = true;
+            }
+
+            attempts++;
+        }
+
+        if (positionFound) {
+            addAmmoBox(x, z);
+        } else {
+            console.warn('Could not find suitable position for ammo box after multiple attempts.');
+        }
+    }
+
+    function updateAllUI() {
+        players.forEach(player => {
+            updateStaminaBar(player);
+            updateAmmoBar(player);
+            updateHealthUI(player);
+            updateKillCounter(player);
+        });
+    }
+
+    function updateStaminaBar(player) {
+        const staminaPercentage = (player.stamina / player.maxStamina) * 100;
+        staminaBars[player.id].style.width = `${staminaPercentage}%`;
+
+        // Change color based on stamina level
+        if (staminaPercentage > 50) {
+            staminaBars[player.id].style.backgroundColor = '#00ff00'; // Green
+        } else if (staminaPercentage > 20) {
+            staminaBars[player.id].style.backgroundColor = '#ffff00'; // Yellow
+        } else {
+            staminaBars[player.id].style.backgroundColor = '#ff0000'; // Red
+        }
+    }
+
+    function updateAmmoBar(player) {
+        const ammoCountValue = player.ammo;
+        const maxAmmo = player.maxAmmo;
+        const ammoPercentage = (ammoCountValue / maxAmmo) * 100;
+        ammoBars[player.id].style.width = `${ammoPercentage}%`;
+        ammoCounts[player.id].textContent = `${ammoCountValue}/${maxAmmo}`; // Updated to show current/max ammo
+
+        // Change color based on ammo level
+        if (ammoCountValue > 50) {
+            ammoBars[player.id].style.backgroundColor = '#ffa500'; // Orange
+        } else if (ammoCountValue > 20) {
+            ammoBars[player.id].style.backgroundColor = '#ff4500'; // OrangeRed
+        } else {
+            ammoBars[player.id].style.backgroundColor = '#ff0000'; // Red
+        }
+    }
+
+    function updateHealthUI(player) {
+        const healthHearts = healthContainers[player.id].querySelectorAll('.heart');
+        healthHearts.forEach((heart, index) => {
+            if (index < player.health) {
+                heart.style.visibility = 'visible';
+            } else {
+                heart.style.visibility = 'hidden';
+            }
+        });
+    }
+
+    function updateKillCounter(player) {
+        killCounters[player.id].textContent = `Kills: ${player.kills}`;
+    }
+
+    // Initialize the scene
+    init();
+</script>
+</body>
+</html>

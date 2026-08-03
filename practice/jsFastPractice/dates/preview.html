@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Персональная методичка — Date, getTime, getMonth, split, textContent</title>
+<style>
+  :root{
+    --bg:#0f172a;
+    --panel:#111827;
+    --panel-2:#0b1220;
+    --text:#e5e7eb;
+    --muted:#94a3b8;
+    --accent:#60a5fa;
+    --accent-2:#34d399;
+    --warn:#f59e0b;
+    --danger:#f87171;
+    --line:#1f2937;
+    --code:#0b1020;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background:linear-gradient(180deg,#0b1020 0%, #0f172a 100%);
+    color:var(--text);
+    line-height:1.6;
+  }
+  .wrap{
+    width:min(1100px, calc(100% - 32px));
+    margin:32px auto 64px;
+  }
+  .hero{
+    background:linear-gradient(135deg, rgba(96,165,250,.16), rgba(52,211,153,.10));
+    border:1px solid rgba(96,165,250,.25);
+    border-radius:20px;
+    padding:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+  }
+  h1,h2,h3{
+    line-height:1.2;
+    margin:0 0 12px;
+  }
+  h1{font-size:34px}
+  h2{
+    margin-top:28px;
+    font-size:28px;
+    padding-top:8px;
+  }
+  h3{
+    margin-top:22px;
+    font-size:22px;
+  }
+  p{margin:10px 0}
+  .muted{color:var(--muted)}
+  .badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:999px;
+    background:rgba(52,211,153,.12);
+    color:#d1fae5;
+    border:1px solid rgba(52,211,153,.2);
+    font-size:13px;
+    margin-right:8px;
+  }
+  .card{
+    background:rgba(17,24,39,.85);
+    backdrop-filter: blur(8px);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:22px;
+    margin-top:18px;
+  }
+  .grid{
+    display:grid;
+    gap:16px;
+  }
+  .grid.two{
+    grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+  }
+  .note{
+    border-left:4px solid var(--accent);
+    padding:12px 14px;
+    background:rgba(96,165,250,.08);
+    border-radius:12px;
+    margin:14px 0;
+  }
+  .warn{
+    border-left-color:var(--warn);
+    background:rgba(245,158,11,.08);
+  }
+  .danger{
+    border-left-color:var(--danger);
+    background:rgba(248,113,113,.08);
+  }
+  pre{
+    margin:14px 0;
+    padding:16px;
+    border-radius:14px;
+    background:var(--code);
+    color:#dbeafe;
+    overflow:auto;
+    border:1px solid #1e293b;
+    font-size:14px;
+  }
+  code{
+    font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace;
+  }
+  .table-wrap{
+    overflow:auto;
+    border:1px solid var(--line);
+    border-radius:16px;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    background:rgba(2,6,23,.5);
+  }
+  th,td{
+    border-bottom:1px solid var(--line);
+    padding:12px 14px;
+    text-align:left;
+    vertical-align:top;
+  }
+  th{
+    background:rgba(15,23,42,.9);
+    color:#cbd5e1;
+    font-weight:700;
+  }
+  tr:last-child td{border-bottom:none}
+  ul,ol{margin:10px 0 10px 22px}
+  li{margin:8px 0}
+  .toc a{
+    color:#bfdbfe;
+    text-decoration:none;
+  }
+  .toc a:hover{text-decoration:underline}
+  .pill{
+    display:inline-block;
+    padding:3px 8px;
+    border-radius:10px;
+    font-size:12px;
+    border:1px solid var(--line);
+    color:#d1d5db;
+    background:rgba(255,255,255,.03);
+    margin-right:6px;
+    margin-bottom:6px;
+  }
+  .footer{
+    margin-top:26px;
+    color:var(--muted);
+    font-size:14px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="badge">Персональная методичка</div>
+    <div class="badge">Под твои вопросы и затыки</div>
+    <h1>Разбор Date / getTime / getMonth / split / textContent + шпаргалка + практика</h1>
+    <p class="muted">
+      Эта методичка собрана под твой реальный путь: где именно было непонимание, на чём ты стопорился,
+      что помогло прояснить картину, какие ошибки всплыли в консоли и почему они возникли.
+      Цель — чтобы ты не листал весь диалог, а открыл один файл и быстро восстановил всю логику.
+    </p>
+  </section>
+
+  <section class="card toc">
+    <h2>Содержание</h2>
+    <ol>
+      <li><a href="#path">Твой путь понимания: где именно были затыки</a></li>
+      <li><a href="#base-terms">База по семантике JavaScript</a></li>
+      <li><a href="#original-code">Разбор исходного кода построчно</a></li>
+      <li><a href="#why-shift">Зачем автор сдвигал дату на 1 день и почему это мутно</a></li>
+      <li><a href="#split">Почему <code>split(",")</code> работает, а <code>split(", ")</code> дал <code>undefined</code></a></li>
+      <li><a href="#time-table">Шпаргалка по секундам, минутам, часам, суткам, неделям и миллисекундам</a></li>
+      <li><a href="#debug">Как отлаживать такой код через <code>console.log</code></a></li>
+      <li><a href="#document-write">Почему <code>document.write</code> лучше не использовать</a></li>
+      <li><a href="#const">Почему в современном варианте лучше <code>const</code></a></li>
+      <li><a href="#variants">Несколько нормальных вариаций этого кода</a></li>
+      <li><a href="#mistakes">Твои реальные ошибки и как их быстро узнавать</a></li>
+      <li><a href="#task">Финальное ТЗ для самостоятельной практики</a></li>
+    </ol>
+  </section>
+
+  <section class="card" id="path">
+    <h2>1. Твой путь понимания: где именно были затыки</h2>
+    <div class="grid two">
+      <div>
+        <h3>Что было непонятно</h3>
+        <ul>
+          <li>Что такое <code>Date</code>: функция, объект, метод или «просто штука».</li>
+          <li>Что означает <code>new</code> и почему без него поведение другое.</li>
+          <li>Почему <code>getTime()</code> возвращает не «часы и минуты», а огромное число.</li>
+          <li>Откуда взялось <code>86400 * 1000</code> и почему это вообще связано с сутками.</li>
+          <li>Зачем в исходнике дата сдвигается на 1 день, если задача — показать месяцы.</li>
+          <li>Почему в консоли браузера появлялся <code>undefined</code>.</li>
+          <li>Почему <code>split(", ")</code> сломал массив месяцев.</li>
+          <li>Почему <code>textContent</code> — это уже современный вывод вместо <code>document.write</code>.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Что помогло тебе продвинуться</h3>
+        <ul>
+          <li>Мы отделили «объект даты» от «числа миллисекунд».</li>
+          <li>Мы разложили сутки на конкретные единицы: часы → минуты → секунды → миллисекунды.</li>
+          <li>Ты сам руками попробовал менять числа и писать разные версии.</li>
+          <li>Ты увидел, что <code>getMonth()</code> работает с индексами 0–11.</li>
+          <li>Стало легче, когда мы перестали говорить абстрактно и начали называть: «коробка с датой», «число миллисекунд», «индекс месяца».</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Главная мысль под тебя:</strong> проблема была не в том, что ты «не понимаешь JS»,
+      а в том, что исходный код написан мутно и без обучающего стиля. Ты пытался понять не аккуратный код,
+      а старый шаблонный костыль.
+    </div>
+  </section>
+
+  <section class="card" id="base-terms">
+    <h2>2. База по семантике JavaScript</h2>
+
+    <h3>2.1. Что такое <code>Date</code></h3>
+    <p>
+      <code>Date</code> — это встроенный объект JavaScript для работы с датой и временем.
+      Когда ты пишешь <code>new Date()</code>, ты создаёшь <strong>объект даты</strong>.
+      Внутри него хранится полный момент времени: год, месяц, день, часы, минуты, секунды и миллисекунды.
+    </p>
+
+<pre><code>const now = new Date();
+console.log(now);</code></pre>
+
+    <p>Это не «просто строка» и не «просто число». Это объект, у которого есть методы:</p>
+    <div>
+      <span class="pill">getTime()</span>
+      <span class="pill">getMonth()</span>
+      <span class="pill">getDate()</span>
+      <span class="pill">getFullYear()</span>
+      <span class="pill">getHours()</span>
+      <span class="pill">getMinutes()</span>
+    </div>
+
+    <h3>2.2. Что такое <code>new</code></h3>
+    <p>
+      <code>new</code> — это оператор, который создаёт новый объект через конструктор.
+      В случае <code>new Date()</code> он создаёт новый объект даты.
+    </p>
+
+<pre><code>const a = new Date();   // объект Date
+const b = Date();       // строка с датой, а не объект Date</code></pre>
+
+    <div class="note warn">
+      <strong>Важно:</strong> без <code>new</code> ты не получаешь тот же самый тип значения.
+      Поэтому для работы с методами даты нужен именно <code>new Date()</code>.
+    </div>
+
+    <h3>2.3. Конструктор — простыми словами</h3>
+    <p>
+      Конструктор — это штука, которая создаёт объект.
+      В твоём случае:
+    </p>
+
+<pre><code>const d = new Date();</code></pre>
+
+    <p>
+      означает: «создай новый объект, внутри которого лежит текущая дата и время».
+    </p>
+
+    <h3>2.4. Что такое метод</h3>
+    <p>
+      Метод — это функция, которая принадлежит объекту.
+      Например:
+    </p>
+
+<pre><code>const d = new Date();
+
+d.getTime();
+d.getMonth();
+d.getFullYear();</code></pre>
+
+    <p>
+      Здесь <code>getTime</code>, <code>getMonth</code>, <code>getFullYear</code> —
+      методы объекта даты <code>d</code>.
+    </p>
+
+    <h3>2.5. Что делает <code>getTime()</code></h3>
+    <p>
+      <code>getTime()</code> возвращает не «только время суток», а
+      <strong>количество миллисекунд с 1 января 1970 года</strong> до момента,
+      который хранится в объекте даты.
+    </p>
+
+<pre><code>const d = new Date();
+const timestamp = d.getTime();
+
+console.log(timestamp);</code></pre>
+
+    <p>
+      Получится большое число вроде:
+    </p>
+
+<pre><code>1776619512000</code></pre>
+
+    <p>
+      Это удобно, потому что с числами можно делать арифметику:
+      прибавлять сутки, неделю, час и потом обратно превращать в дату.
+    </p>
+
+    <h3>2.6. Что делает <code>getMonth()</code></h3>
+    <p>
+      <code>getMonth()</code> возвращает <strong>индекс месяца</strong> от <code>0</code> до <code>11</code>:
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Индекс</th>
+            <th>Месяц</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>январь</td></tr>
+          <tr><td>1</td><td>февраль</td></tr>
+          <tr><td>2</td><td>март</td></tr>
+          <tr><td>3</td><td>апрель</td></tr>
+          <tr><td>4</td><td>май</td></tr>
+          <tr><td>5</td><td>июнь</td></tr>
+          <tr><td>6</td><td>июль</td></tr>
+          <tr><td>7</td><td>август</td></tr>
+          <tr><td>8</td><td>сентябрь</td></tr>
+          <tr><td>9</td><td>октябрь</td></tr>
+          <tr><td>10</td><td>ноябрь</td></tr>
+          <tr><td>11</td><td>декабрь</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>2.7. Что делает <code>getDate()</code></h3>
+    <p>
+      <code>getDate()</code> возвращает <strong>номер дня месяца</strong>:
+      1, 2, 3, ..., 31.
+    </p>
+
+<pre><code>const d = new Date();
+console.log(d.getDate());</code></pre>
+
+    <p>
+      Это не timestamp и не миллисекунды. Поэтому для сдвига времени через арифметику
+      <code>getDate()</code> не подходит.
+    </p>
+
+    <h3>2.8. Скобки и что они означают</h3>
+    <ul>
+      <li><code>()</code> — вызов функции или метода, либо группировка выражения.</li>
+      <li><code>[]</code> — доступ к элементу массива по индексу.</li>
+      <li><code>{}</code> — блок кода или объект.</li>
+    </ul>
+
+<pre><code>monthA[p.getMonth()]</code></pre>
+
+    <p>
+      Здесь:
+    </p>
+    <ul>
+      <li><code>p.getMonth()</code> — вызываем метод и получаем число, например <code>3</code>.</li>
+      <li><code>monthA[3]</code> — берём 4-й элемент массива, то есть <code>"апрель"</code>.</li>
+    </ul>
+
+    <h3>2.9. Что такое <code>split()</code></h3>
+    <p>
+      <code>split()</code> — метод строки, который разбивает строку на массив по разделителю.
+    </p>
+
+<pre><code>const months = "январь,февраль,март".split(",");
+console.log(months); // ["январь", "февраль", "март"]</code></pre>
+
+    <h3>2.10. Что такое <code>textContent</code></h3>
+    <p>
+      <code>textContent</code> — свойство DOM-элемента, которое задаёт или читает его текстовое содержимое.
+    </p>
+
+<pre><code>document.getElementById("date").textContent = "апрель и май";</code></pre>
+
+    <p>
+      То есть ты находишь элемент на странице и подставляешь в него текст.
+    </p>
+  </section>
+
+  <section class="card" id="original-code">
+    <h2>3. Разбор исходного кода построчно</h2>
+
+<pre><code>d = new Date();
+p = new Date(d.getTime() + 86400000);
+let b = p.getMonth() + 1 > 11 ? 0 : p.getMonth() + 1;
+monthA = "январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь".split(",");
+document.write(
+  monthA[p.getMonth()] + " " + "и " + monthA[b]
+);</code></pre>
+
+    <h3>Строка 1</h3>
+<pre><code>d = new Date();</code></pre>
+    <p>
+      Создаётся объект даты с текущим моментом времени.
+    </p>
+    <p>
+      Минус исходника: переменная создаётся без <code>let</code>/<code>const</code>, значит она утекает в глобальную область видимости.
+    </p>
+
+    <h3>Строка 2</h3>
+<pre><code>p = new Date(d.getTime() + 86400000);</code></pre>
+    <p>
+      Берётся текущая дата <code>d</code>, превращается в число миллисекунд через <code>getTime()</code>,
+      к нему прибавляются сутки (<code>86400000</code>), и затем это число снова превращается в объект даты.
+    </p>
+    <p>
+      Итого: <code>p</code> — это дата на 1 день позже, чем <code>d</code>.
+    </p>
+
+    <h3>Строка 3</h3>
+<pre><code>let b = p.getMonth() + 1 > 11 ? 0 : p.getMonth() + 1;</code></pre>
+    <p>
+      Это тернарный оператор. Он вычисляет индекс следующего месяца.
+    </p>
+    <ul>
+      <li>Если <code>p.getMonth() + 1</code> больше 11, значит вышли за декабрь.</li>
+      <li>Тогда возвращается 0, то есть январь.</li>
+      <li>Иначе берётся просто следующий индекс: текущий + 1.</li>
+    </ul>
+
+    <h3>Строка 4</h3>
+<pre><code>monthA = "январь,февраль,март,...".split(",");</code></pre>
+    <p>
+      Строка месяцев превращается в массив строк.
+    </p>
+
+    <h3>Строка 5</h3>
+<pre><code>document.write(
+  monthA[p.getMonth()] + " " + "и " + monthA[b]
+);</code></pre>
+    <p>
+      Берётся месяц по индексу <code>p.getMonth()</code> и следующий месяц по индексу <code>b</code>,
+      затем они склеиваются в строку.
+    </p>
+  </section>
+
+  <section class="card" id="why-shift">
+    <h2>4. Зачем автор сдвигал дату на 1 день и почему это мутно</h2>
+    <p>
+      Вот это был твой главный логический затык, и он абсолютно понятный.
+    </p>
+
+    <p>
+      В нормальной задаче «показать текущий и следующий месяц» сдвиг даты на день вообще не нужен.
+      Достаточно взять текущий месяц и вычислить следующий индекс.
+    </p>
+
+    <p>
+      Но автор исходника, вероятно, думал так:
+    </p>
+    <ol>
+      <li>Если взять дату на следующий день, то на границе месяца она уже может оказаться в новом месяце.</li>
+      <li>Значит можно отталкиваться не от сегодняшней даты, а от «почти следующего периода».</li>
+    </ol>
+
+    <div class="note warn">
+      <strong>Но проблема:</strong> эта идея здесь избыточна. Она делает код более мутным и не даёт очевидной пользы для такой простой задачи.
+    </div>
+
+    <h3>Как ты правильно почувствовал проблему</h3>
+    <p>
+      Ты задал очень точный вопрос:
+      «Если мы потом всё равно работаем только с месяцами, зачем вообще был нужен сдвиг на день?»
+    </p>
+    <p>
+      И это был правильный вопрос. Потому что:
+    </p>
+    <ul>
+      <li>если следующий день всё ещё в том же месяце — пользы нет,</li>
+      <li>если следующий день уже в новом месяце — это меняет логику, но делает её менее прозрачной,</li>
+      <li>для задачи про «текущий и следующий месяц» проще и честнее вообще не играться с днями.</li>
+    </ul>
+
+    <h3>Нормальная логика без этого костыля</h3>
+<pre><code>const d = new Date();
+const currentMonthIndex = d.getMonth();
+const nextMonthIndex = currentMonthIndex === 11 ? 0 : currentMonthIndex + 1;</code></pre>
+  </section>
+
+  <section class="card" id="split">
+    <h2>5. Почему <code>split(",")</code> работает, а <code>split(", ")</code> дал <code>undefined</code></h2>
+
+    <p>Вот твоя строка:</p>
+
+<pre><code>const monthA =
+  "январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь"
+  .split(", ");</code></pre>
+
+    <p>
+      Здесь ты сказал: «разбить строку по разделителю <strong>запятая + пробел</strong>».
+      Но в исходной строке после запятой пробела нет.
+    </p>
+
+    <p>Фактически строка такая:</p>
+
+<pre><code>"январь,февраль,март"</code></pre>
+
+    <p>А ты ищешь такой разделитель:</p>
+
+<pre><code>", "</code></pre>
+
+    <p>Его там нет, значит строка не делится:</p>
+
+<pre><code>const months = "январь,февраль,март".split(", ");
+console.log(months);      // ["январь,февраль,март"]
+console.log(months.length); // 1</code></pre>
+
+    <p>
+      Поэтому когда ты потом обращаешься к <code>months[3]</code> или <code>months[7]</code>,
+      получаешь <code>undefined</code>.
+    </p>
+
+    <h3>Правильный вариант</h3>
+<pre><code>const months = "январь,февраль,март".split(",");
+console.log(months); // ["январь", "февраль", "март"]</code></pre>
+
+    <h3>Запятая в конце <code>split(",",)</code></h3>
+    <p>
+      Вот такая запись:
+    </p>
+
+<pre><code>.split(",",)</code></pre>
+
+    <p>
+      технически допустима, потому что это просто лишняя завершающая запятая в списке аргументов.
+      Она здесь ничего не даёт и никак не улучшает код.
+      Для обучения лучше писать без неё:
+    </p>
+
+<pre><code>.split(",")</code></pre>
+  </section>
+
+  <section class="card" id="time-table">
+    <h2>6. Шпаргалка по времени и миллисекундам</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Единица</th>
+            <th>Сколько содержит</th>
+            <th>В миллисекундах</th>
+            <th>Готовое число</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1 секунда</td>
+            <td>1000 миллисекунд</td>
+            <td><code>1 * 1000</code></td>
+            <td><code>1000</code></td>
+          </tr>
+          <tr>
+            <td>1 минута</td>
+            <td>60 секунд</td>
+            <td><code>60 * 1000</code></td>
+            <td><code>60000</code></td>
+          </tr>
+          <tr>
+            <td>1 час</td>
+            <td>60 минут</td>
+            <td><code>60 * 60 * 1000</code></td>
+            <td><code>3600000</code></td>
+          </tr>
+          <tr>
+            <td>1 день</td>
+            <td>24 часа</td>
+            <td><code>24 * 60 * 60 * 1000</code></td>
+            <td><code>86400000</code></td>
+          </tr>
+          <tr>
+            <td>2 дня</td>
+            <td>2 × 24 часа</td>
+            <td><code>2 * 24 * 60 * 60 * 1000</code></td>
+            <td><code>172800000</code></td>
+          </tr>
+          <tr>
+            <td>1 неделя</td>
+            <td>7 дней</td>
+            <td><code>7 * 24 * 60 * 60 * 1000</code></td>
+            <td><code>604800000</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Как это раскладывать в голове</h3>
+<pre><code>1 час = 60 минут
+1 минута = 60 секунд
+1 секунда = 1000 миллисекунд
+
+1 час = 60 * 60 * 1000 = 3600000 мс
+1 день = 24 * 60 * 60 * 1000 = 86400000 мс</code></pre>
+
+    <h3>Почему в исходнике было умножение на 1</h3>
+<pre><code>86400 * 1000 * 1</code></pre>
+    <p>
+      Умножение на <code>1</code> здесь ничего не меняет.
+      Иногда так пишут по инерции, как будто оставляют место для числа дней:
+    </p>
+
+<pre><code>oneDayInMs * 1
+oneDayInMs * 2
+oneDayInMs * 3</code></pre>
+
+    <p>
+      Но конкретно в исходнике это просто лишний шум.
+    </p>
+
+    <h3>Готовая шпаргалка для смещений</h3>
+<pre><code>const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
+const WEEK = 7 * DAY;</code></pre>
+
+    <p>Примеры:</p>
+<pre><code>const tomorrow = new Date(Date.now() + DAY);
+const afterTwoDays = new Date(Date.now() + DAY * 2);
+const nextWeek = new Date(Date.now() + WEEK);</code></pre>
+  </section>
+
+  <section class="card" id="debug">
+    <h2>7. Как отлаживать такой код через <code>console.log</code></h2>
+
+    <p>
+      Тебе важно не просто писать код, а уметь видеть, где именно он ломается.
+      Вот базовый шаблон отладки:
+    </p>
+
+<pre><code>const d = new Date();
+console.log("d:", d);
+
+const timestamp = d.getTime();
+console.log("timestamp:", timestamp);
+
+const DAY = 24 * 60 * 60 * 1000;
+console.log("DAY:", DAY);
+
+const p = new Date(timestamp + DAY);
+console.log("p:", p);
+
+const currentMonthIndex = d.getMonth();
+console.log("currentMonthIndex:", currentMonthIndex);
+
+const nextMonthIndex = currentMonthIndex === 11 ? 0 : currentMonthIndex + 1;
+console.log("nextMonthIndex:", nextMonthIndex);
+
+const monthA = "январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь".split(",");
+console.log("monthA:", monthA);
+console.log("monthA.length:", monthA.length);
+
+console.log("currentMonthName:", monthA[currentMonthIndex]);
+console.log("nextMonthName:", monthA[nextMonthIndex]);</code></pre>
+
+    <h3>Как проверять по шагам</h3>
+    <ol>
+      <li>Сначала проверить, что дата вообще создаётся.</li>
+      <li>Потом проверить, что <code>getTime()</code> дал число.</li>
+      <li>Потом проверить, что смещение по миллисекундам дало новую дату.</li>
+      <li>Потом проверить индекс текущего месяца.</li>
+      <li>Потом проверить индекс следующего месяца.</li>
+      <li>Потом проверить сам массив месяцев и его длину.</li>
+      <li>И только потом уже склеивать итоговую строку.</li>
+    </ol>
+
+    <h3>Полезный приём: сначала собрать строку в переменную</h3>
+<pre><code>const result = monthA[currentMonthIndex] + " и " + monthA[nextMonthIndex];
+console.log("result:", result);
+
+document.getElementById("date").textContent = result;</code></pre>
+
+    <div class="note">
+      <strong>Почему это удобно:</strong> если строка уже готова в переменной,
+      ты можешь проверить её в консоли ещё до вставки в DOM.
+    </div>
+  </section>
+
+  <section class="card" id="document-write">
+    <h2>8. Почему <code>document.write</code> лучше не использовать</h2>
+
+    <p>
+      <code>document.write()</code> — старый способ писать текст прямо в поток документа.
+      Для учебных маленьких примеров он ещё встречается, но в нормальном современном коде его стараются не использовать.
+    </p>
+
+    <h3>Почему он плох</h3>
+    <ul>
+      <li>плохо сочетается с современным управлением DOM,</li>
+      <li>может перезаписать документ, если вызвать в неподходящий момент,</li>
+      <li>хуже читается и хуже масштабируется.</li>
+    </ul>
+
+    <h3>Что вместо него</h3>
+<pre><code>&lt;span id="date"&gt;&lt;/span&gt;</code></pre>
+
+<pre><code>document.getElementById("date").textContent = "апрель и май";</code></pre>
+
+    <p>
+      То есть мы не «пишем в документ где попало», а находим конкретный элемент и подставляем в него текст.
+    </p>
+  </section>
+
+  <section class="card" id="const">
+    <h2>9. Почему в современном варианте лучше <code>const</code></h2>
+
+    <h3>Твой важный вопрос</h3>
+    <p>
+      «Если дата же как будто меняется, почему можно поставить <code>const</code>?»
+    </p>
+
+    <h3>Ответ</h3>
+    <p>
+      <code>const</code> запрещает <strong>переприсваивать переменную</strong>, а не «замораживает время».
+    </p>
+
+<pre><code>const d = new Date();</code></pre>
+
+    <p>
+      Это значит:
+      переменная <code>d</code> всегда будет ссылаться на тот объект, который был создан в этой строке.
+      Но сам объект даты внутри может содержать своё значение.
+    </p>
+
+    <h3>Что запрещено</h3>
+<pre><code>const d = new Date();
+d = new Date(); // ошибка</code></pre>
+
+    <h3>Почему это ок для нашего случая</h3>
+    <p>
+      Мы один раз создаём дату и потом читаем из неё данные.
+      Нам не нужно переприсваивать переменную <code>d</code>.
+      Значит, <code>const</code> подходит идеально.
+    </p>
+
+    <h3>Когда нужен <code>let</code></h3>
+    <p>
+      Когда ты реально собираешься потом присвоить переменной новое значение.
+    </p>
+
+<pre><code>let monthIndex = 0;
+monthIndex = monthIndex + 1;</code></pre>
+  </section>
+
+  <section class="card" id="variants">
+    <h2>10. Несколько нормальных вариаций этого кода</h2>
+
+    <h3>Вариант 1. Почти как исходник, но аккуратно</h3>
+<pre><code>const d = new Date();
+const p = new Date(d.getTime() + 86400000);
+
+const b = p.getMonth() + 1 > 11 ? 0 : p.getMonth() + 1;
+
+const monthA = "январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь".split(",");
+
+document.getElementById("date").textContent =
+  monthA[p.getMonth()] + " и " + monthA[b];</code></pre>
+
+    <p>
+      Это самый близкий к исходнику вариант, только без глобальных переменных и без <code>document.write</code>.
+    </p>
+
+    <h3>Вариант 2. Нормальная логика без сдвига дня</h3>
+<pre><code>const d = new Date();
+
+const monthA = [
+  "январь",
+  "февраль",
+  "март",
+  "апрель",
+  "май",
+  "июнь",
+  "июль",
+  "август",
+  "сентябрь",
+  "октябрь",
+  "ноябрь",
+  "декабрь",
+];
+
+const currentMonthIndex = d.getMonth();
+const nextMonthIndex = currentMonthIndex === 11 ? 0 : currentMonthIndex + 1;
+
+document.getElementById("date").textContent =
+  monthA[currentMonthIndex] + " и " + monthA[nextMonthIndex];</code></pre>
+
+    <p>
+      Это уже понятный, прямой и честный вариант.
+    </p>
+
+    <h3>Вариант 3. Через модуль <code>%</code></h3>
+<pre><code>const d = new Date();
+
+const monthA = [
+  "январь",
+  "февраль",
+  "март",
+  "апрель",
+  "май",
+  "июнь",
+  "июль",
+  "август",
+  "сентябрь",
+  "октябрь",
+  "ноябрь",
+  "декабрь",
+];
+
+const currentMonthIndex = d.getMonth();
+const nextMonthIndex = (currentMonthIndex + 1) % 12;
+
+document.getElementById("date").textContent =
+  monthA[currentMonthIndex] + " и " + monthA[nextMonthIndex];</code></pre>
+
+    <p>
+      Здесь <code>% 12</code> автоматически делает переход с декабря на январь:
+      <code>(11 + 1) % 12 = 0</code>.
+    </p>
+
+    <h3>Вариант 4. С константами времени</h3>
+<pre><code>const DAY = 24 * 60 * 60 * 1000;
+
+const currentDate = new Date();
+const tomorrow = new Date(currentDate.getTime() + DAY);
+
+console.log("currentDate:", currentDate);
+console.log("tomorrow:", tomorrow);</code></pre>
+
+    <p>
+      Этот вариант не про месяцы, а про правильную запись смещения даты.
+    </p>
+
+    <h3>Вариант 5. Через функцию</h3>
+<pre><code>function getMonthPairText() {
+  const months = [
+    "январь",
+    "февраль",
+    "март",
+    "апрель",
+    "май",
+    "июнь",
+    "июль",
+    "август",
+    "сентябрь",
+    "октябрь",
+    "ноябрь",
+    "декабрь",
+  ];
+
+  const currentDate = new Date();
+  const currentMonthIndex = currentDate.getMonth();
+  const nextMonthIndex = (currentMonthIndex + 1) % 12;
+
+  return months[currentMonthIndex] + " и " + months[nextMonthIndex];
+}
+
+document.getElementById("date").textContent = getMonthPairText();</code></pre>
+
+    <p>
+      Это полезно, когда хочешь отделить логику вычисления от вывода в HTML.
+    </p>
+  </section>
+
+  <section class="card" id="mistakes">
+    <h2>11. Твои реальные ошибки и как их быстро узнавать</h2>
+
+    <h3>Ошибка 1. В консоли появлялся <code>undefined</code></h3>
+    <p>
+      В браузерной консоли это часто просто результат последнего выражения.
+      Например:
+    </p>
+
+<pre><code>console.log(new Date());</code></pre>
+
+    <p>
+      <code>console.log()</code> сам по себе ничего не возвращает, поэтому консоль может показать:
+    </p>
+
+<pre><code>undefined</code></pre>
+
+    <p>
+      Но это не значит, что дата не вывелась. Это значит:
+      лог вывелся отдельно, а возвращаемое значение вызова — <code>undefined</code>.
+    </p>
+
+    <h3>Как увидеть именно дату как результат выражения</h3>
+<pre><code>new Date()</code></pre>
+
+    <p>
+      Тогда консоль покажет сам объект даты как результат последнего выражения.
+    </p>
+
+    <h3>Ошибка 2. <code>Identifier has already been declared</code></h3>
+    <p>
+      Это происходило в DevTools, когда одна и та же переменная с <code>const</code> объявлялась повторно.
+    </p>
+
+<pre><code>const dat = new Date();
+const dat = new Date(); // ошибка</code></pre>
+
+    <p>
+      Решения:
+    </p>
+    <ul>
+      <li>обновить страницу,</li>
+      <li>использовать другое имя переменной,</li>
+      <li>или выполнять код не по кускам в консоли, а в файле.</li>
+    </ul>
+
+    <h3>Ошибка 3. Перепутать <code>getDate()</code> и <code>getTime()</code></h3>
+    <ul>
+      <li><code>getDate()</code> — номер дня месяца.</li>
+      <li><code>getTime()</code> — timestamp в миллисекундах.</li>
+    </ul>
+
+    <p>
+      Для арифметики со временем нужен именно <code>getTime()</code>.
+    </p>
+
+    <h3>Ошибка 4. <code>split(", ")</code> вместо <code>split(",")</code></h3>
+    <p>
+      Из-за этого массив не разбивался, и потом всё превращалось в <code>undefined</code>.
+    </p>
+
+    <h3>Ошибка 5. Английское <code>and</code> в русском тексте</h3>
+    <p>
+      Технически код работает, но по смыслу лучше:
+    </p>
+
+<pre><code>" и "</code></pre>
+
+    <p>
+      а не:
+    </p>
+
+<pre><code>" and "</code></pre>
+  </section>
+
+  <section class="card" id="task">
+    <h2>12. Финальное ТЗ для самостоятельной практики</h2>
+
+    <div class="note">
+      Ниже задание уже не на переписывание исходника, а на самостоятельную реализацию логики.
+      Оно опирается ровно на то, что ты уже прошёл: <code>Date</code>, <code>getMonth()</code>,
+      массив месяцев, <code>textContent</code>, отладка через <code>console.log</code>.
+    </div>
+
+    <h3>12.1. Задание: баннер «Лучший период для старта»</h3>
+    <p>
+      Нужно сверстать блок с текстом и динамически подставляемыми датами.
+    </p>
+
+    <h3>HTML-структура</h3>
+<pre><code>&lt;p class="alert-block"&gt;
+  &lt;b&gt;Лучшие даты &lt;span id="date-range"&gt;&lt;/span&gt; — для того чтобы начать&lt;/b&gt;
+&lt;/p&gt;</code></pre>
+
+    <h3>Что должно происходить</h3>
+    <ol>
+      <li>На странице должен выводиться текущий месяц и следующий месяц.</li>
+      <li>Формат вывода: <code>апрель и май</code>.</li>
+      <li>Если сейчас декабрь, должен выводиться текст: <code>декабрь и январь</code>.</li>
+      <li>Никакого <code>document.write</code>.</li>
+      <li>Вывод только через <code>document.getElementById(...).textContent</code>.</li>
+      <li>Массив месяцев должен быть создан либо через массив, либо через <code>split(",")</code>.</li>
+      <li>Нужно добавить отладочные <code>console.log</code> на ключевых шагах.</li>
+    </ol>
+
+    <h3>Что обязательно должно быть в JS</h3>
+    <ul>
+      <li>создание текущей даты;</li>
+      <li>получение индекса текущего месяца;</li>
+      <li>вычисление индекса следующего месяца;</li>
+      <li>подстановка строки в <code>#date-range</code>.</li>
+    </ul>
+
+    <h3>Критерии готовности</h3>
+    <ul>
+      <li>в браузере отображается корректная пара месяцев;</li>
+      <li>в консоли видно все промежуточные значения;</li>
+      <li>код читаемый, с нормальными именами переменных;</li>
+      <li>нет глобальных переменных;</li>
+      <li>нет <code>undefined</code> в тексте.</li>
+    </ul>
+
+    <h3>12.2. Бонус-уровень: чуть интереснее, но ещё по силам</h3>
+    <p>
+      Сделай второй блок на той же странице:
+    </p>
+
+<pre><code>&lt;p class="promo-block"&gt;
+  &lt;b&gt;Окно активности: &lt;span id="tomorrow-month"&gt;&lt;/span&gt;&lt;/b&gt;
+&lt;/p&gt;</code></pre>
+
+    <p>Логика:</p>
+    <ul>
+      <li>возьми текущую дату,</li>
+      <li>сдвинь её на 1 день вперёд через миллисекунды,</li>
+      <li>покажи месяц этой новой даты.</li>
+    </ul>
+
+    <p>
+      Это уже специально — чтобы ты отдельно потренировал именно <code>getTime()</code> и смещение на сутки.
+    </p>
+
+    <h3>12.3. Ещё один бонус: мини-диапазон дат</h3>
+    <p>
+      Сделай третий блок:
+    </p>
+
+<pre><code>&lt;p class="range-block"&gt;
+  &lt;b&gt;Период: &lt;span id="day-range"&gt;&lt;/span&gt;&lt;/b&gt;
+&lt;/p&gt;</code></pre>
+
+    <p>Логика:</p>
+    <ul>
+      <li>показать сегодняшний день месяца и день месяца через 7 дней,</li>
+      <li>например: <code>19 — 26</code>.</li>
+    </ul>
+
+    <p>
+      Здесь уже пригодится и <code>getDate()</code>, и смещение времени через миллисекунды.
+    </p>
+
+    <h3>12.4. Что ты потом должен прислать на проверку</h3>
+    <ol>
+      <li>HTML-файл.</li>
+      <li>JS-файл.</li>
+      <li>Короткий комментарий:
+        <ul>
+          <li>что оказалось самым понятным,</li>
+          <li>где ещё остались вопросы,</li>
+          <li>какой вариант вычисления месяца ты в итоге выбрал.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>12.5. Подсказка по порядку работы</h3>
+    <ol>
+      <li>Сначала сделай только один блок.</li>
+      <li>Потом выведи массив месяцев в консоль.</li>
+      <li>Потом выведи текущий индекс месяца.</li>
+      <li>Потом вычисли следующий индекс.</li>
+      <li>Потом собери итоговую строку в переменную.</li>
+      <li>И только потом подставляй в DOM.</li>
+    </ol>
+
+    <h3>12.6. Эталон идеи, к которой ты должен прийти сам</h3>
+    <p class="muted">
+      Ниже не готовое решение задания, а формулировка того, что ты должен уметь реализовать после методички:
+    </p>
+
+<pre><code>Нужно самостоятельно реализовать вывод текущего и следующего месяца
+в текстовый элемент страницы, используя объект Date, массив месяцев,
+вычисление индексов и textContent, без document.write и без глобальных переменных.</code></pre>
+  </section>
+
+  <section class="card">
+    <h2>13. Самый короткий итог для закрепления</h2>
+    <ul>
+      <li><code>Date</code> — встроенный объект для даты и времени.</li>
+      <li><code>new Date()</code> — создаёт объект текущей даты.</li>
+      <li><code>getTime()</code> — превращает дату в число миллисекунд.</li>
+      <li><code>getMonth()</code> — даёт индекс месяца от 0 до 11.</li>
+      <li><code>split(",")</code> — превращает строку месяцев в массив.</li>
+      <li><code>monthA[index]</code> — достаёт месяц по индексу.</li>
+      <li><code>textContent</code> — вставляет текст в HTML-элемент.</li>
+      <li><code>const</code> — хорош для переменных, которые не переприсваиваются.</li>
+      <li>Для месяцев не нужен сдвиг на день, если задача — просто текущий и следующий месяц.</li>
+    </ul>
+  </section>
+
+  <div class="footer">
+    Методичка собрана под твой путь: с упором на реальные вопросы, реальные ошибки и реальные точки, где нужно было «разжевать» семантику, а не просто показать красивый код.
+  </div>
+</div>
+</body>
+</html>

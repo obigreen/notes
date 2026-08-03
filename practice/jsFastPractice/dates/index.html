@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1170px;
+            padding: 0 15px;
+            margin: 0 auto;
+        }
+
+        .header {
+            padding: 20px 0;
+        }
+
+        .header picture {
+            font-size: 40px;
+            width: 60px;
+            height: 60px;
+        }
+
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .menu__list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-size: 30px;
+        }
+
+        .menu-button {
+            border: none;
+            padding: 20px;
+            font-size: 30px;
+            color: white;
+            background-color: #34d399;
+        }
+
+
+        .menu {
+            display: none;
+        }
+
+
+        .menu.active {
+            display: block;
+        }
+    </style>
+
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <picture>
+            x
+        </picture>
+
+        <nav class="menu">
+            <ul class="menu__list">
+                <li>
+                    <a aria-label="Home" href="/">Home</a>
+                </li>
+                <li>
+                    <a href="/catalog">Catalog</a>
+                </li>
+                <li>
+                    <a href="/contacts">Contacts</a>
+                </li>
+            </ul>
+
+
+        </nav>
+
+        <button type="button" class="menu-button" aria-expanded="false">Menu</button>
+    </div>
+</header>
+
+
+<script>
+    const menuButton = document.querySelector('.menu-button');
+    const menu = document.querySelector('.menu');
+
+
+    menuButton.addEventListener('click', () => {
+        menu.classList.toggle('active');
+        menuButton.setAttribute('aria-expanded', String(menu.classList.contains('active')));
+    })
+</script>
+
+
+<!--<section>-->
+<!--    <div class="container">-->
+<!--        <p class="alert-block">-->
+<!--            <b>Лучшие даты <span id="date"></span> — для того что бы начать</b>-->
+<!--        </p>-->
+<!--    </div>-->
+
+<!--</section>-->
+
+
+<!--<script src="script2.js"></script>-->
+
+</body>
+</html>
