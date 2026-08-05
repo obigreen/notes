@@ -62,7 +62,7 @@ const App = () => {
                                 <JavaScriptSectionPage
                                     title={"Functions (Функции и this)"}
                                     sectionTitle={"Functions & Scope (Ключевые паттерны)"}
-                                    description={"Функции, область видимости, контекст this, call/apply/bind, hoisting и замыкания."}
+                                    description={"Функция как значение и вызов, параметры и аргументы, область видимости, this, hoisting и замыкания."}
                                     items={functionItems}
                                     topic={"functions"}
                                 />

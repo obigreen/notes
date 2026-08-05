@@ -171,24 +171,87 @@ values.forEach((value) => {
 
 export const functionItems: JsItem[] = [
     {
-        highlight: "Function declaration",
-        content: "Классическое объявление функции, доступно до строки объявления за счет hoisting.",
+        highlight: "Function value / function call",
+        content: "Без круглых скобок функция передаётся или сохраняется как значение. Круглые скобки вызывают функцию, а всё выражение получает результат return.",
         isTop: true,
         code: `
-sayHello();
+function getMessage() {
+  return 'hello';
+}
+
+const functionValue = getMessage; // сама функция, вызова нет
+const result = getMessage();      // вызов функции, result = 'hello'
+
+console.log(functionValue);   // сама функция (вид зависит от консоли)
+console.log(functionValue()); // hello
+console.log(result);          // hello
+
+// result(); // TypeError: строка 'hello' не является функцией
+`
+    },
+    {
+        highlight: "Parameters / arguments",
+        content: "Параметры — локальные имена в объявлении функции. Аргументы — конкретные значения, переданные им при вызове.",
+        isTop: true,
+        code: `
+// left и right — параметры
+function add(left, right) {
+  return left + right;
+}
+
+// 2 и 3 — аргументы
+// Во время вызова: left = 2, right = 3
+const result = add(2, 3);
+
+console.log(result); // 5
+`
+    },
+    {
+        highlight: "Function declaration",
+        content: "Объявление функции целиком создаётся до выполнения кода. Поэтому к моменту вызова функция уже существует, даже если её запись находится ниже.",
+        isTop: true,
+        code: `
+sayHello(); // функция уже создана до начала выполнения строк
 
 function sayHello() {
   console.log('Hello');
 }
+
+console.log('Next'); // выполнится после завершения sayHello
+`
+    },
+    {
+        highlight: "Function expression",
+        content: "Функция создаётся как значение и присваивается переменной. Вызвать её можно только после выполнения строки с присваиванием.",
+        isTop: true,
+        code: `
+// sayHello(); // ReferenceError: const ещё не инициализирована
+
+const sayHello = function () {
+  console.log('Hello');
+};
+
+sayHello(); // Hello
 `
     },
     {
         highlight: "Arrow function",
-        content: "Короткий синтаксис функции; не создает собственный this.",
+        content: "Короткая форма функционального выражения. Без фигурных скобок возвращает выражение неявно; с фигурными скобками нужен return. Не создаёт собственный this.",
         isTop: true,
         code: `
-const multiply = (a, b) => a * b;
-console.log(multiply(2, 4)); // 8
+const shortMultiply = (a, b) => a * b; // неявный return
+
+const explicitMultiply = (a, b) => {
+  return a * b; // с фигурными скобками return обязателен
+};
+
+const noReturn = (a, b) => {
+  a * b;
+};
+
+console.log(shortMultiply(2, 4));    // 8
+console.log(explicitMultiply(2, 4)); // 8
+console.log(noReturn(2, 4));         // undefined
 `
     },
     {
@@ -223,22 +286,26 @@ binded();
 `
     },
     {
-        highlight: "Closure",
-        content: "Функция запоминает внешнюю область видимости даже после завершения внешней функции.",
+        highlight: "Return function / Closure",
+        content: "Без скобок можно сохранить внешнюю функцию. Вызов внешней функции создаёт и возвращает внутреннюю; она сохраняет своё окружение.",
         isTop: true,
         code: `
-function createCounter() {
-  let count = 0;
-
-  return () => {
-    count += 1;
-    return count;
+function makeMultiplier(factor) {       // внешняя функция
+  return function multiply(value) {     // внутренняя функция
+    return value * factor;
   };
 }
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
+const multiplierFactory = makeMultiplier; // внешняя функция, вызова нет
+const double = makeMultiplier(2);          // вызвали внешнюю; сохранили внутреннюю
+const timesFour = multiplierFactory(4);    // factor = 4; получили новую внутреннюю
+
+console.log(multiplierFactory === makeMultiplier); // true
+console.log(double(3));                             // 6
+console.log(timesFour(3));                          // 12
+
+// multiplierFactory(4) возвращает функцию multiply, а не число.
+// Для результата нужно вызвать и её: multiplierFactory(4)(3) → 12.
 `
     },
     {

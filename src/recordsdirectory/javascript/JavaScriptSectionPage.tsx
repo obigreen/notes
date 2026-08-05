@@ -78,18 +78,25 @@ console.log(parsePagination({ page: '-3', limit: '2.5' }));
     },
     functions: {
         heading: "Конспект по функциям",
-        intro: "Функции — центр JavaScript. Большинство багов здесь связано с `this`, замыканиями и смешением pure/side-effect логики.",
+        intro: "Функция в JavaScript — одновременно исполняемый код и значение, которое можно сохранить, передать или вернуть.",
         bullets: [
-            "Делай маленькие функции с одним уровнем ответственности.",
-            "Для callback лучше стрелочные функции, если не нужен собственный `this`.",
-            "Guard clause сокращает вложенность и улучшает читаемость.",
-            "Для повторяемой логики — фабрики и замыкания."
+            "`fn` — сама функция; `fn()` — её вызов и результат `return`.",
+            "Параметр — имя в объявлении; аргумент — значение в конкретном вызове.",
+            "Function Declaration создаётся до выполнения строк; Function Expression и Arrow Function доступны после присваивания.",
+            "У стрелочной функции неявный `return` работает только без фигурных скобок.",
+            "Вложенная функция видит внешнюю лексическую область и может сохранить доступ к её переменным.",
+            "Каждый вызов функции создаёт новое окружение с собственными параметрами и локальными переменными."
         ],
-        tableTitle: "Выбор формы функции",
+        tableTitle: "Как читать запись с функцией",
         tableRows: [
-            {left: "function declaration", middle: "базовая логика, hoisting", right: "универсальный дефолт"},
-            {left: "arrow function", middle: "callbacks/map/filter", right: "когда не нужен свой this"},
-            {left: "bind/call/apply", middle: "явный контекст", right: "интеграции, классы, legacy API"}
+            {left: "const saved = fn", middle: "вызова нет", right: "сохранить или передать функцию"},
+            {left: "const result = fn()", middle: "функция выполняется сейчас", right: "сохранить результат `return`"},
+            {left: "const factory = makeMultiplier", middle: "сохранили внешнюю функцию", right: "`factory(4)` вызовет её с `factor = 4`"},
+            {left: "const double = makeMultiplier(2)", middle: "вызвали внешнюю функцию", right: "сохранили возвращённую внутреннюю"},
+            {left: "function sum(a, b)", middle: "Function Declaration; `a`, `b` — параметры", right: "доступна до строки объявления"},
+            {left: "const sum = function (a, b)", middle: "Function Expression", right: "доступна после присваивания"},
+            {left: "const sum = (a, b) => a + b", middle: "Arrow Function; неявный `return`", right: "нет собственного `this`"},
+            {left: "sum(2, 3)", middle: "`2`, `3` — аргументы", right: "значения этого вызова"}
         ],
         practiceTitle: "Практический шаблон: фабрика с закрытым состоянием",
         practiceCode: `
