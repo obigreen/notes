@@ -77,7 +77,7 @@ count += 1;
     },
     {
         highlight: "Primitive types",
-        content: "Основные примитивы: string, number, boolean, undefined, null, symbol, bigint. Объекты и функции не являются примитивами.",
+        content: "Семь примитивов: string, number, bigint, boolean, undefined, symbol и null. Единственный непримитивный тип — object; массивы и функции являются специальными объектами, хотя typeof функции возвращает function.",
         isTop: true,
         code: `
 console.log(typeof 'hello'); // string
@@ -85,6 +85,7 @@ console.log(typeof 42); // number
 console.log(typeof true); // boolean
 console.log(typeof undefined); // undefined
 console.log(typeof 10n); // bigint
+console.log(typeof Symbol('id')); // symbol
 
 // Исторические особенности typeof:
 console.log(typeof null); // object
@@ -447,6 +448,28 @@ console.log(parsed.name);
 
 export const asyncItems: JsItem[] = [
     {
+        highlight: "Sync / async",
+        content: "Синхронная операция заканчивается до перехода к следующей строке. Асинхронная планирует продолжение на потом. Задержка setTimeout 0 мс не прерывает текущий код: callback попадёт в очередь и выполнится только после освобождения стека вызовов.",
+        isTop: true,
+        code: `
+console.log('start'); // 1: выполняется сразу
+
+setTimeout(() => {
+  console.log('timer result'); // 3: callback выполнится позже
+}, 0); // только планирует callback, а не вызывает его сейчас
+
+console.log('finish'); // 2: текущий синхронный код продолжается
+
+// Когда стек вызовов станет пустым, event loop
+// передаст готовый callback из очереди на выполнение.
+
+// Порядок:
+// start
+// finish
+// timer result
+`
+    },
+    {
         highlight: "setTimeout",
         content: "Ставит одно выполнение в очередь не раньше заданной задержки. Фактический запуск произойдет только когда event loop сможет обработать задачу.",
         isTop: true,
@@ -475,33 +498,62 @@ const timerId = setInterval(() => {
     },
     {
         highlight: "Promise",
-        content: "Базовая абстракция асинхронной операции со статусами pending/fulfilled/rejected.",
+        content: "Объект, представляющий будущий результат асинхронной операции. Сначала Promise находится в pending; resolve(value) переводит его в fulfilled, а reject(error) — в rejected.",
         isTop: true,
         code: `
 const promise = new Promise((resolve, reject) => {
-  const ok = true;
+  // Эта функция запускается сразу. Promise сам передаёт в неё
+  // две функции: resolve для успеха и reject для ошибки.
+  const ok = true; // учебный переключатель; поставь false для ошибки
+
   setTimeout(() => {
-    if (ok) resolve('done');
-    else reject(new Error('fail'));
+    if (ok) {
+      resolve('done'); // pending → fulfilled со значением 'done'
+    } else {
+      reject(new Error('fail')); // pending → rejected с ошибкой
+    }
   }, 500);
 });
 
-promise.then(console.log).catch(console.error);
+// В promise находится объект Promise, а не строка 'done'.
+// В этот момент операция ещё ожидает завершения: pending.
+console.log(promise instanceof Promise); // true
+
+promise
+  .then((value) => console.log(value))
+  .catch((error) => console.error(error));
 `
     },
     {
         highlight: "async / await",
-        content: "Синтаксис для работы с Promise в более читаемом, последовательном стиле.",
+        content: "async-функция всегда возвращает Promise и разрешает использовать await. await приостанавливает только продолжение текущей async-функции до готовности Promise, но не блокирует остальной JavaScript.",
         isTop: true,
         code: `
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// Учебная операция: возвращает Promise,
+// который завершится примерно через ms миллисекунд.
+const wait = (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+};
 
 async function loadData() {
-  await wait(500);
-  return { ready: true };
+  console.log('load started');
+
+  await wait(500); // продолжение loadData временно приостановлено
+
+  console.log('load continued');
+  return { ready: true }; // станет успешным результатом Promise
 }
 
-loadData().then(console.log);
+const loadPromise = loadData(); // Promise возвращается сразу
+console.log(loadPromise instanceof Promise); // true
+
+loadPromise.then((data) => {
+  console.log(data); // { ready: true } примерно через 500 мс
+});
 `
     },
     {

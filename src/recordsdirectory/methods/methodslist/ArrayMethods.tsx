@@ -18,6 +18,24 @@ type MethodProps = {
 
 export const arrayItems = [
     {
+        highlight: "Array.isArray()",
+        content: "Точно проверяет, является ли значение массивом, и возвращает boolean. В отличие от typeof различает массив и обычный объект.",
+        isTop: true,
+        code:
+            `
+        console.log(Array.isArray([])); // true
+        console.log(Array.isArray([1, 2, 3])); // true
+        console.log(Array.isArray({})); // false
+        console.log(Array.isArray(null)); // false
+
+        const value = ['html', 'css', 'js'];
+
+        if (Array.isArray(value)) {
+            console.log(value.length); // 3
+        }
+            `
+    },
+    {
         highlight: ".push()",
         content: "Добавляет один или несколько элементов в конец массива и возвращает новую длину массива",
         isTop: true,

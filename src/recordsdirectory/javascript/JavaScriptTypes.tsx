@@ -97,6 +97,24 @@ console.log(precise + 1n); // 9007199254740994n
 `
     },
     {
+        highlight: "Symbol",
+        content: "Уникальный примитив для ключей без конфликтов и внутренних протоколов JavaScript. Одинаковое описание не делает два Symbol равными.",
+        code: `
+const firstId = Symbol('id');
+const secondId = Symbol('id');
+
+console.log(typeof firstId); // symbol
+console.log(firstId === secondId); // false
+
+const user = {
+  name: 'Ann',
+  [firstId]: 42
+};
+
+console.log(user[firstId]); // 42
+`
+    },
+    {
         highlight: "Date parsing",
         content: "Работай с датами аккуратно: используй ISO со временем и явной зоной (Z или offset). Строка YYYY-MM-DD трактуется как UTC, а date-time без зоны — как локальное время.",
         code: `
@@ -216,6 +234,8 @@ export const JavaScriptTypes = () => {
                         <Marker> когда лучше этого не делать автоматически</Marker>.
                     </TextP>
                     <NoteUl>
+                        <NoteLi>Семь примитивов: string, number, bigint, boolean, undefined, symbol и null; остальные значения относятся к object.</NoteLi>
+                        <NoteLi>Array и Function — специальные объекты; `typeof []` возвращает `object`, а `typeof function () {}` — `function`.</NoteLi>
                         <NoteLi>Преобразование делай явно (`Number`, `String`, `Boolean`).</NoteLi>
                         <NoteLi>После Number учитывай NaN и Infinity; для обычного конечного числа проверяй `Number.isFinite`.</NoteLi>
                         <NoteLi>Для чисел из UI-строк с единицами используй parseInt/parseFloat.</NoteLi>
